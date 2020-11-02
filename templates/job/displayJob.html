@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block title %} Job {% endblock title %}
+ {% block body %} 
+ <div class="container">
+  <h5>Posted at {{ad_time}} from {{thana}},{{district}} {{division}}</h5>
+  <h3><b>{{designation}}</b></h3>
+  <div class="card text-center" style="width: 18rem">
+    <div class="card-body">
+      <h3 class="card-title"><b>Tk. {{salary}}</b></h3>
+      <p class="card-text">{{description}}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Job Type : {{job_type}} <br> {% if business_function %}Business Function : {{business_function}}{% endif %} </li>
+      {%if required_experience %}
+      <li class="list-group-item">Required Experience : {{required_experience}}</li>
+      {% endif %}
+      {%if gender_preference %}
+      <li class="list-group-item">Gender Preference: {{gender_preference}}</li>
+      {% endif %}
+      {% if minimum_qualification %}
+      <li class="list-group-item">Minimum Qualification: {{minimum_qualification}}</li>
+      {% endif %}skills
+      {% if skills %}
+      <li class="list-group-item">Skills : {{skills}}</li>
+      {% endif %} 
+    </ul> 
+ {% endblock body %}

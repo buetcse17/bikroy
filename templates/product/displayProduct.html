@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block title %} product view {% endblock title %} {%block body %}
+
+<div class="card-columns">
+  <h5>Posted at {{ad_time}} from {{thana}},{{district}} {{division}}</h5>
+  <h3><b>{{product_name}}</b></h3>
+  <div class="card text-center" style="width: 18rem">
+    <div class="card-body">
+      <h3 class="card-title"><b>Tk. {{price}}</b></h3>
+      <p class="card-text">{{description}}</p>
+    </div>
+    {% ifequal id 1 %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Catagory : {{device_catagory}}</li>
+      <li class="list-group-item">Brand : {{brand}}</li>
+      <li class="list-group-item">Model : {{model}}</li>
+      <li class="list-group-item">Condition {{condition}}</li>
+      <li class="list-group-item">Authenticity: {{authenticity}}</li>
+      {% if generation %}
+      <li class="list-group-item">Generation : {{generation}}</li>
+      {% endif %} {% if features %}
+      <li class="list-group-item">Features : {{features}}</li>
+      {% endif %}
+    </ul>
+    {% endifequal %} {% ifequal id 2 %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Pet Type : {{pet_type}}</li>
+      <li class="list-group-item">Age: {{age}}</li>
+      <li class="list-group-item">Gender: {{gender}}</li>
+      {% if color %}
+      <li class="list-group-item">Color : {{color}}</li>
+      {% endif %}
+    </ul>
+    {% endifequal %}
+    {% ifequal id 3 %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Writer : {{writer}}</li>
+      <li class="list-group-item">Condition: {{condition}}</li>
+      <li class="list-group-item">Genre: {{genre}}</li>
+    </ul>
+    {% endifequal %}
+      {% ifequal id 4 %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Course Title : {{course_title}}</li>
+      <li class="list-group-item">Organization: {{organization}}</li>
+    
+    </ul>
+    {% endifequal %}
+      {% ifequal id 5 %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Gender Requirement of Tutor : {{tutor_gender}}</li>
+      <li class="list-group-item">Time Duration: {{time_duration}}</li>
+      <li class="list-group-item">Subject(s): {{tution_subject}}</li>
+      <li class="list-group-item">Education level of student: {{education_level}}</li>
+    </ul>
+    {% endifequal %}
+    <br />
+    <br />
+    <div class="card text-center" style="width: 18rem">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>{{fullname}}</b></li>
+        <li class="list-group-item">Contact : {{contact_no}}</li>
+        <li class="list-group-item">Payment System : {{payment_system}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

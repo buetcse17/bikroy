@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block title %} jobs {% endblock title %}
+ {% block body %} 
+  {% for job in jobs %}
+ <a href="/jobSection/{{job.job_id}}"><div class="card text-right" style="width: 18rem">
+  <img src="..." class="card-img-left" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{job.job_type}}</h5>
+    <p class="card-text">
+      {{job.designation}}<br /><b>TK.
+      {{job.salary}}</b><br>
+      <br>
+      {{job.district}}, Jobs
+    </p>
+  </div>
+</div>
+</a>
+{% endfor %}
+ {% endblock body %}
