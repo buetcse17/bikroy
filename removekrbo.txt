@@ -1,0 +1,3 @@
+remove korbo ei file with git code 
+code is 
+git rm removekrbo.txt
