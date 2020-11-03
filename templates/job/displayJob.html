@@ -18,9 +18,33 @@
       {% endif %}
       {% if minimum_qualification %}
       <li class="list-group-item">Minimum Qualification: {{minimum_qualification}}</li>
-      {% endif %}skills
+      {% endif %}
       {% if skills %}
       <li class="list-group-item">Skills : {{skills}}</li>
       {% endif %} 
     </ul> 
+    </div>
+    
+    <h3><b>Similar Jobs</b></h3>
+    <div class='container'>
+    {% if similar %}
+     {% for job in similar %}
+ <a href="/jobSection/{{job.sjob_id}}"><div class="card text-right" style="width: 18rem">
+  <img src="..." class="card-img-left" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{job.sjob_type}}</h5>
+    <p class="card-text">
+      {{job.sdesignation}}<br /><b>TK.
+      {{job.ssalary}}</b><br>
+      <br>
+      {{job.sdistrict}}, Jobs
+    </p>
+  </div>
+</div>
+</a>
+{% endfor %}
+{% else %}
+<h5> No similar jobs</h5>
+{% endif %}
+    </div>
  {% endblock body %}
