@@ -157,8 +157,58 @@ def postAd(request):
 def postProductAd(request):
     return render(request,'home/postProductAd.html')
 
+
 def productAdCategory(request,id):
+    if request.method == 'POST':
+        if id:
+            product_name = request.POST['product_name']
+            product_price = request.POST['product_price']
+            product_description = request.POST['product_description']
+            product_contact_no = request.POST['product_contact_no']
+            product_picture = request.POST['product_picture']
+        if id==1:
+            device_category = request.POST['device_category']
+            device_brand = request.POST['device_brand']
+            device_model = request.POST['device_model']
+            device_generation = request.POST['device_generation']
+            device_features = request.POST['device_features']
+            device_condition = request.POST['device_condition']
+            device_authenticity = request.POST['device_authenticity']
+        if id==2:
+            pet_type = request.POST['pet_type']
+            pet_color = request.POST['pet_color']
+            pet_age = request.POST['pet_age']
+            pet_gender = request.POST['pet_gender']
+            pet_food_habit = request.POST['pet_food_habit']
+        if id==3:
+            book_writer = request.POST['book_writer']
+            book_genre = request.POST['book_genre']
+            book_condition = request.POST['book_condition']
+        if id==4:
+            course_title = request.POST['course_title']
+            course_organization = request.POST['course_organization']
+        if id==5:
+            tuition_subject = request.POST['tuition_subject']
+            time_duration = request.POST['time_duration']
+            tutor_gender = request.POST['tutor_gender']
+            tutor_education_level = request.POST['tutor_education_level']
+
+        print("---Printing Received Data---")
+        print(product_name, product_price,product_description,product_contact_no)
+        #print(device_category,device_brand,device_model,device_generation,device_features,device_condition,device_authenticity)
+        #print(pet_type,pet_color,pet_age,pet_gender,pet_food_habit)
+        #print(book_writer,book_genre,book_condition)
+        #print(course_title,course_organization)
+        #print(tuition_subject,time_duration,tutor_gender,tutor_education_level)
+        print("------Printing Ended-------")
+
+        messages.success(request, 'Your advertisement has been received')
+        #return render(request, 'home/postProductAd.html')
+
     return render(request, 'home/productAdCategory.html',{'id':id})
+
+
+
 
 
 
