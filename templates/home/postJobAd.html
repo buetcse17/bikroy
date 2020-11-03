@@ -7,7 +7,7 @@ Post Job Ad
 {% block body %}
 <div class="container my-3">
 <h3>Provide Job Details Here</h3>
-<form action="/postJobAd" method="post">
+<form action="/postJobAd/" method="post">
 {% csrf_token %}
 <div class="form-group">
     <label for="organization_id">Organization ID</label>
