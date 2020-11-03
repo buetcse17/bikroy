@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Category Wise Product Ad
+{% endblock title %}
+
+{% block body %}
+
+
+<div class="container my-3">
+    <h3>Provide Product Details Here</h3>
+    <form action="/postProductAd" method="post">
+        {% csrf_token %}
+        <!-- basic product-->
+        <h3>basic form</h3>
+        <div class="form-group">
+            <label for="product_name">product_name</label>
+            <input type="text" class="form-control" id="product_name" name="product_name">
+        </div>
+        <div class="form-group">
+            <label for="product_price">product_price</label>
+            <input type="text" class="form-control" id="product_price" name="product_price">
+        </div>
+        <div class="form-group">
+            <label for="product_description">product_description</label>
+            <input type="text" class="form-control" id="product_description" name="product_description">
+        </div>
+        <div class="form-group">
+            <label for="product_contact_no">product_contact_no</label>
+            <input type="text" class="form-control" id="product_contact_no" name="product_contact_no">
+        </div>
+        <div class="form-group">
+            <label for="product_picture">product_picture</label>
+            <input type="file" class="form-control" id="product_picture" name="product_picture">
+        </div>
+
+
+        <!-- device  -->
+        {%ifequal id 1%}
+        <h3>Device</h3>
+        <div class="form-group">
+            <label for="device_catagory">device_catagory</label>
+            <input type="text" class="form-control" id="device_catagory" name="device_catagory">
+        </div>
+        <div class="form-group">
+            <label for="device_brand">device_brand</label>
+            <input type="text" class="form-control" id="device_brand" name="device_brand">
+        </div>
+        <div class="form-group">
+            <label for="device_model">device_model</label>
+            <input type="text" class="form-control" id="device_model" name="device_model">
+        </div>
+        <div class="form-group">
+            <label for="device_generation">device_generation</label>
+            <input type="text" class="form-control" id="device_generation" name="device_generation">
+        </div>
+        <div class="form-group">
+            <label for="device_features">device_features</label>
+            <input type="text" class="form-control" id="device_features" name="device_features">
+        </div>
+        <div class="form-group">
+            <label for="device_condition">device_condition</label>
+            <input type="text" class="form-control" id="device_condition" name="device_condition">
+        </div>
+        <div class="form-group">
+            <label for="device_authenticity">device_authenticity</label>
+            <input type="text" class="form-control" id="device_authenticity" name="device_authenticity">
+        </div>
+        {% else %}
+
+        <!-- pet  -->
+        <h3>Pet</h3>
+        <div class="form-group">
+            <label for="pet_type">pet_type</label>
+            <input type="text" class="form-control" id="pet_type" name="pet_type">
+        </div>
+        <div class="form-group">
+            <label for="pet_color">pet_color</label>
+            <input type="text" class="form-control" id="pet_color" name="pet_color">
+        </div>
+        <div class="form-group">
+            <label for="pet_age">pet_age</label>
+            <input type="text" class="form-control" id="pet_age" name="pet_age">
+        </div>
+
+        <div class="form-group">
+            <label for="pet_gender">pet_gender</label>
+            <input type="text" class="form-control" id="pet_gender" name="pet_gender">
+        </div>
+        <div class="form-group">
+            <label for="pet_food_habbit">pet_food_habbit</label>
+            <input type="text" class="form-control" id="pet_food_habbit" name="pet_food_habbit">
+        </div>
+
+
+        <!-- book -->
+        <h3>book</h3>
+        <div class="form-group">
+            <label for="book_writer">book_writer</label>
+            <input type="text" class="form-control" id="book_writer" name="book_writer">
+        </div>
+        <div class="form-group">
+            <label for="book_genre">book_genre</label>
+            <input type="text" class="form-control" id="book_genre" name="book_genre">
+        </div>
+        <div class="form-group">
+            <label for="book_condition">book_condition</label>
+            <input type="text" class="form-control" id="book_condition" name="book_condition">
+        </div>
+
+        <!-- course -->
+        <h3>course</h3>
+        <div class="form-group">
+            <label for="course_title">course_title</label>
+            <input type="text" class="form-control" id="course_title" name="course_title">
+        </div>
+        <div class="form-group">
+            <label for="course_organization">course_organization</label>
+            <input type="text" class="form-control" id="course_organization" name="course_organization">
+        </div>
+
+        <!-- tuition -->
+        <h3>tuition</h3>
+        <div class="form-group">
+            <label for="tuition_subject">tuition_subject</label>
+            <input type="text" class="form-control" id="tuition_subject" name="tuition_subject">
+        </div>
+        <div class="form-group">
+            <label for="time_duration">time_duration</label>
+            <input type="text" class="form-control" id="time_duration" name="time_duration">
+        </div>
+        <div class="form-group">
+            <label for="tutor_gender">tutor_gender</label>
+            <input type="text" class="form-control" id="tutor_gender" name="tutor_gender">
+        </div>
+        <div class="form-group">
+            <label for="tutor_education_level">tutor_education_level</label>
+            <input type="text" class="form-control" id="tutor_education_level" name="tutor_education_level">
+        </div>
+
+
+   {% endifequal %}
+
+
+        <button type="submit" class="btn btn-primary">Post Ad</button>
+    </form>
+</div>
+
+
+
+
+{% endblock body %}

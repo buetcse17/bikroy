@@ -11,14 +11,16 @@ urlpatterns = [
     # Account related
     path('signup', views.signup, name='signup'),
     path('login', views.handleLogin, name='handleLogin'),
-    path('logout', views.handleLogout, name='handleLogout'),
+    path('logout/', views.handleLogout, name='handleLogout'),
     path('profile', views.profile, name='profile'),
 
 
     # Ad related
-    path('postAd', views.postAd, name='postAd'),
-    path('postProductAd', views.postProductAd, name='postProductAd'),
-    path('postJobAd', views.postJobAd, name='postJobAd'),
+    path('postAd/', views.postAd, name='postAd'),
+    path('postProductAd/', views.postProductAd, name='postProductAd'),
+    path('productAdCategory/', views.productAdCategory, name='productAdCategory'),
+    path('productAdCategory/<int:id>/', views.productAdCategory, name='productAdCategory'),
+    path('postJobAd/', views.postJobAd, name='postJobAd'),
 
 
     # dummy

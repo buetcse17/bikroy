@@ -157,6 +157,11 @@ def postAd(request):
 def postProductAd(request):
     return render(request,'home/postProductAd.html')
 
+def productAdCategory(request,id):
+    return render(request, 'home/productAdCategory.html',{'id':id})
+
+
+
 def postJobAd(request):
     if request.method == 'POST':
         organization_id = request.POST['organization_id']
@@ -217,6 +222,10 @@ def postJobAd(request):
         return redirect('postJobAd')
 
     return render(request,'home/postJobAd.html')
+
+
+
+# def productAdCategoryById(id, request):
 
 
 
