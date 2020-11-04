@@ -110,12 +110,12 @@ def signup(request):
 
         conn.close()
 
-        # create django user
+
         myuser = User.objects.create_user(username, email, password)
         myuser.first_name = first_name 
         myuser.last_name = last_name
         myuser.save()
-        messages.success(request, "Your django user has been successfully created")
+        messages.success(request, "Signup Completed")
 
         
     return render(request, 'home/home.html')
@@ -203,11 +203,76 @@ def productAdCategory(request,id):
         print("------Printing Ended-------")
 
         messages.success(request, 'Your advertisement has been received')
-        #return render(request, 'home/postProductAd.html')
+
+        dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+        conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+
+        advertisement_id = -1
+        sql = "SELECT COUNT(*) FROM advertisement"
+        c = conn.cursor()
+        c.execute(sql)
+
+        for r in c:
+            advertisement_id = r[0] + 1
+        print('ad id ', advertisement_id, type(advertisement_id))
+        advertisement_id = str(advertisement_id)
+
+        advertisement_type = 'paid'
+        payment_system = 'bkash'
+        payment_amount = '300'
+        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.user.username+"')"
+
+        c.execute(sql)
+        conn.commit()
+
+        product_id = -1
+        sql = "SELECT COUNT(*) FROM product"
+        c = conn.cursor()
+        c.execute(sql)
+
+        for r in c:
+            product_id = r[0] + 1
+        print('product_id ', product_id, type(product_id))
+        product_id = str(product_id)
+
+
+        sql = "INSERT INTO product VALUES('"+product_id+"','"+ product_name+"','"+ product_price+"','"+ product_description+"','"+ product_contact_no+"','"+ advertisement_id+"')"
+        print('product_sql ', sql)
+        c.execute(sql)
+        conn.commit()
+
+        if id == 1:
+            sql = "INSERT INTO devices VALUES('"+product_id+"','"+ device_category+"','"+ device_brand+"','"+ device_model+"','"+ device_generation+"','"+ device_features+"','"+ device_condition+"','"+ device_authenticity+"')"
+            print('product_sql ', sql)
+            c.execute(sql)
+            conn.commit()
+        
+        if id == 2:
+            sql = "INSERT INTO pet VALUES('"+product_id+"','"+ pet_type+"','"+ pet_color+"','"+ pet_age+"','"+ pet_gender+"','"+ pet_food_habit+"')"
+            print('product_sql ', sql)
+            c.execute(sql)
+            conn.commit()
+        
+        if id ==3:
+            sql = "INSERT INTO book VALUES('"+product_id+"','"+ book_writer+"','"+ book_genre+"','"+ book_condition+"')"
+            print('product_sql ', sql)
+            c.execute(sql)
+            conn.commit()
+
+        if id == 4:
+            sql = "INSERT INTO course VALUES('"+product_id+"','"+ course_title+"','"+ course_organization+"')"
+            print('product_sql ', sql)
+            c.execute(sql)
+            conn.commit()
+        
+        if id == 5:
+            sql = "INSERT INTO tution VALUES('"+product_id+"','"+ tuition_subject+"','"+ time_duration+"','"+ tutor_gender+"','"+ tutor_education_level+"')"
+            print('product_sql ', sql)
+            c.execute(sql)
+            conn.commit()
+        
 
     return render(request, 'home/productAdCategory.html',{'id':id})
-
-
 
 
 
