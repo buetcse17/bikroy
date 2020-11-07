@@ -1,3 +1,7 @@
 myprojectenv/
 db.sqlite3
+<<<<<<< HEAD
 *.pyc
+=======
+*.pyc
+>>>>>>> e1268ffe57c7e1421815d3a8d299c924db6c7ae4

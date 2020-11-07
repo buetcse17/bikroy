@@ -9,7 +9,8 @@ Category Wise Product Ad
 
 <div class="container my-3">
     <h3>Provide Product Details Here</h3>
-    <form action="/postProductAd" method="post">
+    <!-- <form action="/postProductAd/" method="post"> -->
+    <form action="/productAdCategory/{{id}}/" method="post">
         {% csrf_token %}
         <!-- basic product-->
         <h3>basic form</h3>
@@ -19,7 +20,7 @@ Category Wise Product Ad
         </div>
         <div class="form-group">
             <label for="product_price">product_price</label>
-            <input type="text" class="form-control" id="product_price" name="product_price">
+            <input type="number" step="0.01" class="form-control" id="product_price" name="product_price">
         </div>
         <div class="form-group">
             <label for="product_description">product_description</label>
@@ -27,7 +28,7 @@ Category Wise Product Ad
         </div>
         <div class="form-group">
             <label for="product_contact_no">product_contact_no</label>
-            <input type="text" class="form-control" id="product_contact_no" name="product_contact_no">
+            <input type="tel" class="form-control" id="product_contact_no" name="product_contact_no">
         </div>
         <div class="form-group">
             <label for="product_picture">product_picture</label>
@@ -39,8 +40,8 @@ Category Wise Product Ad
         {%ifequal id 1%}
         <h3>Device</h3>
         <div class="form-group">
-            <label for="device_catagory">device_catagory</label>
-            <input type="text" class="form-control" id="device_catagory" name="device_catagory">
+            <label for="device_category">device_category</label>
+            <input type="text" class="form-control" id="device_category" name="device_category">
         </div>
         <div class="form-group">
             <label for="device_brand">device_brand</label>
@@ -66,8 +67,9 @@ Category Wise Product Ad
             <label for="device_authenticity">device_authenticity</label>
             <input type="text" class="form-control" id="device_authenticity" name="device_authenticity">
         </div>
-        {% else %}
+        {% endifequal %}
 
+        {%ifequal id 2%}
         <!-- pet  -->
         <h3>Pet</h3>
         <div class="form-group">
@@ -82,16 +84,17 @@ Category Wise Product Ad
             <label for="pet_age">pet_age</label>
             <input type="text" class="form-control" id="pet_age" name="pet_age">
         </div>
-
         <div class="form-group">
             <label for="pet_gender">pet_gender</label>
             <input type="text" class="form-control" id="pet_gender" name="pet_gender">
         </div>
         <div class="form-group">
-            <label for="pet_food_habbit">pet_food_habbit</label>
-            <input type="text" class="form-control" id="pet_food_habbit" name="pet_food_habbit">
+            <label for="pet_food_habit">pet_food_habbit</label>
+            <input type="text" class="form-control" id="pet_food_habit" name="pet_food_habit">
         </div>
+        {% endifequal %}
 
+        {%ifequal id 3%}
 
         <!-- book -->
         <h3>book</h3>
@@ -107,7 +110,9 @@ Category Wise Product Ad
             <label for="book_condition">book_condition</label>
             <input type="text" class="form-control" id="book_condition" name="book_condition">
         </div>
+        {% endifequal %}
 
+        {%ifequal id 4%}
         <!-- course -->
         <h3>course</h3>
         <div class="form-group">
@@ -118,6 +123,9 @@ Category Wise Product Ad
             <label for="course_organization">course_organization</label>
             <input type="text" class="form-control" id="course_organization" name="course_organization">
         </div>
+        {% endifequal %}
+
+        {%ifequal id 5%}
 
         <!-- tuition -->
         <h3>tuition</h3>
