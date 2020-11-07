@@ -88,8 +88,7 @@ def list(request, id):
             dict_result.append(row)
     params={'products':dict_result,'id':id}
     conn.close()
-    return render(request,'product/listProduct.html',params)
-
+    return render(request,'product/listProduct.html',params)  
 def displayProduct(request,id,product_id):
     dict_result = []
     dsn_tns  = cx_Oracle.makedsn('localhost','1521',service_name='ORCL')
@@ -276,7 +275,7 @@ def displayProduct(request,id,product_id):
             dict_result.append(row)
         params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'tution_subject':subject,'tutor_gender':t_gender,'time_duration':time,'education_level':edu_level, 'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}  
     conn.close()
-    
+    #baal
     return render(request,'product/displayProduct.html',params)
 
 
