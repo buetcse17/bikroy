@@ -4,8 +4,8 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 
 
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+# from django.contrib.auth import authenticate, login, logout
+# from django.contrib.auth.models import User
 # Create your views here.
 
 params = {'loginsuccess':True,'username':'null'}
@@ -111,10 +111,10 @@ def signup(request):
         conn.close()
 
 
-        myuser = User.objects.create_user(username, email, password)
-        myuser.first_name = first_name 
-        myuser.last_name = last_name
-        myuser.save()
+        # myuser = User.objects.create_user(username, email, password)
+        # myuser.first_name = first_name 
+        # myuser.last_name = last_name
+        # myuser.save()
         messages.success(request, "Signup Completed")
 
         
@@ -128,30 +128,71 @@ def handleLogin(request):
         print(loginusername)
         print(loginpassword)
 
-        user = authenticate(username=loginusername, password=loginpassword)
+        dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+        conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
 
-        if user is not None:
-            login(request, user)
+        c = conn.cursor()
+        sql = "SELECT password FROM ACCOUNT WHERE username ='"+loginusername+"'"
+        c.execute(sql)
+        result = []
+        result = c.fetchall()
+
+        if len(result)==0:
+            messages.warning(request, "Invalid Credentials, Please try again")
+            return redirect('home')
+        realpassword = result[0][0]
+
+        
+        
+        if loginpassword == realpassword:
+            request.session['username'] = loginusername
+            request.session['userLogged'] = True
+            print("kaj hoise maybe")
+            
             messages.success(request, "Successfully Logged In")
             return redirect('home')
         else:
             messages.error(request, "Invalid Credentials, Please try again")
             return redirect('home')
 
+        # user = authenticate(username=loginusername, password=loginpassword)
+
+        # if user is not None:
+        #     login(request, user)
+        #     messages.success(request, "Successfully Logged In")
+        #     return redirect('home')
+        # else:
+        #     messages.error(request, "Invalid Credentials, Please try again")
+        #     return redirect('home')
+
 
 def handleLogout(request):
-    logout(request)
-    messages.success(request, "You have successfully logged out")
+    if request.session['userLogged']==True:
+        del request.session['userLogged']
+        del request.session['username']
+        messages.success(request, "You have successfully logged out")
     return redirect("home")
 
+    # logout(request)
+    # messages.success(request, "You have successfully logged out")
+    # return redirect("home")
+
 def postAd(request):
-    if request.user.is_authenticated is False:
-        #print('For posting Advertisement, Login is required. Please Log In')
+    try:
+        if request.session['userLogged'] == True:
+            #print('For posting Advertisement, Login is required. Please Log In')
+            return render(request, 'home/postAd.html', params)
+    except:
         messages.success(request,'For posting Advertisement, Login is required. Please Log In')
         return redirect('home')
 
-    else:
-        return render(request, 'home/postAd.html', params)
+    # if request.user.is_authenticated is False:
+    #     #print('For posting Advertisement, Login is required. Please Log In')
+    #     messages.success(request,'For posting Advertisement, Login is required. Please Log In')
+    #     return redirect('home')
+
+    # else:
+    #     return render(request, 'home/postAd.html', params)
 
 
 def postProductAd(request):
@@ -221,7 +262,7 @@ def productAdCategory(request,id):
         advertisement_id = str(advertisement_id)
 
         advertisement_type = 'pending'
-        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"','"+ payment_amount+"','"+ payment_system+"', SYSDATE ,'"+ request.user.username+"','"+transaction+"')"
+        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"','"+ payment_amount+"','"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
 
         c.execute(sql)
         conn.commit()
@@ -310,7 +351,8 @@ def postJobAd(request):
         advertisement_type = 'paid'
         payment_system = 'bkash'
         payment_amount = '300'
-        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.user.username+"')"
+        transaction = 'jobtxnid'
+        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
 
         c.execute(sql)
         conn.commit()

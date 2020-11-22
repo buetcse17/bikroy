@@ -76,24 +76,26 @@ WSGI_APPLICATION = 'bikroy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.oracle',
-#         'NAME': 'ORCL', #select * from global_name;
-#         'USER': 'bikroy',
-#         'PASSWORD': 'bikroy',
-#         'HOST': 'localhost',
-#         'PORT': '1521'
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'ORCL', #select * from global_name;
+        'USER': 'bikroy',
+        'PASSWORD': 'bikroy',
+        'HOST': 'localhost',
+        'PORT': '1521'
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_HTTPONLY = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
