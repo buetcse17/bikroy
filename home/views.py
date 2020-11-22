@@ -166,6 +166,9 @@ def productAdCategory(request,id):
             product_description = request.POST['product_description']
             product_contact_no = request.POST['product_contact_no']
             product_picture = request.POST['product_picture']
+            payment_amount = request.POST['payment_amount']
+            payment_system = request.POST['payment_system']
+            transaction = request.POST['transaction']
         if id==1:
             device_category = request.POST['device_category']
             device_brand = request.POST['device_brand']
@@ -217,10 +220,8 @@ def productAdCategory(request,id):
         print('ad id ', advertisement_id, type(advertisement_id))
         advertisement_id = str(advertisement_id)
 
-        advertisement_type = 'paid'
-        payment_system = 'bkash'
-        payment_amount = '300'
-        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.user.username+"')"
+        advertisement_type = 'pending'
+        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"','"+ payment_amount+"','"+ payment_system+"', SYSDATE ,'"+ request.user.username+"','"+transaction+"')"
 
         c.execute(sql)
         conn.commit()
@@ -360,3 +361,7 @@ def list_jobs(request):
         out += str(row) + '\n'
     conn.close()
     return HttpResponse(out, content_type="text/plain")
+
+
+def approval(request):
+    return render(request,'home/approve.html')

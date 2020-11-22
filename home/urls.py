@@ -22,7 +22,8 @@ urlpatterns = [
     path('productAdCategory/<int:id>/', views.productAdCategory, name='productAdCategory'),
     path('postJobAd/', views.postJobAd, name='postJobAd'),
 
-
+    # admin
+    path('approve/',views.approval, name='approve'),
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
 
