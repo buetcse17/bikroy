@@ -43,7 +43,7 @@
           <a href="/postAd" class="btn btn-success btn-lg" role="button" aria-pressed="true">Post Ad</a>
         </li>
 
-        {% ifequal request.user.username 'bikroy' %}
+        {% ifequal request.session.username 'bikroy' %}
         <li>
           <a href="/approve" class="btn btn-danger btn-lg mx-3" role="button" aria-pressed="true">Approve Ad</a>
         </li>
@@ -64,11 +64,12 @@
 
 
 
-      {% if user.is_authenticated %}
+      {% comment %} {% if user.is_authenticated %} {% endcomment %}
+      {% if request.session.userLogged %}
       <ul class="navbar-nav mr-2">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button" data-toggle="dropdown"> Welcome
-            {{request.user}}</a>
+            {{request.session.username}}</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/profile">Profile</a>
             <a class="dropdown-item" href="/logout">Logout</a>
