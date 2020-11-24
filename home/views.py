@@ -332,6 +332,9 @@ def postJobAd(request):
         required_experience = request.POST['required_experience']
         skill_summary = request.POST['skill_summary']
         description = request.POST['description']
+        payment_amount = request.POST['payment_amount']
+        payment_system = request.POST['payment_system']
+        transaction = request.POST['transaction']
         description = organization_id + '\n' + organization_name + '\n' + description
 
 
@@ -348,10 +351,7 @@ def postJobAd(request):
         print('ad id ', advertisement_id, type(advertisement_id))
         advertisement_id = str(advertisement_id)
 
-        advertisement_type = 'paid'
-        payment_system = 'bkash'
-        payment_amount = '300'
-        transaction = 'jobtxnid'
+        advertisement_type = 'pending'
         sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
 
         c.execute(sql)
@@ -407,3 +407,79 @@ def list_jobs(request):
 
 def approval(request):
     return render(request,'home/approve.html')
+def Productapproval(request,id,update_status):
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if update_status=='updated':
+       if request.method == 'POST':
+           adv_ids=request.POST.getlist('approvals') 
+       for ad in adv_ids:
+           adv_id=ad[0]
+           c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
+           conn.commit()
+    dict_result=[]
+    if id==1:
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,DEVICES d where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=d.PRODUCT_ID"''
+        c.execute(sql)
+        result=c.fetchall()   
+    elif id==2:
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,PET p where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=p.PRODUCT_ID"''
+        c.execute(sql)
+        result=c.fetchall() 
+    elif id==3:
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,book b where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=b.PRODUCT_ID"''
+        c.execute(sql)
+        result=c.fetchall()
+    elif id==4:
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,course c where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=c.PRODUCT_ID"''
+        c.execute(sql)
+        result=c.fetchall() 
+    elif id==5:
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,tution t where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=t.PRODUCT_ID"''
+        c.execute(sql)
+        result=c.fetchall() 
+    else:
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,DEVICES d,pet p,book b, course c,tution t where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID<>d.PRODUCT_ID and pr.PRODUCT_ID<>p.PRODUCT_ID and pr.PRODUCT_ID<>b.PRODUCT_ID and pr.PRODUCT_ID<>c.PRODUCT_ID and pr.PRODUCT_ID<>t.PRODUCT_ID"''
+        c.execute(sql)
+        result=c.fetchall()        
+    for r in result:
+            ad_id=r[0]
+            name=r[1]
+            contact_no=r[2]
+            prod_name=r[3]
+            price=r[4]
+            payment=r[5]
+            payment_system=r[6]
+            trans=r[7]
+            row={'advertisement_id':ad_id,'username':name,'contact_no':contact_no,'product_name':prod_name,'price':price,'payment_amount':payment,'payment_system':payment_system,'transaction':trans}
+            dict_result.append(row)
+    params={'products':dict_result,'id':id}
+    return render(request,'home/ProductApproval.html',params)
+def Jobapproval(request,update_status):
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if update_status=='updated':
+       if request.method == 'POST':
+           adv_ids=request.POST.getlist('approvals') 
+       for ad in adv_ids:
+           adv_id=ad[0]
+           c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
+           conn.commit()
+    dict_result=[]
+    sql="""SELECT ad.ADVERTISEMENT_ID,USERNAME,DESIGNATION,SALARY,PAYMENT_AMOUNT,PAYMENT_SYSTEM,TRANSACTION from ADVERTISEMENT ad, job j where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending'""" 
+    c.execute(sql)
+    result=c.fetchall()        
+    for r in result:
+            ad_id=r[0]
+            name=r[1]
+            desig=r[2]
+            sal=r[3]
+            payment=r[4]
+            payment_system=r[5]
+            trans=r[6]
+            row={'advertisement_id':ad_id,'username':name,'designation':desig,'salary':sal,'payment_amount':payment,'payment_system':payment_system,'transaction':trans}
+            dict_result.append(row)
+    params={'jobs':dict_result}
+    return render(request,'home/JobApproval.html',params)

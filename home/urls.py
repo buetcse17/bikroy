@@ -24,6 +24,10 @@ urlpatterns = [
 
     # admin
     path('approve/',views.approval, name='approve'),
+    path('approveProduct/<slug:update_status>/<int:id>/',views.Productapproval, name='approveProduct'),
+     path('approveJob/<slug:update_status>/',views.Jobapproval, name='approveProduct'),
+    
+
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
 
