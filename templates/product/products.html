@@ -1,11 +1,11 @@
-{% extends 'base.html' %} {% block title %} products {% endblock title%}
-{% block body %}
+{% extends 'base.html' %} {% block title %} products
+ {% endblock title%} {%block body %}
 
 <div class="card-columns mt-100">
   <div class="container">
     <div class="card text-center" style="width: 18rem">
-     {% load static %}
-        <img src= "{% static "home/device.jpg" %}" class="card-img-top" alt="..." />
+      {% load static %} <img src= "{% static "home/device.jpg" %}"
+      class="card-img-top" alt="..." />
       <div class="card-body">
         <a href="/productSection/1/"><b>Devices</b></a>
         <p class="card-text">
@@ -15,8 +15,11 @@
       </div>
     </div>
     <div class="card text-center" style="width: 18rem">
-    
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+      <img
+        src="{% static 'home/device.jpg' %}"
+        class="card-img-top"
+        alt="..."
+      />
       <div class="card-body">
         <a href="/productSection/2/"><b>Pet And Animals</b></a>
         <p class="card-text">
@@ -26,22 +29,33 @@
       </div>
     </div>
     <div class="card text-center" style="width: 18rem">
-
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+      <img
+        src="{% static 'home/device.jpg' %}"
+        class="card-img-top"
+        alt="..."
+      />
       <div class="card-body">
         <a href="/productSection/3/"><b>Book</b></a>
         <p class="card-text">Here you can find all types of books</p>
       </div>
     </div>
     <div class="card text-center" style="width: 18rem">
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+      <img
+        src="{% static 'home/device.jpg' %}"
+        class="card-img-top"
+        alt="..."
+      />
       <div class="card-body">
         <a href="/productSection/4/"><b>Course</b></a>
         <p class="card-text">Here you can find all types of Courses</p>
       </div>
     </div>
     <div class="card text-center" style="width: 18rem">
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+      <img
+        src="{% static 'home/device.jpg' %}"
+        class="card-img-top"
+        alt="..."
+      />
       <div class="card-body">
         <a href="/productSection/5/"><b>Tution</b></a>
         <p class="card-text">Here you can find all tutions of all types</p>
