@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+Chat
+{% endblock title %}}
+{% block body %}
+Chatbox starting here
+
+<div class='container'>
+  {%for item in chatWith_lastMsg%}
+  <div class="card my-4">
+    <div class="card-header">
+      <a href="chatbox/{{item.0}}/"><h3>{{item.0}}</h3></a>
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{item.1}}</p>
+        <footer class="blockquote-footer"><cite title="Source Title">{{item.2}}</cite></footer>
+      </blockquote>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock body %}

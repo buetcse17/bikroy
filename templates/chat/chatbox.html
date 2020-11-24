@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+Chatbox
+{% endblock title %}
+{% block body %}
+
+
+
+<div class="container fluid my-3">
+    <h3>Chat with {{chatUser}}</h3>
+
+    <div class='container'>
+        {%for item in sender_msg_time%}
+        <div class="card my-4">
+          <div class="card-header">
+            <h5>{{item.0}}</h5>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>{{item.1}}</p>
+              <footer class="blockquote-footer"><cite title="Source Title">{{item.2}}</cite></footer>
+            </blockquote>
+          </div>
+        </div>
+        {% endfor %}
+        <div>
+            <form action="/chat/chatbox/{{chatUser}}/" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="content">Message :</label>
+                    <textarea class="form-control"  id="chatMessage" name="chatMessage" cols="20" rows="3" placeholder="Type your message here"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+      </div>
+</div>
+
+{% endblock body %}
