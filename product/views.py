@@ -133,7 +133,7 @@ def displayProduct(request,id,product_id):
             row = {'sname': sproduct_name, 'scat': sdevice_catagory,
                 'sprice': sprice, 'scond': scondition,'spr_id':sproduct_id}
             dict_result.append(row)    
-        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'device_catagory':device_catagory,' brand': brand,'model':model,'generation':generation,'features':features,'condition':condition,'authenticity':authenticity,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
+        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'device_catagory':device_catagory,'brand': brand,'model':model,'generation':generation,'features':features,'condition':condition,'authenticity':authenticity,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
     elif id==2:
         cursor = conn.cursor()
         sql = "SELECT PRODUCT_NAME,price,DESCRIPTION,CONTACT_NO,pet_type,color,age, p.gender,FOOD_HABIT,PAYMENT_SYSTEM,AD_TIME, FIRST_NAME||' '||LAST_NAME,THANA,DISTRICT,DIVISION from PRODUCT pr,pet p,ADVERTISEMENT ad,account ac,profile pf,LOCATION l where pr.PRODUCT_ID=p.PRODUCT_ID and ac.USERNAME=ad.USERNAME and ac.PROFILE_NO=pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID and pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and pr.PRODUCT_ID=:prid"
@@ -169,7 +169,7 @@ def displayProduct(request,id,product_id):
             row = {'sname': sproduct_name,
                 'sp_type': spet_type, 'sprice': sprice,'sprid':sproduct_id}
             dict_result.append(row)
-        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'pet_type':pet_type,' age': age,'color':color,'food_habit':food_habit,'gender':gender,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
+        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'pet_type':pet_type,'age': age,'color':color,'food_habit':food_habit,'gender':gender,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
     elif id==3:
         cursor = conn.cursor()
         sql = "SELECT PRODUCT_NAME,price,DESCRIPTION,CONTACT_NO,WRITER,GENRE,CONDITION,PAYMENT_SYSTEM,AD_TIME, FIRST_NAME||' '||LAST_NAME,THANA,DISTRICT,DIVISION from PRODUCT pr,book b,ADVERTISEMENT ad,account ac,profile pf,LOCATION l where pr.PRODUCT_ID=b.PRODUCT_ID and ac.USERNAME=ad.USERNAME and ac.PROFILE_NO=pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID and pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and pr.PRODUCT_ID=:prid"
