@@ -5,10 +5,15 @@
   <div class="container">
     <div class="center">
 
-      {% ifequal id 1 %} {% for product in products %}
+      {% ifequal id 1 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Devices (Mobile, PC, Laptop, Gadgets)</h2>
+      </div>
+
+      {% for product in products %}
 
       <a href="/productSection/1/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right bg-secondary text-white" style="max-width: 1000rem; ">
+        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
           <img src="..." class="card-img-left" height="50" width="50" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{product.product_name}}</h5>
@@ -19,9 +24,16 @@
           </div>
         </div>
       </a>
-      {% endfor %} {% endifequal %} {% ifequal id 2 %} {% for product in products %}
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 2 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Pets/Animals (Cat, Dog, Bird)</h2>
+      </div>
+      {% for product in products %}
       <a href="/productSection/2/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right bg-secondary text-white" style="max-width: 1000rem;">
+        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
           <img src="..." class="card-img-left" height="50" width="50" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{product.product_name}}</h5>
@@ -29,9 +41,16 @@
           </div>
         </div>
       </a>
-      {% endfor %} {% endifequal %} {% ifequal id 3 %} {% for product in products %}
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 3 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Books</h2>
+      </div>
+      {% for product in products %}
       <a href="/productSection/3/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right bg-secondary text-white" style="max-width: 1000rem;">
+        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
           <img src="..." class="card-img-left" height="50" width="50" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{product.product_name}}</h5>
@@ -41,9 +60,16 @@
           </div>
         </div>
       </a>
-      {% endfor %} {% endifequal %} {% ifequal id 4 %} {% for product in products %}
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 4 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Courses (Online/Offline)</h2>
+      </div>
+      {% for product in products %}
       <a href="/productSection/4/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right bg-secondary text-white" style="max-width: 1000rem;">
+        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
           <img src="..." class="card-img-left" height="50" width="50" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{product.product_name}}</h5>
@@ -51,9 +77,16 @@
           </div>
         </div>
       </a>
-      {% endfor %} {% endifequal %} {% ifequal id 5 %} {% for product in products %}
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 5 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Tution (Online/Offline)</h2>
+      </div>
+      {% for product in products %}
       <a href="/productSection/5/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right bg-secondary text-white" style="max-width: 1000rem;">
+        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
           <img src="..." class="card-img-left" height="50" width="50" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{product.product_name}}</h5>
@@ -67,4 +100,22 @@
     </div>
   </div>
 </div>
-{% endfor %} {% endifequal %} {% endblock body %}
+{% endfor %}
+{% endifequal %}
+
+
+<div class="card text-center mx-2 my-4">
+  <div class="card-header">
+    Sorry <p>&#128549; &#128056;</p>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">No More Items</h5>
+    <p class="card-text">No available items here. Wait for some sellers to give sell advertisements. Please visit our website regularly. Stay tuned.</p>
+    <a href="/productSection" class="btn btn-primary">Go Product Section</a>
+  </div>
+  <div class="card-footer text-muted">
+    Thank You
+  </div>
+</div>
+
+{% endblock body %}
