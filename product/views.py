@@ -15,7 +15,7 @@ def list(request, id):
    # print(id)
     if id == 1:
         cursor = conn.cursor()
-        sql = "SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION, p.product_id FROM product p,DEVICES d,ADVERTISEMENT ad WHERE d.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION, p.product_id FROM product p,DEVICES d,ADVERTISEMENT ad WHERE d.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #.close()
@@ -30,7 +30,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 2:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id FROM product pr,pet p,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id FROM product pr,pet p,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -44,7 +44,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 3:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id FROM product pr,book b,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=b.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id FROM product pr,book b,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=b.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -59,7 +59,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 4:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id FROM product pr,course c,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=c.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id FROM product pr,course c,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=c.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -73,7 +73,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 5:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id FROM product pr,tution t,ADVERTISEMENT ad  WHERE pr.PRODUCT_ID=t.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id FROM product pr,tution t,ADVERTISEMENT ad  WHERE pr.PRODUCT_ID=t.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
