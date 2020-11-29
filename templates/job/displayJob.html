@@ -1,50 +1,140 @@
-{% extends 'base.html' %} {% block title %} Job {% endblock title %}
- {% block body %} 
- <div class="container">
-  <h5>Posted at {{ad_time}} from {{thana}},{{district}} {{division}}</h5>
-  <h3><b>{{designation}}</b></h3>
-  <div class="card text-center" style="width: 18rem">
-    <div class="card-body">
-      <h3 class="card-title"><b>Tk. {{salary}}</b></h3>
-      <p class="card-text">{{description}}</p>
+{% extends 'base.html' %}
+{% block title %} Job Details{% endblock title %}
+{% block body %}
+
+
+<div class="row">
+  <div class="container">
+    <div class="center">
+      <div class="card my-3 text-white" style="background-color: #1F618D ;">
+        <div class="card-body">
+          <h2 class="card-title">Job Designation : {{designation}}</h2>
+          <p class="card-text">
+          <h5>Posting Ad from : {{thana}}, {{district}}, <b>{{division}}</b></h5>
+          </p>
+          <p class="card-text "><small class="text-white">Posted at {{ad_time}}</small></p>
+        </div>
+        <div class="center">
+          {% load static %} <img src="{% static 'jobs.jpg' %}" class="card-img-bottom" alt="...">
+        </div>
+      </div>
+
+
+      <div class="card text-left my-3">
+        <div class="card-body  bg-warning">
+          <h3 class="card-title"><b>Approx. Salary : {{salary}}/= BDT</b></h3>
+
+        </div>
+        <ul class="list-group list-group-flush">
+          <h5>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Job Type :<h2><span
+                  class="badge badge-info"> {{job_type}} </span></h2>
+            </li>
+
+            {% if business_function %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Business Function :<h2><span
+                  class="badge badge-info"> {{business_function}} </span></h2>
+            </li>
+            {% endif %}
+
+            {%if required_experience %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Required Experience :<h2><span
+                  class="badge badge-info"> {{required_experience}} </span></h2>
+            </li>
+            {% endif %}
+
+            {%if gender_preference %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Gender Preference :<h2><span
+                  class="badge badge-info"> {{gender_preference}} </span></h2>
+            </li>
+            {% endif %}
+
+            {%if minimum_qualification %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Minimum Qualification :<h2>
+                <span class="badge badge-info"> {{minimum_qualification}} </span></h2>
+            </li>
+            {%endif%}
+
+            {% if skills %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Skills :<h2><span
+                  class="badge badge-info"> {{skills}} </span></h2>
+            </li>
+            {% endif %}
+        </ul>
+
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4>Description :<h4>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>{{description}}</p>
+            <footer class="blockquote-footer">from Ad Provider</footer>
+          </blockquote>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <h5>
+        <div class="card text-center">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">Ad Given By : <h2><span
+                  class="badge badge-info"> {{fullname}} </span></h2>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Ad Provider Contact No :<h2>
+                <span class="badge badge-info"> {{contact_no}} </span></h2>
+            </li>
+          </ul>
+        </div>
+      </h5>
+      </h5>
+
+
+
+      <br><br>
+
+
+
+      <!-- Simillar Product Showing Kawshik Start-->
+
+      <h3><b>Similar Jobs</b></h3><br>
+
+      <div class='container'>
+
+        <div class="row row-cols-1 row-cols-md-3">
+
+          {% if similar %}
+          {% for job in similar %}
+          <a href="/jobSection/job_id-{{job.sjob_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100 text-white" style="max-width: 1000rem; background-color:#1F618D  ;">
+                {% load static %} <img src="{% static 'jobs.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{job.sjob_type}}</h5>
+                  <p class="card-text">
+                    {{job.sdesignation}}<br /><b>TK.
+                      {{job.ssalary}}</b><br>
+                    <br>
+                    {{job.sdistrict}}, Jobs
+                  </p>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>No similar Jobs</h5>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Simillar Product Showing Kawshik End-->
+
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Job Type : {{job_type}} <br> {% if business_function %}Business Function : {{business_function}}{% endif %} </li>
-      {%if required_experience %}
-      <li class="list-group-item">Required Experience : {{required_experience}}</li>
-      {% endif %}
-      {%if gender_preference %}
-      <li class="list-group-item">Gender Preference: {{gender_preference}}</li>
-      {% endif %}
-      {% if minimum_qualification %}
-      <li class="list-group-item">Minimum Qualification: {{minimum_qualification}}</li>
-      {% endif %}
-      {% if skills %}
-      <li class="list-group-item">Skills : {{skills}}</li>
-      {% endif %} 
-    </ul> 
-    </div>
-    
-    <h3><b>Similar Jobs</b></h3>
-    <div class='container'>
-    {% if similar %}
-     {% for job in similar %}
- <a href="/jobSection/{{job.sjob_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{job.sjob_type}}</h5>
-    <p class="card-text">
-      {{job.sdesignation}}<br /><b>TK.
-      {{job.ssalary}}</b><br>
-      <br>
-      {{job.sdistrict}}, Jobs
-    </p>
   </div>
 </div>
-</a>
-{% endfor %}
-{% else %}
-<h5> No similar jobs</h5>
-{% endif %}
-    </div>
- {% endblock body %}
+
+{% endblock body %}

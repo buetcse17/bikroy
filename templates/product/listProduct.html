@@ -5,18 +5,31 @@
   <div class="container">
     <div class="center">
 
+      <div class="container my-5">
+        <a href="/productSection/{{id}}/dhaka" type="button" class="btn btn-outline-primary">Dhaka</a>
+        <a href="/productSection/{{id}}/chittagong/" type="button" class="btn btn-outline-secondary">Chittagong</a>
+        <a href="/productSection/{{id}}/sylhet/" type="button" class="btn btn-outline-success">Sylhet</a>
+        <a href="/productSection/{{id}}/khulna/" type="button" class="btn btn-outline-danger">Khulna</a>
+        <a href="/productSection/{{id}}/rajshahi/" type="button" class="btn btn-outline-primary">Rajshahi</a>
+        <a href="/productSection/{{id}}/rangpur/" type="button" class="btn btn-outline-info">Rangpur</a>
+        <a href="/productSection/{{id}}/barishal/" type="button" class="btn btn-outline-secondary">Barishal</a>
+        <a href="/productSection/{{id}}/mymensingh/" type="button" class="btn btn-outline-dark">Mymensingh</a>
+        </div>
+
       {% ifequal id 1 %}
       <div class="card mx-2 my-3 text-center">
         <h2>Devices (Mobile, PC, Laptop, Gadgets)</h2>
       </div>
 
+      
+
       {% for product in products %}
 
-      <a href="/productSection/1/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
-          <img src="..." class="card-img-left" height="50" width="50" alt="..." />
+      <a href="/productSection/1/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">{{product.product_name}}</h5>
+            <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">
               {{product.device_catagory}}<br />{{product.condition}}<br />TK.
               {{product.price}}
@@ -32,11 +45,11 @@
         <h2>Pets/Animals (Cat, Dog, Bird)</h2>
       </div>
       {% for product in products %}
-      <a href="/productSection/2/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
-          <img src="..." class="card-img-left" height="50" width="50" alt="..." />
+      <a href="/productSection/2/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">{{product.product_name}}</h5>
+            <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">{{product.pet_type}}<br />TK. {{product.price}}</p>
           </div>
         </div>
@@ -49,11 +62,11 @@
         <h2>Books</h2>
       </div>
       {% for product in products %}
-      <a href="/productSection/3/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
-          <img src="..." class="card-img-left" height="50" width="50" alt="..." />
+      <a href="/productSection/3/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">{{product.product_name}}</h5>
+            <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">
               {{product.genre}}<br />{{product.condition}}<br />TK. {{product.price}}
             </p>
@@ -68,11 +81,11 @@
         <h2>Courses (Online/Offline)</h2>
       </div>
       {% for product in products %}
-      <a href="/productSection/4/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
-          <img src="..." class="card-img-left" height="50" width="50" alt="..." />
+      <a href="/productSection/4/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">{{product.product_name}}</h5>
+            <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">{{product.course_title}}<br />TK. {{product.price}}</p>
           </div>
         </div>
@@ -85,11 +98,11 @@
         <h2>Tution (Online/Offline)</h2>
       </div>
       {% for product in products %}
-      <a href="/productSection/5/{{product.product_id}}">
-        <div class="mx-2 my-4 card text-right text-white" style="max-width: 1000rem; background-color: #6C7D76 ;">
-          <img src="..." class="card-img-left" height="50" width="50" alt="..." />
+      <a href="/productSection/5/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">{{product.product_name}}</h5>
+            <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">
               {{product.tutor_gender}}<br />{{product.education_level}}<br />TK.
               {{product.price}}
@@ -106,7 +119,7 @@
 
 <div class="card text-center mx-2 my-4">
   <div class="card-header">
-    Sorry <p>&#128549; &#128056;</p>
+    <h3>Sorry <p>&#128549; &#128549; &#128549;</h3></p>
   </div>
   <div class="card-body">
     <h5 class="card-title">No More Items</h5>

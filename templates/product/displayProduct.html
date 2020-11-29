@@ -3,7 +3,7 @@
 <div class="row">
   <div class="container">
     <div class="center">
-      <div class="card my-3 bg-secondary text-white">
+      <div class="card my-3 text-white" style="background-color: #1F618D ;">
         <div class="card-body">
           <h2 class="card-title">Product Name : {{product_name}}</h2>
           <p class="card-text">
@@ -12,7 +12,7 @@
           <p class="card-text "><small class="text-white">Posted at {{ad_time}}</small></p>
         </div>
         <div class="center">
-          <img src="..." class="card-img-bottom" alt="...">
+          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-bottom" alt="...">
         </div>
       </div>
 
@@ -121,31 +121,31 @@
         </ul>
         {% endifequal %}
       </div>
-        <div class="card">
-          <div class="card-header">
-            <h4>Description :<h4>
-          </div>
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>{{description}}</p>
-              <footer class="blockquote-footer">from Seller</footer>
-            </blockquote>
-          </div>
+      <div class="card">
+        <div class="card-header">
+          <h4>Description :<h4>
         </div>
-        <br />
-        <br />
-        <div class="card text-center">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center">Ad Given By : <h2><span
-                  class="badge badge-info"> {{fullname}} </span></h2>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">Seller Contact No :<h2><span
-                  class="badge badge-info"> {{contact_no}} </span></h2>
-            </li>
-            <!-- <li class="list-group-item">Payment System : {{payment_system}}</li> -->
-          </ul>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>{{description}}</p>
+            <footer class="blockquote-footer">from Seller</footer>
+          </blockquote>
         </div>
-      
+      </div>
+      <br />
+      <br />
+      <div class="card text-center">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Ad Given By : <h2><span
+                class="badge badge-info"> {{fullname}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Seller Contact No :<h2><span
+                class="badge badge-info"> {{contact_no}} </span></h2>
+          </li>
+          <!-- <li class="list-group-item">Payment System : {{payment_system}}</li> -->
+        </ul>
+      </div>
+
       </h5>
 
 
@@ -153,13 +153,148 @@
       <br><br>
 
 
-      
-      <h3><b>Similar Products</b></h3>
+
+      <!-- Simillar Product Showing Kawshik Start-->
+
+      <h3><b>Similar Products</b></h3><br>
+
       <div class='container'>
+
+        <div class="row row-cols-1 row-cols-md-3">
+
+          {% ifequal id 1 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100 text-white" style="max-width: 1000rem; background-color:#1F618D  ;">
+                {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                  <p class="card-text">
+                    {{product.scat}}<br />{{product.scond}}<br />TK.
+                    {{product.sprice}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 2 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                  <p class="card-text">{{product.sp_type}}<br />TK. {{product.sprice}}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 3 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                  <p class="card-text">
+                    {{product.sgenre}}<br />{{product.scondition}}<br />TK. {{product.sprice}}
+                  </p>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 4 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                    <p class="card-text">{{product.s_title}}<br />TK. {{product.sprice}}</p>
+                  </p>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 5 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                    <p class="card-text">
+                      {{product.st_gender}}<br />{{product.sedu_level}}<br />TK.
+                      {{product.sprice}}
+                    </p>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+        </div>
+      </div>
+
+<!-- Simillar Product Showing Kawshik End-->
+
+
+
+<!-- Simillar Product By Maisha Start (Temporarily Unused)-->
+
+      <!-- <div class='container'>
         {% ifequal id 1 %}
         {% if similar %}
         {% for product in similar %}
-        <a href="/productSection/1/{{product.spr_id}}">
+        <a href="/productSection/1/product_id-{{product.spr_id}}">
           <div class="card text-right" style="width: 18rem">
             <img src="..." class="card-img-left" alt="..." />
             <div class="card-body">
@@ -176,8 +311,12 @@
         <h5>no similar products</h5>
         {% endif %}
         {% endifequal %}
-        {% ifequal id 2 %} {% if similar %} {% for product in similar %}
-        <a href="/productSection/2/{{product.sprid}}">
+
+
+        {% ifequal id 2 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/2/product_id-{{product.sprid}}">
           <div class="card text-right" style="width: 18rem">
             <img src="..." class="card-img-left" alt="..." />
             <div class="card-body">
@@ -186,11 +325,17 @@
             </div>
           </div>
         </a>
-        {% endfor %} {% else %}
+        {% endfor %} 
+        {% else %}
         <h5>no similar products</h5>
-        {% endif %} {% endifequal %}
-        {% ifequal id 3 %} {% if similar %} {% for product in similar %}
-        <a href="/productSection/3/{{product.sprid}}">
+        {% endif %} 
+        {% endifequal %}
+
+
+        {% ifequal id 3 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/3/product_id-{{product.sprid}}">
           <div class="card text-right" style="width: 18rem">
             <img src="..." class="card-img-left" alt="..." />
             <div class="card-body">
@@ -201,11 +346,18 @@
             </div>
           </div>
         </a>
-        {% endfor %} {% else %}
+        {% endfor %} 
+        {% else %}
         <h5>no similar products</h5>
-        {% endif %} {% endifequal %}
-        {% ifequal id 4 %} {% if similar %} {% for product in similar %}
-        <a href="/productSection/4/{{product.sprid}}">
+        {% endif %} 
+        {% endifequal %}
+
+
+
+        {% ifequal id 4 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/4/product_id-{{product.sprid}}">
           <div class="card text-right" style="width: 18rem">
             <img src="..." class="card-img-left" alt="..." />
             <div class="card-body">
@@ -214,11 +366,18 @@
             </div>
           </div>
         </a>
-        {% endfor %} {% else %}
+        {% endfor %} 
+        {% else %}
         <h5>no similar products</h5>
-        {% endif %} {% endifequal %}
-        {% ifequal id 5 %} {% if similar %} {% for product in similar %}
-        <a href="/productSection/5/{{product.sprid}}">
+        {% endif %} 
+        {% endifequal %}
+
+
+
+        {% ifequal id 5 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/5/product_id-{{product.sprid}}">
           <div class="card text-right" style="width: 18rem">
             <img src="..." class="card-img-left" alt="..." />
             <div class="card-body">
@@ -230,11 +389,19 @@
             </div>
           </div>
         </a>
-        {% endfor %} {% else %}
+        {% endfor %} 
+        {% else %}
         <h5>no similar products</h5>
-        {% endif %} {% endifequal %}
-      </div>
+        {% endif %} 
+        {% endifequal %}
+
+      </div> -->
+
+<!-- Simillar Product By Maisha End -->
+
     </div>
   </div>
 </div>
+
+
 {% endblock body %}
