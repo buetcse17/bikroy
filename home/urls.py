@@ -29,6 +29,11 @@ urlpatterns = [
     #profile
     path('profile/addEdu/', views.addEdu, name='addEdu'),
     path('profile/addWork/', views.addWork, name='addWork'),
+    path('profile/deleteEdu/<slug:institution_id>/', views.deleteEdu, name='deleteEdu'),
+    path('profile/changeEdu/<slug:institution_id>/', views.editEdu, name='editEdu'),
+    path('profile/deleteWork/<slug:organization_id>/', views.deleteWork, name='deleteWork'),
+    path('profile/changeWork/<slug:organization_id>/', views.editWork, name='editWork'),
+
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
 

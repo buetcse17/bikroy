@@ -493,7 +493,7 @@ def profile(request):
     
     #test
     sql="""
-    select first_name||' '||last_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE 
+    select first_name||' '||last_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE,email 
     from PROFILE p,ACCOUNT ac,LOCATION l 
     where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:user1
     """
@@ -507,6 +507,7 @@ def profile(request):
         dob=r[2]
         phn=r[3]
         pro_pic=r[4]
+        eml=r[5]
     sql="""select DIVISION,DISTRICT,THANA from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:u
     """
     c.execute(sql,{'u':username})
@@ -557,6 +558,7 @@ def profile(request):
         org_id=r[5]
         row={'organization_id':org_id,'organization_name':org,'organization_type':org_typ,'position':pos,'wstart_date':wstrt,'wend_date':wend}
         past_works.append(row)
+    print(past_works)
     sql="""select ORGANIZATION_NAME,ORGANIZATION_TYPE,POSITION,START_DATE,o.organization_id from ORGANIZATION o, PROFILE p,WORK_HISTORY work,ACCOUNT ac where ac.PROFILE_NO=p.PROFILE_NO and work.ORGANIZATION_ID=o.ORGANIZATION_ID and work.PROFILE_NO=p.PROFILE_NO and END_DATE is null and username=:u
     
     """
@@ -573,7 +575,7 @@ def profile(request):
         cpos=r[2]
         cwstrt=r[3]
         corg_id=r[4]
-    params={'full_name':fname,'phone_no':phn,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
+    params={'full_name':fname,'phone_no':phn,'email':eml,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
     conn.close()
     return render(request, 'home/profile.html', params)
 
@@ -645,4 +647,65 @@ def addWork(request):
         #mark
     # profile(request)
     return redirect("profile")
+
+def deleteEdu(request,institution_id):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    sql="""delete from EDUCATION_HISTORY where INSTITUTION_ID=:inst_id and PROFILE_NO=GETPROFILE(:u)
+    """
+    c.execute(sql,{'inst_id':institution_id,'u':userName})
+    conn.commit()
+    conn.close()
+    return redirect("profile")
+
+def editEdu(request,institution_id):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if request.method=="POST":
+        faculty=request.POST['editFaculty']
+        start_date=request.POST['editStartDate']
+        end_date=request.POST['editEndDate']
+        sql="""update EDUCATION_HISTORY set faculty=:f,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd'),END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and INSTITUTION_ID=:inst_id
+        """
+        c.execute(sql,{'f':faculty,'st_date':start_date,'end_date':end_date,'u':userName,'inst_id':institution_id})
+        conn.commit()
+        conn.close()
+    return redirect("profile")
+
+def deleteWork(request,organization_id):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    sql="""delete from WORK_HISTORY where organization_ID=:org_id and PROFILE_NO=GETPROFILE(:u)
+    """
+    c.execute(sql,{'org_id':organization_id,'u':userName})
+    conn.commit()
+    conn.close()
+    return redirect("profile")
+
+def editWork(request,organization_id):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if request.method=="POST":
+        position=request.POST['editPosition']
+        wstart_date=request.POST['editWorkStartDate']
+        wend_date=request.POST['editWorkEndDate']
+        sql="""update work_HISTORY set position=:p,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd'),END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and organization_ID=:org_id
+        """
+        c.execute(sql,{'p':position,'st_date':wstart_date,'end_date':wend_date,'u':userName,'org_id':organization_id})
+        conn.commit()
+        conn.close()
+    return redirect("profile")
+
+
+
+
+
        

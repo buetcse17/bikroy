@@ -7,6 +7,7 @@
 <div class='container'>
 <!--propic and button pore add kora lagbe-->
 <p><b>Name: </b>{{full_name}}<br>
+<p><b>Email: </b>{{email}}<br>
 <b>Gender : </b>{{gender}}<br>
 <b>Date of Birth : </b>{{date_of_birth}}<br>
 <b>Contact no : </b>{{phone_no}}<br>
@@ -16,15 +17,75 @@
 {% if past_edus %}
 <div class='container'>
 {% for e in past_edus %}
-studied {{e.institution_name}} in {{e.faculty}} Department from {{e.start_date}} to {{e.end_date}}<br>
+studied {{e.institution_name}} in {{e.faculty}} Faculty from {{e.start_date}} to {{e.end_date}}<br>
 <br>
 <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editEdu{{e.institution_id}}">
   Edit
-  </button>     
+  </button> 
+<!---editEdu modal begins-->
+<div class="modal fade" id="editEdu{{e.institution_id}}" tabindex="-1" aria-labelledby="editEdu{{e.institution_id}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEdu{{e.institution_id}}Title">Edit Education History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a class="btn btn-primary" href="/profile/deleteEdu/{{e.institution_id}}/" role="button">Delete</a>
+        <form action="/profile/changeEdu/{{e.institution_id}}/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticfaculty" class="sr-only">Faculty</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticfaculty" value="Faculty : {{e.faculty}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editFaculty" class="sr-only">Edit Faculty</label>
+    <input type="text" class="form-control" name='editFaculty' id="editFaculty" placeholder="Edit Faculty">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="staticStartDate" class="sr-only">Start Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticStartDate" value="Start Date : {{e.start_date}} ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editStartDate" class="sr-only">Edit Start Date</label>
+    <input type="date" class="form-control" name='editStartDate' id="editStartDate" placeholder="Edit Start Date">
+  </div>
+
+<div class="form-group mb-2">
+    <label for="staticEndDate" class="sr-only">End Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticEndDate" value="End Date : {{e.end_date}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editEndDate" class="sr-only">Edit End Date</label>
+    <input type="date" class="form-control" name='editEndDate' id="editEndDate" placeholder="Edit End Date">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--edit edu modal ending -->
+  <br>    
 {% endfor %}{% endif %}
 {%if curr_inst_name%}
 studies {{curr_inst_name}} in {{curr_faculty}} from {{curr_start_date}}
 </div>
+<br>
+<button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editEdu{{curr_inst_id}}">
+  Edit
+  </button> 
+  <br>
 {%endif%}
 <br>
 <div class='container'>
@@ -38,14 +99,78 @@ studies {{curr_inst_name}} in {{curr_faculty}} from {{curr_start_date}}
 <div class='container'>
 <b>Work Histroy : </b>
 <div class='container'>
-{% if past_jobs %}
+{% if past_works %}
 <div class='container'>
 {% for e in past_works %}
-Worked {{e.org_name}} as {{e.position}} from {{e.wstart_date}} to {{e.wend_date}}<br>      
+Worked {{e.organization_name}} as {{e.position}} from {{e.wstart_date}} to {{e.wend_date}}<br>
+<br>
+<button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editWork{{e.organization_id}}">
+  Edit
+  </button> 
+<!--edit work history modal begins-->
+<div class="modal fade" id="editWork{{e.organization_id}}" tabindex="-1" aria-labelledby="editWork{{e.organization_id}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editWork{{e.organization_id}}Title">Edit Work History</h5
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a class="btn btn-primary" href="/profile/deleteWork/{{e.organization_id}}/" role="button">Delete</a>
+        <form action="/profile/changeWork/{{e.organization_id}}/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticPosition" class="sr-only">Position</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticPosition" value="Position : {{e.position}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editPosition" class="sr-only">Edit Position</label>
+    <input type="text" class="form-control" name='editPosition' id="editPosition" placeholder="Edit Position">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="staticWorkStartDate" class="sr-only">Start Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticWorkStartDate" value="Work Start Date : {{e.wstart_date}} ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editWorkStartDate" class="sr-only">Edit Start Date</label>
+    <input type="date" class="form-control" name='editWorkStartDate' id="editWorkStartDate" placeholder="Edit Start Date">
+  </div>
+
+<div class="form-group mb-2">
+    <label for="staticWorkEndDate" class="sr-only">End Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticWorkEndDate" value="End Date : {{e.wend_date}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editWorkEndDate" class="sr-only">Edit End Date</label>
+    <input type="date" class="form-control" name='editWorkEndDate' id="editWorkEndDate" placeholder="Edit End Date">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+<!--edit work modal ending -->
 {% endfor %}{% endif %}
 {%if curr_org_name%}
 works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
 </div>
+<br>
+<button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editWork{{curr_org_id}}">
+  Edit
+  </button> 
+  <br>
 {%endif%}
 <br>
 <div class='container'>
@@ -169,22 +294,51 @@ works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
     </div>
   </div>
 </div>
-<!---editEdu-->
-<div class="modal fade" id="editEdu{{e.institution_id}}" tabindex="-1" aria-labelledby="editEdu{{e.institution_id}}" aria-hidden="true">
+  <!---edit Current Edu modal begins-->
+<div class="modal fade" id="editEdu{{curr_inst_id}}" tabindex="-1" aria-labelledby="editEdu{{curr_inst_id}}" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">editEdu
+    <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editEdu{{e.institution_id}}Title">Edit New Education History</h5>
+        <h5 class="modal-title" id="editEdu{{curr_inst_id}}Title">Edit Education History</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        
-        <form action="/profile/editEdu{{e.institution_id}}/" method="post">
+        <a class="btn btn-primary" href="/profile/deleteEdu/{{curr_inst_id}}/" role="button">Delete</a>
+        <form action="/profile/changeEdu/{{curr_inst_id}}/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticfaculty" class="sr-only">Faculty</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticfaculty" value="Faculty : {{curr_faculty}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editFaculty" class="sr-only">Edit Faculty</label>
+    <input type="text" class="form-control" name='editFaculty' id="editFaculty" placeholder="Edit Faculty">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="staticStartDate" class="sr-only">Start Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticStartDate" value="Start Date : {{curr_start_date}} ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editStartDate" class="sr-only">Edit Start Date</label>
+    <input type="date" class="form-control" name='editStartDate' id="editStartDate" placeholder="Edit Start DAte">
+  </div>
+
+<div class="form-group mb-2">
+    <label for="staticEndDate" class="sr-only">End Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticEndDate" value=" Add End Date ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editEndDate" class="sr-only">Add End Date</label>
+    <input type="date" class="form-control" name='editEndDate' id="editEndDate" placeholder="Edit End DAte">
+  </div>
+  <!--form shesh-->
           <div>
           {% csrf_token %}
-          <button type="submit" class="btn btn-primary">ADD</button>
+          <button type="submit" class="btn btn-primary">Update</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -193,6 +347,62 @@ works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
   </div>
 </div>
 </div>
+<!--edit edu modal ending -->
+
+<!--edit work history modal begins-->
+<div class="modal fade" id="editWork{{curr_org_id}}" tabindex="-1" aria-labelledby="editWork{{curr_org_id}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editWork{{curr_org_id}}Title">Edit Work History</h5
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a class="btn btn-primary" href="/profile/deleteWork/{{curr_org_id}}/" role="button">Delete</a>
+        <form action="/profile/changeWork/{{curr_org_id}}/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticPosition" class="sr-only">Position</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticPosition" value="Position : {{curr_position}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editPosition" class="sr-only">Edit Position</label>
+    <input type="text" class="form-control" name='editPosition' id="editPosition" placeholder="Edit Position">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="staticWorkStartDate" class="sr-only">Start Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticWorkStartDate" value="Work Start Date : {{curr_wstart_date}} ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editWorkStartDate" class="sr-only">Edit Start Date</label>
+    <input type="date" class="form-control" name='editWorkStartDate' id="editWorkStartDate" placeholder="Edit Start Date">
+  </div>
+
+<div class="form-group mb-2">
+    <label for="staticWorkEndDate" class="sr-only">End Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticWorkEndDate" value=" Add Work End Date ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editWorkEndDate" class="sr-only">Edit End Date</label>
+    <input type="date" class="form-control" name='editWorkEndDate' id="editWorkEndDate" placeholder="Add End Date">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--edit work modal ending -->
 {% endblock body %}
 
 
