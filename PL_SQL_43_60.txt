@@ -23,3 +23,64 @@ return 'no data found';
 when others then
 return 'unkonwn error';
 end;
+
+
+
+-----password hashing------
+-----when inserting or updating password----
+CREATE OR REPLACE TRIGGER PASSWORD_HASH
+BEFORE INSERT OR UPDATE
+--OF PASSWORD
+ON ACCOUNT
+FOR EACH ROW
+
+DECLARE
+	HASHED_PASS VARCHAR2(30);
+	TEMP VARCHAR2(30);
+	
+BEGIN
+	TEMP := :NEW.PASSWORD;
+	SELECT ORA_HASH(TEMP) INTO HASHED_PASS FROM DUAL;
+	dbms_output.put_line(HASHED_PASS);
+	:NEW.PASSWORD := HASHED_PASS;
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+----------------------------------------------------------
+
+
+---------CHAT_ID creating----------
+CREATE SEQUENCE CHAT_SEQUENCE
+
+
+
+--------Welcome Message from bikroy admin to user after sign up-------
+CREATE OR REPLACE TRIGGER WELCOME_MSG
+AFTER INSERT
+ON ACCOUNT
+FOR EACH ROW
+
+DECLARE
+	MSG_TO VARCHAR2(20);
+BEGIN
+	MSG_TO := :NEW.USERNAME; 
+	INSERT INTO chat 
+	VALUES(CHAT_SEQUENCE.NEXTVAL, 'Dear '||MSG_TO||', Welcome to BIKROY.COM, Thank you for your subsciption to our website. Enjoy buying and selling with us. You will get notified with this thread while necessary. Have a good day!', SYSDATE,  'bikroy', MSG_TO, '1');
+	dbms_output.put_line('USER IS WELCOMED');
+
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+-------------------------------------------------------------
