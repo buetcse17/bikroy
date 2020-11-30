@@ -180,6 +180,7 @@ works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
         </button>
       </div>
       <div class="modal-body">
+        
         <form action="/profile/editEdu{{e.institution_id}}/" method="post">
           <div>
           {% csrf_token %}
