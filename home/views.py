@@ -28,9 +28,6 @@ def contact(request):
         print(name, email, phone, content)
     return render(request, 'home/contact.html', params)
 
-def profile(request):
-    return render(request, 'home/profile.html', params)
-
 def signup(request):
     if request.method == 'POST':
 
@@ -54,18 +51,13 @@ def signup(request):
 
 
         # education history
-        institution_name = request.POST['institutionName']
-        faculty = request.POST['faculty']
-        start_study = request.POST['institutionStart']
-        end_study = request.POST['institutionEnd']
-        result = request.POST['institutionResult']
 
         #work history
-        organization_name = request.POST['organizationName']
-        position = request.POST['organizationPosition']
-        start_work = request.POST['organizationStart']
-        end_work = request.POST['organizationEnd']
-        salary = request.POST['organizationSalary']
+        #organization_name = request.POST['organizationName']
+        #position = request.POST['organizationPosition']
+        #start_work = request.POST['organizationStart']
+        #end_work = request.POST['organizationEnd']
+        #salary = request.POST['organizationSalary']
 
         #location
         userDivision = request.POST['userDivision']
@@ -107,10 +99,10 @@ def signup(request):
         sql = "INSERT INTO account VALUES('"+ username+"','"+ email+"','"+ password+"','"+ profile_no+"')"
         c.execute(sql)
         conn.commit()
-
+       
         conn.close()
 
-
+         
         # myuser = User.objects.create_user(username, email, password)
         # myuser.first_name = first_name 
         # myuser.last_name = last_name
@@ -412,13 +404,15 @@ def Productapproval(request,id,update_status):
     conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
     c=conn.cursor()
     if update_status=='updated':
-       if request.method == 'POST':
-           adv_ids=request.POST.getlist('approvals') 
-       for ad in adv_ids:
-           adv_id=ad[0]
-           c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
-           conn.commit()
+        if request.method == 'POST':
+            adv_ids=request.POST.getlist('approvals')
+            print(adv_ids) 
+            for ad in adv_ids:
+                adv_id=ad[0]
+                c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=ad)
+                conn.commit()
     dict_result=[]
+    result=[]
     if id==1:
         sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,DEVICES d where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=d.PRODUCT_ID"''
         c.execute(sql)
@@ -455,19 +449,21 @@ def Productapproval(request,id,update_status):
             row={'advertisement_id':ad_id,'username':name,'contact_no':contact_no,'product_name':prod_name,'price':price,'payment_amount':payment,'payment_system':payment_system,'transaction':trans}
             dict_result.append(row)
     params={'products':dict_result,'id':id}
+    conn.close()
     return render(request,'home/ProductApproval.html',params)
 def Jobapproval(request,update_status):
     dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
     conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
     c=conn.cursor()
     if update_status=='updated':
-       if request.method == 'POST':
-           adv_ids=request.POST.getlist('approvals') 
-       for ad in adv_ids:
-           adv_id=ad[0]
-           c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
-           conn.commit()
+        if request.method == 'POST':
+            adv_ids=request.POST.getlist('approvals') 
+            for ad in adv_ids:
+                adv_id=ad[0]
+                c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
+                conn.commit()
     dict_result=[]
+    result=[]
     sql="""SELECT ad.ADVERTISEMENT_ID,USERNAME,DESIGNATION,SALARY,PAYMENT_AMOUNT,PAYMENT_SYSTEM,TRANSACTION from ADVERTISEMENT ad, job j where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending'""" 
     c.execute(sql)
     result=c.fetchall()        
@@ -482,4 +478,171 @@ def Jobapproval(request,update_status):
             row={'advertisement_id':ad_id,'username':name,'designation':desig,'salary':sal,'payment_amount':payment,'payment_system':payment_system,'transaction':trans}
             dict_result.append(row)
     params={'jobs':dict_result}
+    conn.close()
     return render(request,'home/JobApproval.html',params)
+
+def profile(request):
+    username=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    dict_result=[]
+    result=[]
+    username=request.session['username']
+    #sql='"select first_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE,last_name from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME="'+username+'""'
+    
+    #test
+    sql="""
+    select first_name||' '||last_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE 
+    from PROFILE p,ACCOUNT ac,LOCATION l 
+    where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:user1
+    """
+    #test
+    
+    c.execute(sql, {'user1':username})
+    result=c.fetchall()
+    for r in result:
+        fname=r[0]
+        gender=r[1]
+        dob=r[2]
+        phn=r[3]
+        pro_pic=r[4]
+    sql="""select DIVISION,DISTRICT,THANA from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:u
+    """
+    c.execute(sql,{'u':username})
+    result=c.fetchall()
+    for r in result:
+        div=r[0]
+        dist=r[1]
+        thana=r[2]
+    sql="""select INSTITUTION_NAME,INSTITUTION_TYPE,FACULTY,START_DATE,END_DATE,i.institution_id from INSTITUTION i, PROFILE p,EDUCATION_HISTORY edu,ACCOUNT ac where ac.PROFILE_NO=p.PROFILE_NO and edu.INSTITUTION_ID=i.INSTITUTION_ID and edu.PROFILE_NO=p.PROFILE_NO and END_DATE is not null and username=:u
+    """
+    c.execute(sql,{'u':username})
+    result=c.fetchall()
+    for r in result:
+        inst=r[0]
+        inst_typ=r[1]
+        fac=r[2]
+        strt=r[3]
+        end=r[4]
+        inst_id=r[5]
+        row={'institution_id':inst_id,'institution_name':inst,'institution_type':inst_typ,'faculty':fac,'start_date':strt,'end_date':end}
+        dict_result.append(row)
+    sql="""select INSTITUTION_NAME,INSTITUTION_TYPE,FACULTY,START_DATE,i.institution_id from INSTITUTION i, PROFILE p,EDUCATION_HISTORY edu,ACCOUNT ac where ac.PROFILE_NO=p.PROFILE_NO and edu.INSTITUTION_ID=i.INSTITUTION_ID and edu.PROFILE_NO=p.PROFILE_NO and END_DATE is null and username=:u
+    """
+    c.execute(sql,{'u':username})
+    result=c.fetchall()
+    cinst=''
+    cinst_typ=''
+    cfac=''
+    cstrt=''
+    cinst_id=''
+    for r in result:
+        cinst=r[0]
+        cinst_typ=r[1]
+        cfac=r[2]
+        cstrt=r[3]
+        cinst_id=r[4]
+    past_works=[]
+    sql="""select ORGANIZATION_NAME,ORGANIZATION_TYPE,POSITION,START_DATE,END_DATE,o.organization_id from ORGANIZATION o, PROFILE p,WORK_HISTORY work,ACCOUNT ac where ac.PROFILE_NO=p.PROFILE_NO and work.ORGANIZATION_ID=o.ORGANIZATION_ID and work.PROFILE_NO=p.PROFILE_NO and END_DATE is not null and username=:u
+    """
+    c.execute(sql,{'u':username})
+    result=c.fetchall()
+    for r in result:
+        org=r[0]
+        org_typ=r[1]
+        pos=r[2]
+        wstrt=r[3]
+        wend=r[4]
+        org_id=r[5]
+        row={'organization_id':org_id,'organization_name':org,'organization_type':org_typ,'position':pos,'wstart_date':wstrt,'wend_date':wend}
+        past_works.append(row)
+    sql="""select ORGANIZATION_NAME,ORGANIZATION_TYPE,POSITION,START_DATE,o.organization_id from ORGANIZATION o, PROFILE p,WORK_HISTORY work,ACCOUNT ac where ac.PROFILE_NO=p.PROFILE_NO and work.ORGANIZATION_ID=o.ORGANIZATION_ID and work.PROFILE_NO=p.PROFILE_NO and END_DATE is null and username=:u
+    
+    """
+    c.execute(sql,{'u':username})
+    result=c.fetchall()
+    corg=''
+    corg_typ=''
+    cpos=''
+    cwstrt=''
+    corg_id=''
+    for r in result:
+        corg=r[0]
+        corg_typ=r[1]
+        cpos=r[2]
+        cwstrt=r[3]
+        corg_id=r[4]
+    params={'full_name':fname,'phone_no':phn,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
+    conn.close()
+    return render(request, 'home/profile.html', params)
+
+def addEdu(request):
+    if request.method=='POST':
+        institution_id = request.POST['Institution_id']
+        institution_type = request.POST['InstitutionType']
+        institution_name = request.POST['institutionName']
+        faculty = request.POST['faculty']
+        start_study =str(request.POST['institutionStart'])
+        end_study = str(request.POST['institutionEnd'])
+        institution_result = request.POST['institutionResult']
+        UserName=request.session['username']
+
+        #printdata run kor toh
+        #print(type(start_study), end_study)
+        #printdata
+
+        dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+        conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+        c=conn.cursor()
+        sql="""select INSTITUTION_id from INSTITUTION where INSTITUTION_id=:instid
+        """
+        c.execute(sql,{'instid':institution_id})
+        result=c.fetchall()
+        if len(result)==0:
+            sql="""INSERT into INSTITUTION values(:instid,:name,:typ,getloc(:u))
+            """
+            c.execute(sql,{'instid':institution_id,'name':institution_name,'typ':institution_type,'u':UserName})
+        sql="""insert into  EDUCATION_HISTORY values(getProfile(:u),:inst,:fac,to_date(:strt,'yyyy-mm-dd'),to_date(:endedu,'yyyy-mm-dd'),:res)
+        """
+        c.execute(sql,{'inst':institution_id,'fac':faculty,'strt':str(start_study),'endedu':str(end_study),'res':institution_result,'u':UserName})
+        conn.commit()
+        conn.close()
+        #mark
+    # profile(request)
+    return redirect("profile")
+
+def addWork(request):
+    if request.method=='POST':
+        organization_id = request.POST['Organization_id']
+        organization_type = request.POST['organizationType']
+        organization_name = request.POST['organizationName']
+        position = request.POST['organizationPosition']
+        start_work = request.POST['organizationStart']
+        end_work = request.POST['organizationEnd']
+        salary = request.POST['organizationSalary']
+        UserName=request.session['username']
+        #printdata run kor toh
+        #print(type(start_study), end_study)
+        #printdata
+
+        dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+        conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+        c=conn.cursor()
+        sql="""select organization_id from organization where organization_id=:orgid
+        """
+        c.execute(sql,{'orgid':organization_id})
+        result=c.fetchall()
+        if len(result)==0:
+            sql="""INSERT into organization values(:orgid,:name,:typ,getloc(:u))
+            """
+            c.execute(sql,{'orgid':organization_id,'name':organization_name,'typ':organization_type,'u':UserName})
+        sql="""insert into  Work_HISTORY values(getProfile(:u),:org,:pos,to_date(:strt,'yyyy-mm-dd'),to_date(:end,'yyyy-mm-dd'),:sal)
+        """
+        c.execute(sql,{'org':organization_id,'pos':position,'strt':str(start_work),'end':str(end_work),'sal':salary,'u':UserName})
+        conn.commit()
+        conn.close()
+        #mark
+    # profile(request)
+    return redirect("profile")
+       

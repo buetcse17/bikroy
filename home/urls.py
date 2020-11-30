@@ -12,7 +12,7 @@ urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('login', views.handleLogin, name='handleLogin'),
     path('logout/', views.handleLogout, name='handleLogout'),
-    path('profile', views.profile, name='profile'),
+    path('profile/', views.profile, name='profile'),
 
 
     # Ad related
@@ -24,10 +24,11 @@ urlpatterns = [
 
     # admin
     path('approve/',views.approval, name='approve'),
-    path('approveProduct/<slug:update_status>/<int:id>/',views.Productapproval, name='approveProduct'),
-     path('approveJob/<slug:update_status>/',views.Jobapproval, name='approveProduct'),
-    
-
+    path('admin/approveProduct/<slug:update_status>/<int:id>/',views.Productapproval, name='approveProduct'),
+    path('admin/approveJob/<slug:update_status>/',views.Jobapproval, name='approveProduct'),
+    #profile
+    path('profile/addEdu/', views.addEdu, name='addEdu'),
+    path('profile/addWork/', views.addWork, name='addWork'),
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
 

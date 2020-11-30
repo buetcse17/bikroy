@@ -71,7 +71,7 @@
           <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button" data-toggle="dropdown"> Welcome
             {{request.session.username}}</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/profile">Profile</a>
+            <a class="dropdown-item" href="/profile/">Profile</a>
             <a class="dropdown-item" href="/logout">Logout</a>
           </div>
         </li>
@@ -163,54 +163,6 @@
               <input type="tel" class="form-control" id="phoneNo" name="phoneNo" placeholder="">
             </div>
             <div>
-              <h3>Your Education Details</h3>
-            </div>
-            <div class="form-group">
-              <label for="institutionName">Institution Name</label>
-              <input type="text" class="form-control" id="institutionName" name="institutionName" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="faculty">Faculty of Education</label>
-              <input type="text" class="form-control" id="faculty" name="faculty" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="institutionStart">Start Study</label>
-              <input type="date" class="form-control" id="institutionStart" name="institutionStart" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="institutionEnd">End Study</label>
-              <input type="date" class="form-control" id="institutionEnd" name="institutionEnd" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="institutionResult">Institution Result</label>
-              <input type="text" class="form-control" id="institutionResult" name="institutionResult" placeholder="">
-            </div>
-            <div>
-              <h3>Your Work Details</h3>
-            </div>
-            <div class="form-group">
-              <label for="organizationName">Current Job Organization Name</label>
-              <input type="text" class="form-control" id="organizationName" name="organizationName" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="organizationStart">Start Work</label>
-              <input type="date" class="form-control" id="organizationStart" name="organizationStart" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="organizationEnd">End Work</label>
-              <input type="date" class="form-control" id="organizationEnd" name="organizationEnd" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="organizationPosition">Organization Position (Designation)</label>
-              <input type="text" class="form-control" id="organizationPosition" name="organizationPosition"
-                placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="organizationSalary">Organization Salary</label>
-              <input type="number" step="0.01" class="form-control" id="organizationSalary" name="organizationSalary"
-                placeholder="">
-            </div>
-            <div>
               <h3>Your Location Details</h3>
             </div>
             <div class="form-group">
@@ -229,11 +181,7 @@
               <label for="userZip">Zip Code</label>
               <input type="number" class="form-control" id="userZip" name="userZip" placeholder="">
             </div>
-
-
-
-
-            {% csrf_token %}
+           {% csrf_token %}
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
@@ -241,7 +189,8 @@
         </div>
       </div>
     </div>
-  </div>
+ 
+  </div> </div>
 
 
 
