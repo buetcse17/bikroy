@@ -2,6 +2,197 @@
 {% block title %} Profile
 {% endblock title%}
 {% block body %}
-This is user profile
+<h3><b>{{request.session.username}}</b></h3><br>
+<h5>
+<div class='container'>
+<!--propic and button pore add kora lagbe-->
+<p><b>Name: </b>{{full_name}}<br>
+<b>Gender : </b>{{gender}}<br>
+<b>Date of Birth : </b>{{date_of_birth}}<br>
+<b>Contact no : </b>{{phone_no}}<br>
+<b>Location : </b>{{thana}} {{district}},{{division}}<br>
+<b>Education History : </b>
+<div class='container'>
+{% if past_edus %}
+<div class='container'>
+{% for e in past_edus %}
+studied {{e.institution_name}} in {{e.faculty}} Department from {{e.start_date}} to {{e.end_date}}<br>
+<br>
+<button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editEdu{{e.institution_id}}">
+  Edit
+  </button>     
+{% endfor %}{% endif %}
+{%if curr_inst_name%}
+studies {{curr_inst_name}} in {{curr_faculty}} from {{curr_start_date}}
+</div>
+{%endif%}
+<br>
+<div class='container'>
+<button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#addEdu">
+    ADD Education 
+    </button>
+</div>
+</div>
+<br>
+</div>
+<div class='container'>
+<b>Work Histroy : </b>
+<div class='container'>
+{% if past_jobs %}
+<div class='container'>
+{% for e in past_works %}
+Worked {{e.org_name}} as {{e.position}} from {{e.wstart_date}} to {{e.wend_date}}<br>      
+{% endfor %}{% endif %}
+{%if curr_org_name%}
+works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
+</div>
+{%endif%}
+<br>
+<div class='container'>
+<button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#addWork">
+    ADD Work
+    </button>
+    </div>
+</div>
+</p>
+</div>
+<div>
+</h5>
+<!--add education modal-->
+<div class="modal fade" id="addEdu" tabindex="-1" aria-labelledby="addEdu" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addEduTitle">Add a New Education History</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/profile/addEdu/" method="post">
+            <div class="form-group">
+              <label for="Institution_id">Institution ID</label>
+              <input type="text" class="form-control" id="Institution_id" name="Institution_id"
+                placeholder="Enter your Institution ID">
+            </div>
+             <div class="form-group">
+              <label for="institutionName">Institution Name</label>
+              <input type="text" class="form-control" id="institutionName" name="institutionName" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="InstitutionType">Institution type</label>
+              <input type="text" class="form-control" id="InstitutionType" name="InstitutionType"
+                placeholder="Enter your Institution type">
+            </div>
+            
+            <div class="form-group">
+              <label for="faculty">Faculty of Education</label>
+              <input type="text" class="form-control" id="faculty" name="faculty" placeholder="Your Faculty">
+            </div>
+            <div class="form-group">
+              <label for="institutionStart">Start Study</label>
+              <input type="date" class="form-control" id="institutionStart" name="institutionStart" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="institutionEnd">End Study</label>
+              <input type="date" class="form-control" id="institutionEnd" name="institutionEnd" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="institutionResult">Institution Result</label>
+              <input type="text" class="form-control" id="institutionResult" name="institutionResult" placeholder="">
+            </div>
+            <div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">ADD</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--add work modal-->
+    <div class="modal fade" id="addWork" tabindex="-1" aria-labelledby="addWork" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title" id="addWorkTitle">Add a New Work History</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/profile/addWork/" method="post">
+         <div class="form-group">
+              <label for="Organization_id">Organization ID</label>
+              <input type="text" class="form-control" id="Organization_id" name="Organization_id"
+                placeholder="Enter your Organization ID">
+            </div>
+                       
+         <div class="form-group">
+              <label for="organizationName">Current Job Organization Name</label>
+              <input type="text" class="form-control" id="organizationName" name="organizationName" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="organizationType">Organization type</label>
+              <input type="text" class="form-control" id="organizationType" name="organizationType"
+                placeholder="Enter your Organization type">
+            </div>
+ 
+            <div class="form-group">
+              <label for="organizationStart">Start Work</label>
+              <input type="date" class="form-control" id="organizationStart" name="organizationStart" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="organizationEnd">End Work</label>
+              <input type="date" class="form-control" id="organizationEnd" name="organizationEnd" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="organizationPosition">Organization Position (Designation)</label>
+              <input type="text" class="form-control" id="organizationPosition" name="organizationPosition"
+                placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="organizationSalary">Organization Salary</label>
+              <input type="number" step="0.01" class="form-control" id="organizationSalary" name="organizationSalary"
+                placeholder="">
+            </div>
+            <div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">ADD</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!---editEdu-->
+<div class="modal fade" id="editEdu{{e.institution_id}}" tabindex="-1" aria-labelledby="editEdu{{e.institution_id}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">editEdu
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEdu{{e.institution_id}}Title">Edit New Education History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/profile/editEdu{{e.institution_id}}/" method="post">
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">ADD</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock body %}
+
+
  
