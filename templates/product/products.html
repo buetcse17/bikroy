@@ -1,66 +1,126 @@
 {% extends 'base.html' %} {% block title %} products
- {% endblock title%} {%block body %}
+{% endblock title%} {%block body %}
 
-<div class="card-columns mt-100">
-  <div class="container">
-    <div class="card text-center" style="width: 18rem">
-      {% load static %} <img src= "{% static "home/device.jpg" %}"
-      class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/productSection/1/"><b>Devices</b></a>
-        <p class="card-text">
-          Find great deals for used Devices in Bangladesh including mobile
-          phones, computers, laptops, TVs, cameras and much more.
-        </p>
+<div class="row" style="background-color: #DDDDDD;">
+
+<div class="container">
+  <div class="card mx-2 my-3 text-center">
+    <h2>Choose Product Category</h2>
+  </div>
+  <div class="row row-cols-1 row-cols-md-3 mx-2 my-4 ">
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% load static %} <img src="{% static 'devices.jpg' %}"  class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/1/"><b>Devices</b></a>
+          <p class="card-text">
+            Find great deals for used Devices in Bangladesh including mobile
+            phones, computers, laptops, TVs, cameras and much more.
+          </p>
+        </div>
       </div>
     </div>
-    <div class="card text-center" style="width: 18rem">
-      <img
-        src="{% static 'home/device.jpg' %}"
-        class="card-img-top"
-        alt="..."
-      />
-      <div class="card-body">
-        <a href="/productSection/2/"><b>Pet And Animals</b></a>
-        <p class="card-text">
-          Search from the widest variety of pets in Bangladesh. Select from
-          dogs, puppies, cats, kittens, birds and other domesticated animals
-        </p>
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/2/"><b>Pet And Animals</b></a>
+          <p class="card-text">
+            Search from the widest variety of pets in Bangladesh. Select from
+            dogs, puppies, cats, kittens, birds and other domesticated animals
+          </p>
+        </div>
       </div>
     </div>
-    <div class="card text-center" style="width: 18rem">
-      <img
-        src="{% static 'home/device.jpg' %}"
-        class="card-img-top"
-        alt="..."
-      />
-      <div class="card-body">
-        <a href="/productSection/3/"><b>Book</b></a>
-        <p class="card-text">Here you can find all types of books</p>
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-top"alt="..." />
+        <div class="card-body">
+          <a href="/productSection/3/"><b>Book</b></a>
+          <p class="card-text">Here you can find all types of books</p>
+        </div>
       </div>
     </div>
-    <div class="card text-center" style="width: 18rem">
-      <img
-        src="{% static 'home/device.jpg' %}"
-        class="card-img-top"
-        alt="..."
-      />
-      <div class="card-body">
-        <a href="/productSection/4/"><b>Course</b></a>
-        <p class="card-text">Here you can find all types of Courses</p>
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/4/"><b>Course</b></a>
+          <p class="card-text">Here you can find all types of Courses</p>
+        </div>
       </div>
     </div>
-    <div class="card text-center" style="width: 18rem">
-      <img
-        src="{% static 'home/device.jpg' %}"
-        class="card-img-top"
-        alt="..."
-      />
-      <div class="card-body">
-        <a href="/productSection/5/"><b>Tution</b></a>
-        <p class="card-text">Here you can find all tutions of all types</p>
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/5/"><b>Tution</b></a>
+          <p class="card-text">Here you can find all tutions of all types</p>
+        </div>
+      </div>
+    </div>
+    <div class="col mb-4">
+      <div class="card h-100">
+        {% load static %} <img src="{% static 'others.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/5/"><b>Others (Property, Furnitures, Vehicles)</b></a>
+          <p class="card-text">Here you can find furnitures, vehicles, property, household products etc. Check it out.</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
+</div>
+
+
+<!-- <div class="container">
+
+  <div class="card-columns mt-100">
+    <div class="container">
+      <div class="card text-center" style="width: 18rem">
+        {% load static %} <img src="{% static "home/device.jpg" %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/1/"><b>Devices</b></a>
+          <p class="card-text">
+            Find great deals for used Devices in Bangladesh including mobile
+            phones, computers, laptops, TVs, cameras and much more.
+          </p>
+        </div>
+      </div>
+      <div class="card text-center" style="width: 18rem">
+        <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/2/"><b>Pet And Animals</b></a>
+          <p class="card-text">
+            Search from the widest variety of pets in Bangladesh. Select from
+            dogs, puppies, cats, kittens, birds and other domesticated animals
+          </p>
+        </div>
+      </div>
+      <div class="card text-center" style="width: 18rem">
+        <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/3/"><b>Book</b></a>
+          <p class="card-text">Here you can find all types of books</p>
+        </div>
+      </div>
+      <div class="card text-center" style="width: 18rem">
+        <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/4/"><b>Course</b></a>
+          <p class="card-text">Here you can find all types of Courses</p>
+        </div>
+      </div>
+      <div class="card text-center" style="width: 18rem">
+        <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/productSection/5/"><b>Tution</b></a>
+          <p class="card-text">Here you can find all tutions of all types</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
 {% endblock body %}

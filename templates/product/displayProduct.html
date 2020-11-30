@@ -1,145 +1,407 @@
-{% extends 'base.html' %} {% block title %} product view {% endblock title %} {%block body %}
+{% extends 'base.html' %} {% block title %} product view {% endblock title %}
+{%block body %}
+<div class="row">
+  <div class="container">
+    <div class="center">
+      <div class="card my-3 text-white" style="background-color: #1F618D ;">
+        <div class="card-body">
+          <h2 class="card-title">Product Name : {{product_name}}</h2>
+          <p class="card-text">
+          <h5>Selling Product form : {{thana}}, {{district}}, <b>{{division}}</b></h5>
+          </p>
+          <p class="card-text "><small class="text-white">Posted at {{ad_time}}</small></p>
+        </div>
+        <div class="center">
+          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-bottom" alt="...">
+        </div>
+      </div>
 
 
-  <h5>Posted at {{ad_time}} from {{thana}},{{district}} {{division}}</h5>
-  <h3><b>{{product_name}}</b></h3>
-<div class="container">
-  <div class="card text-center" style="width: 18rem">
-    <div class="card-body">
-      <h3 class="card-title"><b>Tk. {{price}}</b></h3>
-      <p class="card-text">{{description}}</p>
+      <div class="card text-left my-3">
+        <div class="card-body  bg-warning">
+          <h3 class="card-title"><b>Price : {{price}}/= BDT</b></h3>
+
+        </div>
+        {% ifequal id 1 %}
+        <ul class="list-group list-group-flush">
+          <h5>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Catagory :<h2><span
+                  class="badge badge-info"> {{device_catagory}} </span></h2>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Brand :<h2><span
+                  class="badge badge-info"> {{brand}} </span></h2>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Model :<h2><span
+                  class="badge badge-info"> {{model}} </span></h2>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Condition :<h2><span
+                  class="badge badge-info"> {{condition}} </span></h2>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Authenticity:<h2><span
+                  class="badge badge-info"> {{authenticity}} </span></h2>
+            </li>
+            {% if generation %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">Generation :<h2><span
+                  class="badge badge-info"> {{generation}} </span></h2>
+            </li>
+            {% endif %} {% if features %}
+
+            <div class="card">
+              <div class="card-header">
+                <h4>Features :<h4>
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>{{features}}</p>
+                </blockquote>
+              </div>
+            </div>
+
+            {% endif %}
+        </ul>
+
+
+
+        {% endifequal %} {% ifequal id 2 %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Pet Type :<h2><span
+                class="badge badge-info"> {{pet_type}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Age :<h2><span
+                class="badge badge-info"> {{age}} yr</span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Gender :<h2><span
+                class="badge badge-info"> {{gender}} </span></h2>
+          </li>
+          {% if color %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">Color :<h2><span
+                class="badge badge-info"> {{color}} </span></h2>
+          </li>
+          {% endif %}
+        </ul>
+        {% endifequal %}
+        {% ifequal id 3 %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Writer :<h2><span
+                class="badge badge-info"> {{writer}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Condition :<h2><span
+                class="badge badge-info"> {{condition}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Genre :<h2><span
+                class="badge badge-info"> {{genre}} </span></h2>
+          </li>
+        </ul>
+        {% endifequal %}
+        {% ifequal id 4 %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Course Title :<h2><span
+                class="badge badge-info"> {{course_title}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Organization :<h2><span
+                class="badge badge-info"> {{organization}} </span></h2>
+          </li>
+
+        </ul>
+        {% endifequal %}
+        {% ifequal id 5 %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Gender Requirement of Tutor :
+            <h2><span class="badge badge-info"> {{tutor_gender}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Time Duration :<h2><span
+                class="badge badge-info"> {{time_duration}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Subject(s) :<h2><span
+                class="badge badge-info"> {{tution_subject}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Education level of student :<h2>
+              <span class="badge badge-info"> {{education_level}} </span></h2>
+          </li>
+        </ul>
+        {% endifequal %}
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4>Description :<h4>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>{{description}}</p>
+            <footer class="blockquote-footer">from Seller</footer>
+          </blockquote>
+        </div>
+      </div>
+      <br />
+      <br />
+      <div class="card text-center">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">Ad Given By : <h2><span
+                class="badge badge-info"> {{fullname}} </span></h2>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">Seller Contact No :<h2><span
+                class="badge badge-info"> {{contact_no}} </span></h2>
+          </li>
+          <!-- <li class="list-group-item">Payment System : {{payment_system}}</li> -->
+        </ul>
+      </div>
+
+      </h5>
+
+
+
+      <br><br>
+
+
+
+      <!-- Simillar Product Showing Kawshik Start-->
+
+      <h3><b>Similar Products</b></h3><br>
+
+      <div class='container'>
+
+        <div class="row row-cols-1 row-cols-md-3">
+
+          {% ifequal id 1 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100 text-white" style="max-width: 1000rem; background-color:#1F618D  ;">
+                {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                  <p class="card-text">
+                    {{product.scat}}<br />{{product.scond}}<br />TK.
+                    {{product.sprice}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 2 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                  <p class="card-text">{{product.sp_type}}<br />TK. {{product.sprice}}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 3 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                  <p class="card-text">
+                    {{product.sgenre}}<br />{{product.scondition}}<br />TK. {{product.sprice}}
+                  </p>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 4 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                    <p class="card-text">{{product.s_title}}<br />TK. {{product.sprice}}</p>
+                  </p>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+
+
+          {% ifequal id 5 %}
+          {% if similar %}
+          {% for product in similar %}
+          <a href="/productSection/1/product_id-{{product.spr_id}}">
+
+            <div class="col mb-4">
+              <div class="card h-100">
+                {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.sname}}</h5>
+                    <p class="card-text">
+                      {{product.st_gender}}<br />{{product.sedu_level}}<br />TK.
+                      {{product.sprice}}
+                    </p>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+          {% else %}
+          <h5>no similar products</h5>
+          {% endif %}
+          {% endifequal %}
+
+        </div>
+      </div>
+
+<!-- Simillar Product Showing Kawshik End-->
+
+
+
+<!-- Simillar Product By Maisha Start (Temporarily Unused)-->
+
+      <!-- <div class='container'>
+        {% ifequal id 1 %}
+        {% if similar %}
+        {% for product in similar %}
+        <a href="/productSection/1/product_id-{{product.spr_id}}">
+          <div class="card text-right" style="width: 18rem">
+            <img src="..." class="card-img-left" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{product.sname}}</h5>
+              <p class="card-text">
+                {{product.scat}}<br />{{product.scond}}<br />TK.
+                {{product.sprice}}
+              </p>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+        {% else %}
+        <h5>no similar products</h5>
+        {% endif %}
+        {% endifequal %}
+
+
+        {% ifequal id 2 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/2/product_id-{{product.sprid}}">
+          <div class="card text-right" style="width: 18rem">
+            <img src="..." class="card-img-left" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{product.sname}}</h5>
+              <p class="card-text">{{product.sp_type}}<br />TK. {{product.sprice}}</p>
+            </div>
+          </div>
+        </a>
+        {% endfor %} 
+        {% else %}
+        <h5>no similar products</h5>
+        {% endif %} 
+        {% endifequal %}
+
+
+        {% ifequal id 3 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/3/product_id-{{product.sprid}}">
+          <div class="card text-right" style="width: 18rem">
+            <img src="..." class="card-img-left" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{product.sname}}</h5>
+              <p class="card-text">
+                {{product.sgenre}}<br />{{product.scondition}}<br />TK. {{product.sprice}}
+              </p>
+            </div>
+          </div>
+        </a>
+        {% endfor %} 
+        {% else %}
+        <h5>no similar products</h5>
+        {% endif %} 
+        {% endifequal %}
+
+
+
+        {% ifequal id 4 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/4/product_id-{{product.sprid}}">
+          <div class="card text-right" style="width: 18rem">
+            <img src="..." class="card-img-left" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{product.sname}}</h5>
+              <p class="card-text">{{product.s_title}}<br />TK. {{product.sprice}}</p>
+            </div>
+          </div>
+        </a>
+        {% endfor %} 
+        {% else %}
+        <h5>no similar products</h5>
+        {% endif %} 
+        {% endifequal %}
+
+
+
+        {% ifequal id 5 %} 
+        {% if similar %} 
+        {% for product in similar %}
+        <a href="/productSection/5/product_id-{{product.sprid}}">
+          <div class="card text-right" style="width: 18rem">
+            <img src="..." class="card-img-left" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{product.sname}}</h5>
+              <p class="card-text">
+                {{product.st_gender}}<br />{{product.sedu_level}}<br />TK.
+                {{product.sprice}}
+              </p>
+            </div>
+          </div>
+        </a>
+        {% endfor %} 
+        {% else %}
+        <h5>no similar products</h5>
+        {% endif %} 
+        {% endifequal %}
+
+      </div> -->
+
+<!-- Simillar Product By Maisha End -->
+
     </div>
-    {% ifequal id 1 %}
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Catagory : {{device_catagory}}</li>
-      <li class="list-group-item">Brand : {{brand}}</li>
-      <li class="list-group-item">Model : {{model}}</li>
-      <li class="list-group-item">Condition {{condition}}</li>
-      <li class="list-group-item">Authenticity: {{authenticity}}</li>
-      {% if generation %}
-      <li class="list-group-item">Generation : {{generation}}</li>
-      {% endif %} {% if features %}
-      <li class="list-group-item">Features : {{features}}</li>
-      {% endif %}
-    </ul>
-    {% endifequal %} {% ifequal id 2 %}
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Pet Type : {{pet_type}}</li>
-      <li class="list-group-item">Age: {{age}}</li>
-      <li class="list-group-item">Gender: {{gender}}</li>
-      {% if color %}
-      <li class="list-group-item">Color : {{color}}</li>
-      {% endif %}
-    </ul>
-    {% endifequal %}
-    {% ifequal id 3 %}
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Writer : {{writer}}</li>
-      <li class="list-group-item">Condition: {{condition}}</li>
-      <li class="list-group-item">Genre: {{genre}}</li>
-    </ul>
-    {% endifequal %}
-      {% ifequal id 4 %}
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Course Title : {{course_title}}</li>
-      <li class="list-group-item">Organization: {{organization}}</li>
-    
-    </ul>
-    {% endifequal %}
-      {% ifequal id 5 %}
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Gender Requirement of Tutor : {{tutor_gender}}</li>
-      <li class="list-group-item">Time Duration: {{time_duration}}</li>
-      <li class="list-group-item">Subject(s): {{tution_subject}}</li>
-      <li class="list-group-item">Education level of student: {{education_level}}</li>
-    </ul>
-    {% endifequal %}
-    <br />
-    <br />
-    <div class="card text-center" style="width: 18rem">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>{{fullname}}</b></li>
-        <li class="list-group-item">Contact : {{contact_no}}</li>
-        <li class="list-group-item">Payment System : {{payment_system}}</li>
-      </ul>
-    </div>
   </div>
 </div>
 
-<h3><b>Similar Products</b></h3>
-<div class='container'>
-{% ifequal id 1 %}
-{% if similar %}
- {% for product in similar %}
- <a href="/productSection/1/{{product.spr_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.sname}}</h5>
-    <p class="card-text">
-      {{product.scat}}<br />{{product.scond}}<br />TK.
-      {{product.sprice}}
-    </p>
-  </div>
-</div>
-</a>
-{% endfor %}
-{% else %}
-<h5>no similar products</h5>
-{% endif %}
-{% endifequal %}
-{% ifequal id 2 %} {% if similar %} {% for product in similar %}
-<a href="/productSection/2/{{product.sprid}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.sname}}</h5>
-    <p class="card-text">{{product.sp_type}}<br />TK. {{product.sprice}}</p>
-  </div>
-</div>
-</a>
-{% endfor %} {% else %}
-<h5>no similar products</h5>
-{% endif %} {% endifequal %}
-{% ifequal id 3 %}  {% if similar %} {% for product in similar %}
-<a href="/productSection/3/{{product.sprid}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.sname}}</h5>
-    <p class="card-text">
-      {{product.sgenre}}<br />{{product.scondition}}<br />TK. {{product.sprice}}
-    </p>
-  </div>
-</div>
-</a>
-{% endfor %} {% else %}
-<h5>no similar products</h5>
-{% endif %} {% endifequal %}
-{% ifequal id 4 %} {% if similar %} {% for product in similar %}
-<a href="/productSection/4/{{product.sprid}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.sname}}</h5>
-    <p class="card-text">{{product.s_title}}<br />TK. {{product.sprice}}</p>
-  </div>
-</div>
-</a>
-{% endfor %}  {% else %}
-<h5>no similar products</h5>
-{% endif %}  {% endifequal %}
-{% ifequal id 5 %} {% if similar %} {% for product in similar %}
-<a href="/productSection/5/{{product.sprid}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.sname}}</h5>
-    <p class="card-text">
-      {{product.st_gender}}<br />{{product.sedu_level}}<br />TK.
-      {{product.sprice}}
-    </p>
-  </div>
-</div>
-</a>
-{% endfor %} {% else %}
-<h5>no similar products</h5>
-{% endif %} {% endifequal %}
-</div>
 
 {% endblock body %}

@@ -1,55 +1,134 @@
 {% extends 'base.html' %} {% block title %} product lists {% endblock title %}
-{% block body %} {% ifequal id 1 %} {% for product in products %}
- <a href="/productSection/1/{{product.product_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.product_name}}</h5>
-    <p class="card-text">
-      {{product.device_catagory}}<br />{{product.condition}}<br />TK.
-      {{product.price}}
-    </p>
+{% block body %}
+
+<div class="row" style="background-color:#DDDDDD;">
+  <div class="container">
+    <div class="center">
+
+      <div class="container my-5">
+        <a href="/productSection/{{id}}/dhaka" type="button" class="btn btn-outline-primary">Dhaka</a>
+        <a href="/productSection/{{id}}/chittagong/" type="button" class="btn btn-outline-secondary">Chittagong</a>
+        <a href="/productSection/{{id}}/sylhet/" type="button" class="btn btn-outline-success">Sylhet</a>
+        <a href="/productSection/{{id}}/khulna/" type="button" class="btn btn-outline-danger">Khulna</a>
+        <a href="/productSection/{{id}}/rajshahi/" type="button" class="btn btn-outline-primary">Rajshahi</a>
+        <a href="/productSection/{{id}}/rangpur/" type="button" class="btn btn-outline-info">Rangpur</a>
+        <a href="/productSection/{{id}}/barishal/" type="button" class="btn btn-outline-secondary">Barishal</a>
+        <a href="/productSection/{{id}}/mymensingh/" type="button" class="btn btn-outline-dark">Mymensingh</a>
+        </div>
+
+      {% ifequal id 1 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Devices (Mobile, PC, Laptop, Gadgets)</h2>
+      </div>
+
+      
+
+      {% for product in products %}
+
+      <a href="/productSection/1/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{product.product_name}}</h4>
+            <p class="card-text">
+              {{product.device_catagory}}<br />{{product.condition}}<br />TK.
+              {{product.price}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 2 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Pets/Animals (Cat, Dog, Bird)</h2>
+      </div>
+      {% for product in products %}
+      <a href="/productSection/2/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{product.product_name}}</h4>
+            <p class="card-text">{{product.pet_type}}<br />TK. {{product.price}}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 3 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Books</h2>
+      </div>
+      {% for product in products %}
+      <a href="/productSection/3/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{product.product_name}}</h4>
+            <p class="card-text">
+              {{product.genre}}<br />{{product.condition}}<br />TK. {{product.price}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 4 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Courses (Online/Offline)</h2>
+      </div>
+      {% for product in products %}
+      <a href="/productSection/4/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{product.product_name}}</h4>
+            <p class="card-text">{{product.course_title}}<br />TK. {{product.price}}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      {% endifequal %}
+
+      {% ifequal id 5 %}
+      <div class="card mx-2 my-3 text-center">
+        <h2>Tution (Online/Offline)</h2>
+      </div>
+      {% for product in products %}
+      <a href="/productSection/5/product_id-{{product.product_id}}">
+        <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{product.product_name}}</h4>
+            <p class="card-text">
+              {{product.tutor_gender}}<br />{{product.education_level}}<br />TK.
+              {{product.price}}
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
-</a>
-{% endfor %} {% endifequal %} {% ifequal id 2 %} {% for product in products %}
-<a href="/productSection/2/{{product.product_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
+{% endfor %}
+{% endifequal %}
+
+
+<div class="card text-center mx-2 my-4">
+  <div class="card-header">
+    <h3>Sorry <p>&#128549; &#128549; &#128549;</h3></p>
+  </div>
   <div class="card-body">
-    <h5 class="card-title">{{product.product_name}}</h5>
-    <p class="card-text">{{product.pet_type}}<br />TK. {{product.price}}</p>
+    <h5 class="card-title">No More Items</h5>
+    <p class="card-text">No available items here. Wait for some sellers to give sell advertisements. Please visit our website regularly. Stay tuned.</p>
+    <a href="/productSection" class="btn btn-primary">Go Product Section</a>
+  </div>
+  <div class="card-footer text-muted">
+    Thank You
   </div>
 </div>
-</a>
-{% endfor %} {% endifequal %} {% ifequal id 3 %} {% for product in products %}
-<a href="/productSection/3/{{product.product_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.product_name}}</h5>
-    <p class="card-text">
-      {{product.genre}}<br />{{product.condition}}<br />TK. {{product.price}}
-    </p>
-  </div>
-</div>
-</a>
-{% endfor %} {% endifequal %} {% ifequal id 4 %} {% for product in products %}
-<a href="/productSection/4/{{product.product_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.product_name}}</h5>
-    <p class="card-text">{{product.course_title}}<br />TK. {{product.price}}</p>
-  </div>
-</div>
-</a>
-{% endfor %} {% endifequal %} {% ifequal id 5 %} {% for product in products %}
-<a href="/productSection/5/{{product.product_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{product.product_name}}</h5>
-    <p class="card-text">
-      {{product.tutor_gender}}<br />{{product.education_level}}<br />TK.
-      {{product.price}}
-    </p>
-  </div>
-</div>
-</a>
-{% endfor %} {% endifequal %} {% endblock body %}
+
+{% endblock body %}

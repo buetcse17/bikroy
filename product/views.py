@@ -15,7 +15,7 @@ def list(request, id):
    # print(id)
     if id == 1:
         cursor = conn.cursor()
-        sql = "SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION, p.product_id FROM product p,DEVICES d,ADVERTISEMENT ad WHERE d.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION, p.product_id FROM product p,DEVICES d,ADVERTISEMENT ad WHERE d.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #.close()
@@ -30,7 +30,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 2:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id FROM product pr,pet p,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id FROM product pr,pet p,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -44,7 +44,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 3:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id FROM product pr,book b,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=b.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id FROM product pr,book b,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=b.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -59,7 +59,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 4:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id FROM product pr,course c,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=c.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id FROM product pr,course c,ADVERTISEMENT ad WHERE pr.PRODUCT_ID=c.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -73,7 +73,7 @@ def list(request, id):
             dict_result.append(row)
     elif id == 5:
         cursor = conn.cursor()
-        sql = "SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id FROM product pr,tution t,ADVERTISEMENT ad  WHERE pr.PRODUCT_ID=t.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT desc"
+        sql = "SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id FROM product pr,tution t,ADVERTISEMENT ad  WHERE pr.PRODUCT_ID=t.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' order by PAYMENT_AMOUNT desc"
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -89,6 +89,116 @@ def list(request, id):
     params={'products':dict_result,'id':id}
     conn.close()
     return render(request,'product/listProduct.html',params)  
+
+
+def listProductAreaWise(request, id, area):
+    dict_result = []
+    dsn_tns  = cx_Oracle.makedsn('localhost','1521',service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy',password='bikroy',dsn=dsn_tns)
+
+    if id == 1:
+        cursor = conn.cursor()
+        sql = """   SELECT p.PRODUCT_NAME, d.DEVICE_CATAGORY, price, CONDITION, p.product_id 
+                    FROM product p, DEVICES d, ADVERTISEMENT ad, location loc, account ac, profile pf 
+                    WHERE d.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid'
+                    and pf.LOCATION_ID=loc.LOCATION_ID AND ac.USERNAME=ad.USERNAME AND ac.PROFILE_NO=pf.PROFILE_NO AND LOWER(loc.DIVISION)=:area
+                    order by ad.AD_TIME desc
+                """
+        cursor.execute(sql, {'area':area})
+        result = cursor.fetchall()
+        #.close()
+        for r in result:
+            product_id=r[4]
+            product_name = r[0]
+            price = r[2]
+            device_catagory = r[1]
+            condition = r[3]
+            row = {'product_name': product_name, 'device_catagory': device_catagory,
+                'price': price, 'condition': condition,'product_id':product_id}
+            dict_result.append(row)
+    elif id == 2:
+        cursor = conn.cursor()
+        sql = """   SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id 
+                    FROM product pr,pet p,ADVERTISEMENT ad, location loc, account ac, profile pf 
+                    WHERE pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' 
+                    and pf.LOCATION_ID=loc.LOCATION_ID AND ac.USERNAME=ad.USERNAME AND ac.PROFILE_NO=pf.PROFILE_NO AND LOWER(loc.DIVISION)=:area
+                    order by ad.AD_TIME desc
+                """
+        cursor.execute(sql, {'area':area})
+        result = cursor.fetchall()
+        #cursor.close()
+        for r in result:
+            product_id=r[3]
+            product_name = r[0]
+            price = r[2]
+            pet_type = r[1]
+            row = {'product_name': product_name,
+                'pet_type': pet_type, 'price': price,'product_id':product_id}
+            dict_result.append(row)
+    elif id == 3:
+        cursor = conn.cursor()
+        sql = """   SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id 
+                    FROM product pr,book b,ADVERTISEMENT ad , location loc, account ac, profile pf 
+                    WHERE pr.PRODUCT_ID=b.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' 
+                    and pf.LOCATION_ID=loc.LOCATION_ID AND ac.USERNAME=ad.USERNAME AND ac.PROFILE_NO=pf.PROFILE_NO AND LOWER(loc.DIVISION)=:area
+                    order by ad.AD_TIME desc
+                """
+        cursor.execute(sql, {'area':area})
+        result = cursor.fetchall()
+        #cursor.close()
+        for r in result:
+            product_id=r[4]
+            product_name = r[0]
+            price = r[3]
+            genre= r[1]
+            condition=r[2]
+            row = {'product_name': product_name,
+                'genre': genre, 'price': price,'condition': condition,'product_id':product_id}
+            dict_result.append(row)
+    elif id == 4:
+        cursor = conn.cursor()
+        sql = """   SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id 
+                    FROM product pr,course c,ADVERTISEMENT ad , location loc, account ac, profile pf 
+                    WHERE pr.PRODUCT_ID=c.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' 
+                    and pf.LOCATION_ID=loc.LOCATION_ID AND ac.USERNAME=ad.USERNAME AND ac.PROFILE_NO=pf.PROFILE_NO AND LOWER(loc.DIVISION)=:area
+                    order by ad.AD_TIME desc
+                """
+        cursor.execute(sql, {'area':area})
+        result = cursor.fetchall()
+        #cursor.close()
+        for r in result:
+            product_id=r[3]
+            product_name = r[0]
+            price = r[2]
+            course_title=r[1]
+            row = {'product_name': product_name,
+                'price': price,'course_title': course_title,'product_id':product_id}
+            dict_result.append(row)
+    elif id == 5:
+        cursor = conn.cursor()
+        sql = """   SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id 
+                    FROM product pr,tution t,ADVERTISEMENT ad, location loc, account ac, profile pf 
+                    WHERE pr.PRODUCT_ID=t.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' 
+                    and pf.LOCATION_ID=loc.LOCATION_ID AND ac.USERNAME=ad.USERNAME AND ac.PROFILE_NO=pf.PROFILE_NO AND LOWER(loc.DIVISION)=:area
+                    order by ad.AD_TIME desc
+                """
+        cursor.execute(sql, {'area':area})
+        result = cursor.fetchall()
+        #cursor.close()
+        for r in result:
+            product_id=r[4]
+            product_name = r[0]
+            price = r[3]
+            tutor_gender= r[1]
+            education_level=r[2]
+            row = {'product_name': product_name,
+                'tutor_gender': tutor_gender, 'price': price,'education_level': education_level,'product_id':product_id}
+            dict_result.append(row)
+    params={'products':dict_result,'id':id}
+    conn.close()
+    return render(request,'product/listProduct.html',params)  
+
+
 def displayProduct(request,id,product_id):
     dict_result = []
     dsn_tns  = cx_Oracle.makedsn('localhost','1521',service_name='ORCL')
@@ -133,7 +243,7 @@ def displayProduct(request,id,product_id):
             row = {'sname': sproduct_name, 'scat': sdevice_catagory,
                 'sprice': sprice, 'scond': scondition,'spr_id':sproduct_id}
             dict_result.append(row)    
-        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'device_catagory':device_catagory,' brand': brand,'model':model,'generation':generation,'features':features,'condition':condition,'authenticity':authenticity,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
+        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'device_catagory':device_catagory,'brand': brand,'model':model,'generation':generation,'features':features,'condition':condition,'authenticity':authenticity,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
     elif id==2:
         cursor = conn.cursor()
         sql = "SELECT PRODUCT_NAME,price,DESCRIPTION,CONTACT_NO,pet_type,color,age, p.gender,FOOD_HABIT,PAYMENT_SYSTEM,AD_TIME, FIRST_NAME||' '||LAST_NAME,THANA,DISTRICT,DIVISION from PRODUCT pr,pet p,ADVERTISEMENT ad,account ac,profile pf,LOCATION l where pr.PRODUCT_ID=p.PRODUCT_ID and ac.USERNAME=ad.USERNAME and ac.PROFILE_NO=pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID and pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and pr.PRODUCT_ID=:prid"
@@ -169,7 +279,7 @@ def displayProduct(request,id,product_id):
             row = {'sname': sproduct_name,
                 'sp_type': spet_type, 'sprice': sprice,'sprid':sproduct_id}
             dict_result.append(row)
-        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'pet_type':pet_type,' age': age,'color':color,'food_habit':food_habit,'gender':gender,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
+        params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'pet_type':pet_type,'age': age,'color':color,'food_habit':food_habit,'gender':gender,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result}
     elif id==3:
         cursor = conn.cursor()
         sql = "SELECT PRODUCT_NAME,price,DESCRIPTION,CONTACT_NO,WRITER,GENRE,CONDITION,PAYMENT_SYSTEM,AD_TIME, FIRST_NAME||' '||LAST_NAME,THANA,DISTRICT,DIVISION from PRODUCT pr,book b,ADVERTISEMENT ad,account ac,profile pf,LOCATION l where pr.PRODUCT_ID=b.PRODUCT_ID and ac.USERNAME=ad.USERNAME and ac.PROFILE_NO=pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID and pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and pr.PRODUCT_ID=:prid"

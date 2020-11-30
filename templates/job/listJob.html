@@ -1,18 +1,88 @@
 {% extends 'base.html' %} {% block title %} jobs {% endblock title %}
- {% block body %} 
-  {% for job in jobs %}
- <a href="/jobSection/{{job.job_id}}"><div class="card text-right" style="width: 18rem">
-  <img src="..." class="card-img-left" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">{{job.job_type}}</h5>
-    <p class="card-text">
-      {{job.designation}}<br /><b>TK.
-      {{job.salary}}</b><br>
-      <br>
-      {{job.district}}, Jobs
-    </p>
+{% block body %}
+
+<!-- List of Jobs Written by Kawshik Starts -->
+<div class="row" style="background-color:#DDDDDD;">
+  <div class="container">
+    <div class="center">
+
+      <div class="container my-5">
+        <a href="/jobSection/dhaka" type="button" class="btn btn-outline-primary">Dhaka</a>
+        <a href="/jobSection/chittagong/" type="button" class="btn btn-outline-secondary">Chittagong</a>
+        <a href="/jobSection/sylhet/" type="button" class="btn btn-outline-success">Sylhet</a>
+        <a href="/jobSection/khulna/" type="button" class="btn btn-outline-danger">Khulna</a>
+        <a href="/jobSection/rajshahi/" type="button" class="btn btn-outline-primary">Rajshahi</a>
+        <a href="/jobSection/rangpur/" type="button" class="btn btn-outline-info">Rangpur</a>
+        <a href="/jobSection/barishal/" type="button" class="btn btn-outline-secondary">Barishal</a>
+        <a href="/jobSection/mymensingh/" type="button" class="btn btn-outline-dark">Mymensingh</a>
+      </div>
+
+      <div class="card mx-2 my-3 text-center">
+        <h2>Job Circulars</h2>
+      </div>
+
+      {% for job in jobs %}
+
+      <a href="/jobSection/job_id-{{job.job_id}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          <div class="card-body">
+            <h4 class="card-title">{{job.job_type}}</h4>
+            <p class="card-text">
+              {{job.designation}}<br /><b>TK.
+                {{job.salary}}</b><br>
+              <br>
+              {{job.district}}, Jobs
+            </p>
+          </div>
+        </div>
+      </a>
+
+      {% endfor %}
+
+
+      <div class="card text-center mx-2 my-4">
+        <div class="card-header">
+          <h3>Sorry <p>&#128549; &#128549; &#128549;</h3>
+          </p>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">No More Job Ads</h5>
+          <p class="card-text">No available items here. Wait for some offerers to provide Job Circulars. Please visit
+            our website regularly. Stay tuned.</p>
+          <a href="/jobSection" class="btn btn-primary">Go Job Section</a>
+        </div>
+        <div class="card-footer text-muted">
+          Thank You
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-</a>
-{% endfor %}
- {% endblock body %}
+<!-- List of Jobs written by Kawshik Ends -->
+
+
+
+
+<!-- List of Jobs written by Maisha Starts -->
+<!-- 
+{% for job in jobs %}
+<a href="/jobSection/{{job.job_id}}">
+  <div class="card text-right" style="width: 18rem">
+    <img src="..." class="card-img-left" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">{{job.job_type}}</h5>
+      <p class="card-text">
+        {{job.designation}}<br /><b>TK.
+          {{job.salary}}</b><br>
+        <br>
+        {{job.district}}, Jobs
+      </p>
+    </div>
+  </div>
+{%endfor%} -->
+
+<!-- List of Jobs written by Maisha Ends -->
+
+
+{% endblock body %}

@@ -21,6 +21,29 @@ def list(request):
         dict_result.append(row)
     return render(request,'job/listJob.html',{'jobs':dict_result})
 
+def listJobAreaWise(request, area):
+    dict_result = []
+    dsn_tns  = cx_Oracle.makedsn('localhost','1521',service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy',password='bikroy',dsn=dsn_tns)
+    cursor = conn.cursor()
+    sql = """   select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT 
+                from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  
+                where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ac.PROFILE_NO= pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID  and ad.ADVERTISEMENT_TYPE='paid'
+                and LOWER(l.DIVISION)=:area
+                order by ad.AD_TIME desc"""
+    cursor.execute(sql, {'area':area})
+    result = cursor.fetchall()
+    conn.close()
+    for r in result:
+        job_id=r[0]
+        job_type=r[1]
+        designation=r[2]
+        salary=r[3]
+        district=r[4]
+        row={'job_id':job_id,'job_type':job_type,'designation':designation,'salary':salary,'district':district}
+        dict_result.append(row)
+    return render(request,'job/listJob.html',{'jobs':dict_result})
+
 def displayJob(request,job_id):
     dsn_tns  = cx_Oracle.makedsn('localhost','1521',service_name='ORCL')
     conn = cx_Oracle.connect(user='bikroy',password='bikroy',dsn=dsn_tns)
