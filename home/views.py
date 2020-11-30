@@ -460,7 +460,7 @@ def Jobapproval(request,update_status):
             adv_ids=request.POST.getlist('approvals') 
             for ad in adv_ids:
                 adv_id=ad[0]
-                c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
+                c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=ad)
                 conn.commit()
     dict_result=[]
     result=[]
