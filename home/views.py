@@ -404,13 +404,15 @@ def Productapproval(request,id,update_status):
     conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
     c=conn.cursor()
     if update_status=='updated':
-       if request.method == 'POST':
-           adv_ids=request.POST.getlist('approvals') 
-       for ad in adv_ids:
-           adv_id=ad[0]
-           c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
-           conn.commit()
+        if request.method == 'POST':
+            adv_ids=request.POST.getlist('approvals')
+            print(adv_ids) 
+            for ad in adv_ids:
+                adv_id=ad[0]
+                c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=ad)
+                conn.commit()
     dict_result=[]
+    result=[]
     if id==1:
         sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,DEVICES d where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=d.PRODUCT_ID"''
         c.execute(sql)
@@ -454,13 +456,14 @@ def Jobapproval(request,update_status):
     conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
     c=conn.cursor()
     if update_status=='updated':
-       if request.method == 'POST':
-           adv_ids=request.POST.getlist('approvals') 
-       for ad in adv_ids:
-           adv_id=ad[0]
-           c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
-           conn.commit()
+        if request.method == 'POST':
+            adv_ids=request.POST.getlist('approvals') 
+            for ad in adv_ids:
+                adv_id=ad[0]
+                c.execute("update ADVERTISEMENT set ADVERTISEMENT_TYPE='paid' where ADVERTISEMENT_ID=:adv",adv=adv_id)
+                conn.commit()
     dict_result=[]
+    result=[]
     sql="""SELECT ad.ADVERTISEMENT_ID,USERNAME,DESIGNATION,SALARY,PAYMENT_AMOUNT,PAYMENT_SYSTEM,TRANSACTION from ADVERTISEMENT ad, job j where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending'""" 
     c.execute(sql)
     result=c.fetchall()        

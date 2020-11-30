@@ -24,8 +24,8 @@ urlpatterns = [
 
     # admin
     path('approve/',views.approval, name='approve'),
-    path('approveProduct/<slug:update_status>/<int:id>/',views.Productapproval, name='approveProduct'),
-    path('approveJob/<slug:update_status>/',views.Jobapproval, name='approveProduct'),
+    path('admin/approveProduct/<slug:update_status>/<int:id>/',views.Productapproval, name='approveProduct'),
+    path('admin/approveJob/<slug:update_status>/',views.Jobapproval, name='approveProduct'),
     #profile
     path('profile/addEdu/', views.addEdu, name='addEdu'),
     path('profile/addWork/', views.addWork, name='addWork'),
