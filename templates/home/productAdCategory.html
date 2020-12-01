@@ -13,45 +13,75 @@ Category Wise Product Ad
     <form action="/productAdCategory/{{id}}/" method="post">
         {% csrf_token %}
         <!-- basic product-->
-        <h3>basic form</h3>
+        <h3>Fillup form</h3>
         <div class="form-group">
-            <label for="product_name">product_name</label>
+            <label for="product_name">Product Name</label>
             <input type="text" class="form-control" id="product_name" name="product_name">
         </div>
         <div class="form-group">
-            <label for="product_price">product_price</label>
+            <label for="product_price">Product Price</label>
             <input type="number" step="0.01" class="form-control" id="product_price" name="product_price">
         </div>
         <div class="form-group">
-            <label for="product_description">product_description</label>
+            <label for="product_description">Product Description</label>
             <input type="text" class="form-control" id="product_description" name="product_description">
         </div>
         <div class="form-group">
-            <label for="product_contact_no">product_contact_no</label>
+            <label for="product_contact_no">Product Contact_no</label>
             <input type="tel" class="form-control" id="product_contact_no" name="product_contact_no">
         </div>
         <div class="form-group">
-            <label for="product_picture">product_picture</label>
+            <label for="product_picture">Product Picture</label>
             <input type="file" class="form-control" id="product_picture" name="product_picture">
         </div>
         <h3>Payment System</h3>
         <div class="card" style="width: 30rem;">
-    <div class="card-body">
-    <ul>
-    <li class="list-group-item"><b>Bkash :</b>If you want to payment by bkash, send the money to "01919922921" with send money option</li>
-    <li class="list-group-item"><b>Rocket :</b>If you want to payment by rocket, send the money to "01919922921" with send money option</li>
-    </ul>
-    <p class="card-text">You have to pay 0.1% of your product prize.But least price is 50tk </p>
-   </div>
-   </div>
+            <div class="card-body">
+                <ul>
+                    <li class="list-group-item"><b>Bkash :</b>If you want to payment by bkash, send the money to
+                        "01919922921" with send money option</li>
+                    <li class="list-group-item"><b>Rocket :</b>If you want to payment by rocket, send the money to
+                        "01919922921" with send money option</li>
+                </ul>
+                <p class="card-text">You have to pay 300/- BDT. <br> After sending money, fillup the Transaction ID
+                    below (Recommended).</p>
+            </div>
+        </div>
         <div class="form-group">
             <label for="payment_amount">Amount</label>
             <input type="number" step="10" class="form-control" id="payment_amount" name="payment_amount">
         </div>
-               <div class="form-group">
+        <div class="form-group">
             <label for="payment_system">Payment system</label>
-            <input type="text" class="form-control" id="payment_system" name="payment_system">
-        </div> 
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_system" id="gridRadios1"
+                                value="bkash" checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                BKash
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_system" id="gridRadios2"
+                                value="rocket">
+                            <label class="form-check-label" for="gridRadios2">
+                                Rocket
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+            <!-- <input type="text" class="form-control" id="payment_system" name="payment_system"> -->
+        </div>
         <div class="form-group">
             <label for="transaction">Transaction ID</label>
             <input type="text" class="form-control" id="transaction" name="transaction">
@@ -62,32 +92,247 @@ Category Wise Product Ad
         {%ifequal id 1%}
         <h3>Device</h3>
         <div class="form-group">
-            <label for="device_category">device_category</label>
-            <input type="text" class="form-control" id="device_category" name="device_category">
+            <label for="device_category">Device Category</label>
+
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios1"
+                                value="Mobile" checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                Mobile
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Tablet">
+                            <label class="form-check-label" for="gridRadios2">
+                                Tablet / iPad
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Headphone">
+                            <label class="form-check-label" for="gridRadios2">
+                                Headphone
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Laptop">
+                            <label class="form-check-label" for="gridRadios2">
+                                Laptop
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Desktop">
+                            <label class="form-check-label" for="gridRadios2">
+                                Desktop
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Gadgets">
+                            <label class="form-check-label" for="gridRadios2">
+                                Gadgets
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Electronics">
+                            <label class="form-check-label" for="gridRadios2">
+                                Electronics
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_category" id="gridRadios2"
+                                value="Others">
+                            <label class="form-check-label" for="gridRadios2">
+                                Others
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+
+            <!-- <input type="text" class="form-control" id="device_category" name="device_category"> -->
         </div>
         <div class="form-group">
-            <label for="device_brand">device_brand</label>
-            <input type="text" class="form-control" id="device_brand" name="device_brand">
+            <label for="device_brand">Device Brand</label>
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios1"
+                                value="Apple">
+                            <label class="form-check-label" for="gridRadios1">
+                                Apple
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Google">
+                            <label class="form-check-label" for="gridRadios2">
+                                Google
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Samsung">
+                            <label class="form-check-label" for="gridRadios2">
+                                Samsung
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Huawei">
+                            <label class="form-check-label" for="gridRadios2">
+                                Huawei
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Xiaomi">
+                            <label class="form-check-label" for="gridRadios2">
+                                Xiaomi
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Walton">
+                            <label class="form-check-label" for="gridRadios2">
+                                Walton
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Asus">
+                            <label class="form-check-label" for="gridRadios2">
+                                Asus
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="HP">
+                            <label class="form-check-label" for="gridRadios2">
+                                HP
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Lenovo">
+                            <label class="form-check-label" for="gridRadios2">
+                                Lenovo
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Microsoft">
+                            <label class="form-check-label" for="gridRadios2">
+                                Microsoft
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_brand" id="gridRadios2"
+                                value="Other" checked>
+                            <label class="form-check-label" for="gridRadios2">
+                                Other
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+
+            <!-- <input type="text" class="form-control" id="device_brand" name="device_brand"> -->
         </div>
         <div class="form-group">
-            <label for="device_model">device_model</label>
+            <label for="device_model">Device Model</label>
             <input type="text" class="form-control" id="device_model" name="device_model">
         </div>
         <div class="form-group">
-            <label for="device_generation">device_generation</label>
+            <label for="device_generation">Device Generation</label>
             <input type="text" class="form-control" id="device_generation" name="device_generation">
         </div>
         <div class="form-group">
-            <label for="device_features">device_features</label>
+            <label for="device_features">Device Features</label>
             <input type="text" class="form-control" id="device_features" name="device_features">
         </div>
         <div class="form-group">
-            <label for="device_condition">device_condition</label>
-            <input type="text" class="form-control" id="device_condition" name="device_condition">
+            <label for="device_condition">Device Condition</label>
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_condition" id="gridRadios1"
+                                value="New" checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                New
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_condition" id="gridRadios2"
+                                value="Used">
+                            <label class="form-check-label" for="gridRadios2">
+                                Used
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+            <!-- <input type="text" class="form-control" id="device_condition" name="device_condition"> -->
         </div>
         <div class="form-group">
-            <label for="device_authenticity">device_authenticity</label>
-            <input type="text" class="form-control" id="device_authenticity" name="device_authenticity">
+            <label for="device_authenticity">Device Authenticity</label>
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_authenticity" id="gridRadios1"
+                                value="Original" checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                Original
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="device_authenticity" id="gridRadios2"
+                                value="Refubrished">
+                            <label class="form-check-label" for="gridRadios2">
+                                Refubrished
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+            <!-- <input type="text" class="form-control" id="device_authenticity" name="device_authenticity"> -->
         </div>
         {% endifequal %}
 
@@ -95,23 +340,51 @@ Category Wise Product Ad
         <!-- pet  -->
         <h3>Pet</h3>
         <div class="form-group">
-            <label for="pet_type">pet_type</label>
+            <label for="pet_type">Pet Type</label>
             <input type="text" class="form-control" id="pet_type" name="pet_type">
         </div>
         <div class="form-group">
-            <label for="pet_color">pet_color</label>
+            <label for="pet_color">Pet Color</label>
             <input type="text" class="form-control" id="pet_color" name="pet_color">
         </div>
         <div class="form-group">
-            <label for="pet_age">pet_age</label>
+            <label for="pet_age">Pet Age</label>
             <input type="text" class="form-control" id="pet_age" name="pet_age">
         </div>
         <div class="form-group">
-            <label for="pet_gender">pet_gender</label>
-            <input type="text" class="form-control" id="pet_gender" name="pet_gender">
+            <label for="pet_gender">Pet Gender</label>
+
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pet_gender" id="gridRadios1" value="MALE"
+                                checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pet_gender" id="gridRadios2"
+                                value="FEMALE">
+                            <label class="form-check-label" for="gridRadios2">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+            <!-- <input type="text" class="form-control" id="pet_gender" name="pet_gender"> -->
         </div>
         <div class="form-group">
-            <label for="pet_food_habit">pet_food_habbit</label>
+            <label for="pet_food_habit">Pet Food Habbit</label>
             <input type="text" class="form-control" id="pet_food_habit" name="pet_food_habit">
         </div>
         {% endifequal %}
@@ -121,16 +394,43 @@ Category Wise Product Ad
         <!-- book -->
         <h3>book</h3>
         <div class="form-group">
-            <label for="book_writer">book_writer</label>
+            <label for="book_writer">Book Writer</label>
             <input type="text" class="form-control" id="book_writer" name="book_writer">
         </div>
         <div class="form-group">
-            <label for="book_genre">book_genre</label>
+            <label for="book_genre">Book Genre</label>
             <input type="text" class="form-control" id="book_genre" name="book_genre">
         </div>
         <div class="form-group">
-            <label for="book_condition">book_condition</label>
-            <input type="text" class="form-control" id="book_condition" name="book_condition">
+            <label for="book_condition">Book Condition</label>
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="book_condition" id="gridRadios1"
+                                value="New" checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                New
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="book_condition" id="gridRadios2"
+                                value="Used">
+                            <label class="form-check-label" for="gridRadios2">
+                                Used
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+            <!-- <input type="text" class="form-control" id="book_condition" name="book_condition"> -->
         </div>
         {% endifequal %}
 
@@ -138,11 +438,11 @@ Category Wise Product Ad
         <!-- course -->
         <h3>course</h3>
         <div class="form-group">
-            <label for="course_title">course_title</label>
+            <label for="course_title">Course Title</label>
             <input type="text" class="form-control" id="course_title" name="course_title">
         </div>
         <div class="form-group">
-            <label for="course_organization">course_organization</label>
+            <label for="course_organization">Course Organization</label>
             <input type="text" class="form-control" id="course_organization" name="course_organization">
         </div>
         {% endifequal %}
@@ -152,16 +452,44 @@ Category Wise Product Ad
         <!-- tuition -->
         <h3>tuition</h3>
         <div class="form-group">
-            <label for="tuition_subject">tuition_subject</label>
+            <label for="tuition_subject">Tuition Subject</label>
             <input type="text" class="form-control" id="tuition_subject" name="tuition_subject">
         </div>
         <div class="form-group">
-            <label for="time_duration">time_duration</label>
+            <label for="time_duration">Time Duration</label>
             <input type="text" class="form-control" id="time_duration" name="time_duration">
         </div>
         <div class="form-group">
-            <label for="tutor_gender">tutor_gender</label>
-            <input type="text" class="form-control" id="tutor_gender" name="tutor_gender">
+            <label for="tutor_gender">Tutor Gender</label>
+
+
+            <!-- Radio gender start -->
+            <fieldset class="form-group">
+                <div class="row">
+                    <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tutor_gender" id="gridRadios1"
+                                value="MALE" checked>
+                            <label class="form-check-label" for="gridRadios1">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tutor_gender" id="gridRadios2"
+                                value="FEMALE">
+                            <label class="form-check-label" for="gridRadios2">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- Radio gender end -->
+
+
+
+            <!-- <input type="text" class="form-control" id="tutor_gender" name="tutor_gender"> -->
         </div>
         <div class="form-group">
             <label for="tutor_education_level">tutor_education_level</label>
@@ -169,7 +497,7 @@ Category Wise Product Ad
         </div>
 
 
-   {% endifequal %}
+        {% endifequal %}
 
 
         <button type="submit" class="btn btn-primary">Post Ad</button>
