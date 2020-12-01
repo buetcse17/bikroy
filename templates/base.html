@@ -151,7 +151,34 @@
             </div>
             <div class="form-group">
               <label for="gender">Gender</label>
-              <input type="text" class="form-control" id="gender" name="gender" placeholder="">
+              <!-- Radio gender start -->
+              <fieldset class="form-group">
+                <div class="row">
+                  <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gender" id="gridRadios1" value="MALE" checked>
+                      <label class="form-check-label" for="gridRadios1">
+                        Male
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="FEMALE">
+                      <label class="form-check-label" for="gridRadios2">
+                        Female
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="OTHERS">
+                      <label class="form-check-label" for="gridRadios2">
+                        Others
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <!-- Radio gender end -->
+              <!-- <input type="text" class="form-control" id="gender" name="gender" placeholder=""> -->
             </div>
             <div class="form-group">
               <label for="dateOfBirth">Date of Birth</label>
@@ -170,7 +197,70 @@
             </div>
             <div class="form-group">
               <label for="userDivision">Division</label>
-              <input type="text" class="form-control" id="userDivision" name="userDivision" placeholder="">
+
+              <!-- Radio gender start -->
+              <fieldset class="form-group">
+                <div class="row">
+                  <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios1" value="dhaka"
+                        checked>
+                      <label class="form-check-label" for="gridRadios1">
+                        Dhaka
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2"
+                        value="chittagong">
+                      <label class="form-check-label" for="gridRadios2">
+                        Chittagong
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2" value="sylhet">
+                      <label class="form-check-label" for="gridRadios3">
+                        Sylhet
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2" value="sylhet">
+                      <label class="form-check-label" for="gridRadios4">
+                        Khulna
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2"
+                        value="rajshahi">
+                      <label class="form-check-label" for="gridRadios5">
+                        Rajshahi
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2" value="rangpur">
+                      <label class="form-check-label" for="gridRadios6">
+                        Rangpur
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2"
+                        value="barishal">
+                      <label class="form-check-label" for="gridRadios7">
+                        Barishal
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="userDivision" id="gridRadios2"
+                        value="mymensingh">
+                      <label class="form-check-label" for="gridRadios8">
+                        Mymensingh
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <!-- Radio gender end -->
+              <!-- <input type="text" class="form-control" id="userDivision" name="userDivision" placeholder=""> -->
             </div>
             <div class="form-group">
               <label for="userDistrict">District</label>
@@ -184,7 +274,7 @@
               <label for="userZip">Zip Code</label>
               <input type="number" class="form-control" id="userZip" name="userZip" placeholder="">
             </div>
-           {% csrf_token %}
+            {% csrf_token %}
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
@@ -192,8 +282,9 @@
         </div>
       </div>
     </div>
- 
-  </div> </div>
+
+  </div>
+  </div>
 
 
 
