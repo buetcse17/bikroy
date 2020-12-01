@@ -221,8 +221,14 @@ def handleLogin(request):
         realpassword = result[0][0]
 
         
-        
-        if loginpassword == realpassword:
+        sql="""select ora_hash(:p) from dual
+        """
+        c.execute(sql,{'p':loginpassword})
+        result=[]
+        result=c.fetchall()
+        loginpassword=result[0][0]
+        print(loginpassword)
+        if str(loginpassword) == str(realpassword):
             request.session['username'] = loginusername
             request.session['userLogged'] = True
             print("kaj hoise maybe")
@@ -259,7 +265,7 @@ def postAd(request):
     try:
         if request.session['userLogged'] == True:
             #print('For posting Advertisement, Login is required. Please Log In')
-            return render(request, 'home/postAd.html', params)
+            return render(request, 'home/postAd.html')
     except:
         messages.success(request,'For posting Advertisement, Login is required. Please Log In')
         return redirect('home')
