@@ -30,9 +30,11 @@
         <li class="nav-item {% block aboutactive %}  {% endblock aboutactive %}">
           <a class="nav-link" href="/about">About</a>
         </li>
-        <li class="nav-item {% block contactactive %}  {% endblock contactactive %} ">
+        <!-- /contact no need -->
+        <!-- <li class="nav-item {% block contactactive %}  {% endblock contactactive %} ">
           <a class="nav-link" href="/contact">Contact</a>
-        </li>
+        </li> -->
+        <!-- /contact no need -->
         <li class="nav-item {% block productactive %}  {% endblock productactive %} ">
           <a class="nav-link" href="/productSection">Product Section</a>
         </li>
@@ -71,6 +73,7 @@
           <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button" data-toggle="dropdown"> Welcome
             {{request.session.username}}</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/chat/">Messages & Notifications</a>
             <a class="dropdown-item" href="/profile/">Profile</a>
             <a class="dropdown-item" href="/logout">Logout</a>
           </div>

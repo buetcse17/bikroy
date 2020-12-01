@@ -8,13 +8,99 @@ from django.contrib import messages
 # from django.contrib.auth.models import User
 # Create your views here.
 
-params = {'loginsuccess':True,'username':'null'}
+# params = {'loginsuccess':True,'username':'null'}
 
 def home(request):
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+
+    c = conn.cursor()
+
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT
+                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
+                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='paid'
+                ORDER BY AD_TIME DESC
+            """
+    c.execute(sql)
+    result = []
+    result = c.fetchall()
+
+    prod_id_list = []
+    prod_name_list = []
+    prod_price_list = []
+    prod_loc_list = []
+
+    for row in result:
+        prod_id_list.append(row[0])
+        prod_name_list.append(row[1])
+        prod_price_list.append(row[2])
+        prod_loc_list.append(row[3])
+    # print(prod_id_list)
+    # print(prod_name_list)
+    # print(prod_price_list)
+    # print(prod_loc_list)
+
+    prod_type_list = []
+    for i in prod_id_list:
+        sql1 = """SELECT PRODUCT_ID FROM DEVICES WHERE PRODUCT_ID = :p"""
+        sql2 = """SELECT PRODUCT_ID FROM PET WHERE PRODUCT_ID = :p"""
+        sql3 = """SELECT PRODUCT_ID FROM BOOK WHERE PRODUCT_ID = :p"""
+        sql4 = """SELECT PRODUCT_ID FROM COURSE WHERE PRODUCT_ID = :p"""
+        sql5 = """SELECT PRODUCT_ID FROM TUTION WHERE PRODUCT_ID = :p"""
+        #sql6
+
+        c.execute(sql1, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(1)
+            continue
+
+        c.execute(sql2, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(2)
+            continue
+
+        c.execute(sql3, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(3)
+            continue
+
+        c.execute(sql4, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(4)
+            continue
+
+        c.execute(sql5, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(5)
+            continue
+
+    length_of_list = len(prod_id_list)
+
+    all = []
+    for i in range(length_of_list):
+        tempList = []
+        tempList.append(prod_id_list[i])
+        tempList.append(prod_name_list[i])
+        tempList.append(prod_price_list[i])
+        tempList.append(prod_loc_list[i])
+        tempList.append(prod_type_list[i])
+        all.append(tempList)
+    print(all)
+    params = {'length_of_list':range(length_of_list), 'all':all}
     return render(request, 'home/home.html', params)
 
 def about(request):
-    return render(request, 'home/about.html', params)
+    return render(request, 'home/about.html')
 
 def contact(request):
     if request.method == 'POST':
@@ -26,7 +112,7 @@ def contact(request):
         content = request.POST['content']
         print("kkp is using post rqst")
         print(name, email, phone, content)
-    return render(request, 'home/contact.html', params)
+    return render(request, 'home/contact.html')
 
 def signup(request):
     if request.method == 'POST':
