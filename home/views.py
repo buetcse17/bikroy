@@ -266,7 +266,7 @@ def postAd(request):
     try:
         if request.session['userLogged'] == True:
             #print('For posting Advertisement, Login is required. Please Log In')
-            return render(request, 'home/postAd.html')
+            return redirect("myAds")
     except:
         messages.success(request,'For posting Advertisement, Login is required. Please Log In')
         return redirect('home')
@@ -797,8 +797,174 @@ def editWork(request,organization_id):
         conn.close()
     return redirect("profile")
 
+def myAds(request):
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    userName=request.session['username']
+    c = conn.cursor()
 
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT
+                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
+                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='paid' and ad.username=:u
+                ORDER BY AD_TIME DESC
+            """
+    c.execute(sql,{'u':userName})
+    result = []
+    result = c.fetchall()
 
+    prod_id_list = []
+    prod_name_list = []
+    prod_price_list = []
+    prod_loc_list = []
+
+    for row in result:
+        prod_id_list.append(row[0])
+        prod_name_list.append(row[1])
+        prod_price_list.append(row[2])
+        prod_loc_list.append(row[3])
+    # print(prod_id_list)
+    # print(prod_name_list)
+    # print(prod_price_list)
+    # print(prod_loc_list)
+
+    prod_type_list = []
+    for i in prod_id_list:
+        sql1 = """SELECT PRODUCT_ID FROM DEVICES WHERE PRODUCT_ID = :p"""
+        sql2 = """SELECT PRODUCT_ID FROM PET WHERE PRODUCT_ID = :p"""
+        sql3 = """SELECT PRODUCT_ID FROM BOOK WHERE PRODUCT_ID = :p"""
+        sql4 = """SELECT PRODUCT_ID FROM COURSE WHERE PRODUCT_ID = :p"""
+        sql5 = """SELECT PRODUCT_ID FROM TUTION WHERE PRODUCT_ID = :p"""
+        #sql6
+
+        c.execute(sql1, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(1)
+            continue
+
+        c.execute(sql2, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(2)
+            continue
+
+        c.execute(sql3, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(3)
+            continue
+
+        c.execute(sql4, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(4)
+            continue
+
+        c.execute(sql5, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list.append(5)
+            continue
+
+    length_of_list = len(prod_id_list)
+
+    all = []
+    for i in range(length_of_list):
+        tempList = []
+        tempList.append(prod_id_list[i])
+        tempList.append(prod_name_list[i])
+        tempList.append(prod_price_list[i])
+        tempList.append(prod_loc_list[i])
+        tempList.append(prod_type_list[i])
+        all.append(tempList)
+
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT
+                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
+                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='pending' and ad.username=:u
+                ORDER BY AD_TIME DESC
+            """
+    c.execute(sql,{'u':userName})
+    resultPending = []
+    resultPending = c.fetchall()
+
+    prod_id_list_pending = []
+    prod_name_list_pending = []
+    prod_price_list_pending = []
+    prod_loc_list_pending = []
+
+    for row in resultPending:
+        prod_id_list_pending.append(row[0])
+        prod_name_list_pending.append(row[1])
+        prod_price_list_pending.append(row[2])
+        prod_loc_list_pending.append(row[3])
+    #print(prod_id_list_pending)
+    #print(prod_name_list_pending)
+    #print(prod_price_list_pending)
+    #print(prod_loc_list_pending)
+
+    prod_type_list_pending = []
+    for i in prod_id_list_pending:
+        sql1 = """SELECT PRODUCT_ID FROM DEVICES WHERE PRODUCT_ID = :p"""
+        sql2 = """SELECT PRODUCT_ID FROM PET WHERE PRODUCT_ID = :p"""
+        sql3 = """SELECT PRODUCT_ID FROM BOOK WHERE PRODUCT_ID = :p"""
+        sql4 = """SELECT PRODUCT_ID FROM COURSE WHERE PRODUCT_ID = :p"""
+        sql5 = """SELECT PRODUCT_ID FROM TUTION WHERE PRODUCT_ID = :p"""
+        #sql6
+
+        c.execute(sql1, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list_pending.append(1)
+            continue
+
+        c.execute(sql2, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list_pending.append(2)
+            continue
+
+        c.execute(sql3, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list_pending.append(3)
+            continue
+
+        c.execute(sql4, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list_pending.append(4)
+            continue
+
+        c.execute(sql5, {'p':i})
+        result = []
+        result = c.fetchall()
+        if len(result) != 0:
+            prod_type_list_pending.append(5)
+            continue
+
+    length_of_list_pending = len(prod_id_list_pending)
+
+    all_pending = []
+    for i in range(length_of_list_pending):
+        tempList_pending = []
+        tempList_pending.append(prod_id_list_pending[i])
+        tempList_pending.append(prod_name_list_pending[i])
+        tempList_pending.append(prod_price_list_pending[i])
+        tempList_pending.append(prod_loc_list_pending[i])
+        tempList_pending.append(prod_type_list_pending[i])
+        all_pending.append(tempList_pending)
+    #print(all_pending)
+    params = {'length_of_list':range(length_of_list), 'allApproved':all,'length_of_list_pending':range(length_of_list_pending), 'allPending':all_pending}
+    return render(request, 'home/postAd.html',params)
 
 
        

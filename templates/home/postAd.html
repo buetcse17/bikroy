@@ -10,8 +10,90 @@
   <p class="lead">You can post Advertisement from this section. There are two two types of Advertisement. Product Ad and Job Ad. Select yours....</p>
   <hr class="my-4">
   <p>Use the buttons below to go to your desired Advertisement generation.... </p>
-  <a class="btn btn-primary btn-lg" href="/postProductAd" role="button">Product Ad</a>
-  <a class="btn btn-primary btn-lg" href="/postJobAd" role="button">Job Ad</a>
+  <a class="btn btn-primary btn-lg" href="/postProductAd" role="button">Post Product Ad</a>
+  <a class="btn btn-primary btn-lg" href="/postJobAd" role="button"> Post Job Ad</a>
 </div>
+<div class='container'>
+      <div class="spinner-grow text-primary ml-2" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <!-- <div class="card mx-2 my-3 text-center"> -->
+      <center>
+        <h2>Your Aprroved Products</h2>
+      </center>
+      <!-- </div> -->
+
+      {% for item in allApproved %}
+
+      <a href="/productSection/{{item.4}}/product_id-{{item.0}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-left" height="100" width="150"
+            alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{item.1}}</h4>
+            <p class="card-text">
+              {{item.2}} BDT<br />{{item.3}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {%endfor%}
+    </div>
+    <div class="card text-center mx-2 my-4">
+      <div class="card-header">
+        </p>
+      </div>
+    </div>
+</div>
+
+</div>
+<div class='container'>
+      <div class="spinner-grow text-primary ml-2" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <!-- <div class="card mx-2 my-3 text-center"> -->
+      <center>
+        <h2>Your Pending Products</h2>
+      </center>
+      <!-- </div> -->
+
+      {% for item in allPending %}
+
+      <a href="/productSection/{{item.4}}/product_id-{{item.0}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-left" height="100" width="150"
+            alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{item.1}}</h4>
+            <p class="card-text">
+              {{item.2}} BDT<br />{{item.3}}
+            </p>
+          </div>
+        </div>
+      </a>
+      {%endfor%}
+    <div class="card text-center mx-2 my-4">
+      <div class="card-header">
+        </p>
+      </div>
+    </div>
+</div>
+
 
 {% endblock body %}

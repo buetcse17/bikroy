@@ -33,6 +33,8 @@ urlpatterns = [
     path('profile/changeEdu/<slug:institution_id>/', views.editEdu, name='editEdu'),
     path('profile/deleteWork/<slug:organization_id>/', views.deleteWork, name='deleteWork'),
     path('profile/changeWork/<slug:organization_id>/', views.editWork, name='editWork'),
+    path('myAds/', views.myAds, name='myAds'),
+
 
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
