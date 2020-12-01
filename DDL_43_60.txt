@@ -252,11 +252,10 @@ time DATE NOT NULL,
 
 sender_username VARCHAR2(20) NOT NULL,
 receiver_username VARCHAR2(20) NOT NULL,
-product_id VARCHAR2(20) NOT NULL,
+
 
 
 CONSTRAINT PK_chat PRIMARY KEY(chat_id),
 CONSTRAINT FK_chat_sender_username FOREIGN KEY(sender_username) REFERENCES account(username),
-CONSTRAINT FK_chat_receiver_username FOREIGN KEY(receiver_username) REFERENCES account(username),
-CONSTRAINT FK_chat_product_id FOREIGN KEY(product_id) REFERENCES product(product_id)
+CONSTRAINT FK_chat_receiver_username FOREIGN KEY(receiver_username) REFERENCES account(username)
 );

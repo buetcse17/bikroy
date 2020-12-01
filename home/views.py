@@ -158,41 +158,37 @@ def signup(request):
         c.execute(sql)
         for r in c:
             location_id = r[0]
-        
+
         if location_id == -1:
-            sql = "SELECT COUNT(*) FROM location"
+            sql = """SELECT LOCATION_SEQUENCE.nextval FROM DUAL"""
             c.execute(sql)
-            
-            for r in c:
-                location_id = r[0] + 1
-            location_id = str(location_id)
-            sql = "INSERT INTO location VALUES('" + location_id + "','" +userDivision+"','" + userDistrict+ "','" +userThana+ "'," + userZip+")"
-            c.execute(sql)
+            result = []
+            result = c.fetchall()
+
+            location_id = result[0][0]
+            print('location id seq = ', location_id)
+            sql = """INSERT INTO location VALUES(:location_id, :userDivision, :userDistrict, :userThana, :userZip)"""
+            c.execute(sql, {'location_id':location_id, 'userDivision':userDivision, 'userDistrict':userDistrict, 'userThana':userThana, 'userZip':userZip})
             conn.commit()
 
-        
-        sql = "SELECT COUNT(*) FROM profile"
+        sql = """SELECT PROFILE_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
-        for r in c:
-            profile_no = r[0] + 1
-        profile_no = str(profile_no)
+        result = []
+        result = c.fetchall()
+
+        profile_no = str(result[0][0])        
+        print('profile no seq = ', profile_no)
         profile_picture = "profile_picture_url"
-        sql = "INSERT INTO profile VALUES('"+profile_no+"','" +first_name+"' , '" + last_name+"' , '" + gender+"' , TO_DATE('" + date_of_birth+"', 'yyyy-mm-dd') , '" + profile_picture+"' , '" + phone_no+"' , '" + location_id +"')"
+        sql = """INSERT INTO profile VALUES(:profile_no, :first_name, :last_name, :gender, TO_DATE(:date_of_birth, 'yyyy-mm-dd') , :profile_picture, :phone_no, :location_id)"""
         print('profileSQL : ' + sql)
-        c.execute(sql)
+        c.execute(sql, {'profile_no':profile_no, 'first_name':first_name, 'last_name':last_name, 'gender':gender, 'date_of_birth':date_of_birth, 'profile_picture':profile_picture, 'phone_no':phone_no, 'location_id':location_id})
         conn.commit()
 
-        sql = "INSERT INTO account VALUES('"+ username+"','"+ email+"','"+ password+"','"+ profile_no+"')"
-        c.execute(sql)
+        sql = """INSERT INTO account VALUES(:username, :email, :password, :profile_no)"""
+        c.execute(sql, {'username': username, 'email': email, 'password': password, 'profile_no': profile_no})
         conn.commit()
        
         conn.close()
-
-         
-        # myuser = User.objects.create_user(username, email, password)
-        # myuser.first_name = first_name 
-        # myuser.last_name = last_name
-        # myuser.save()
         messages.success(request, "Signup Completed")
 
         
@@ -240,16 +236,6 @@ def handleLogin(request):
             messages.error(request, "Invalid Credentials, Please try again")
             return redirect('home')
 
-        # user = authenticate(username=loginusername, password=loginpassword)
-
-        # if user is not None:
-        #     login(request, user)
-        #     messages.success(request, "Successfully Logged In")
-        #     return redirect('home')
-        # else:
-        #     messages.error(request, "Invalid Credentials, Please try again")
-        #     return redirect('home')
-
 
 def handleLogout(request):
     if request.session['userLogged']==True:
@@ -258,9 +244,6 @@ def handleLogout(request):
         messages.success(request, "You have successfully logged out")
     return redirect("home")
 
-    # logout(request)
-    # messages.success(request, "You have successfully logged out")
-    # return redirect("home")
 
 def postAd(request):
     try:
@@ -270,14 +253,6 @@ def postAd(request):
     except:
         messages.success(request,'For posting Advertisement, Login is required. Please Log In')
         return redirect('home')
-
-    # if request.user.is_authenticated is False:
-    #     #print('For posting Advertisement, Login is required. Please Log In')
-    #     messages.success(request,'For posting Advertisement, Login is required. Please Log In')
-    #     return redirect('home')
-
-    # else:
-    #     return render(request, 'home/postAd.html', params)
 
 
 def postProductAd(request):
@@ -336,15 +311,23 @@ def productAdCategory(request,id):
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
 
-        advertisement_id = -1
-        sql = "SELECT COUNT(*) FROM advertisement"
-        c = conn.cursor()
-        c.execute(sql)
+        # advertisement_id = -1
+        # sql = "SELECT COUNT(*) FROM advertisement"
+        # c = conn.cursor()
+        # c.execute(sql)
 
-        for r in c:
-            advertisement_id = r[0] + 1
-        print('ad id ', advertisement_id, type(advertisement_id))
-        advertisement_id = str(advertisement_id)
+        # for r in c:
+        #     advertisement_id = r[0] + 1
+        # print('ad id ', advertisement_id, type(advertisement_id))
+        # advertisement_id = str(advertisement_id)
+
+        c = conn.cursor()
+        sql = """SELECT AD_SEQUENCE.nextval FROM DUAL"""
+        c.execute(sql)
+        result = []
+        result = c.fetchall()
+
+        advertisement_id = str(result[0][0])
 
         advertisement_type = 'pending'
         sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"','"+ payment_amount+"','"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
@@ -352,16 +335,21 @@ def productAdCategory(request,id):
         c.execute(sql)
         conn.commit()
 
-        product_id = -1
-        sql = "SELECT COUNT(*) FROM product"
-        c = conn.cursor()
+        # product_id = -1
+        # sql = "SELECT COUNT(*) FROM product"
+        # c = conn.cursor()
+        # c.execute(sql)
+
+        # for r in c:
+        #     product_id = r[0] + 1
+        # print('product_id ', product_id, type(product_id))
+        # product_id = str(product_id)
+        sql = """SELECT PRODUCT_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
+        result = []
+        result = c.fetchall()
 
-        for r in c:
-            product_id = r[0] + 1
-        print('product_id ', product_id, type(product_id))
-        product_id = str(product_id)
-
+        product_id = str(result[0][0])
 
         sql = "INSERT INTO product VALUES('"+product_id+"','"+ product_name+"','"+ product_price+"','"+ product_description+"','"+ product_contact_no+"','"+ advertisement_id+"')"
         print('product_sql ', sql)
@@ -420,21 +408,19 @@ def postJobAd(request):
         payment_amount = request.POST['payment_amount']
         payment_system = request.POST['payment_system']
         transaction = request.POST['transaction']
-        description = organization_id + '\n' + organization_name + '\n' + description
+        description = organization_id + ' - ' + organization_name + ' - ' + description
 
 
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
 
-        advertisement_id = -1
-        sql = "SELECT COUNT(*) FROM advertisement"
         c = conn.cursor()
+        sql = """SELECT AD_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
+        result = []
+        result = c.fetchall()
 
-        for r in c:
-            advertisement_id = r[0] + 1
-        print('ad id ', advertisement_id, type(advertisement_id))
-        advertisement_id = str(advertisement_id)
+        advertisement_id = str(result[0][0])
 
         advertisement_type = 'pending'
         sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
@@ -442,16 +428,12 @@ def postJobAd(request):
         c.execute(sql)
         conn.commit()
 
-
-        job_id = -1
-        sql = "SELECT COUNT(*) FROM job"
-        c = conn.cursor()
+        sql = """SELECT JOB_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
+        result = []
+        result = c.fetchall()
 
-        for r in c:
-            job_id = r[0] + 1
-        print('job id ', job_id, type(job_id))
-        job_id = str(job_id)
+        job_id = str(result[0][0])
 
 
         sql = "INSERT INTO job VALUES('"+job_id+"','"+ job_type+"','"+ approx_salary+"','"+ designation+"','"+ business_function+"','"+ description+"','"+ required_experience+"','"+ gender_preference +"','"+ minimum_qualification+"','"+ skill_summary+"','" + advertisement_id+"')"
@@ -465,12 +447,6 @@ def postJobAd(request):
         return redirect('postJobAd')
 
     return render(request,'home/postJobAd.html')
-
-
-
-# def productAdCategoryById(id, request):
-
-
 
 
 
