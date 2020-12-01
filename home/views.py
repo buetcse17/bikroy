@@ -223,11 +223,12 @@ def handleLogin(request):
         
         sql="""select ora_hash(:p) from dual
         """
-        c.execute(sql,{'p':loginpassword})
+        c.execute(sql,{'p':str(loginpassword)})
         result=[]
         result=c.fetchall()
         loginpassword=result[0][0]
         print(loginpassword)
+        print(realpassword)
         if str(loginpassword) == str(realpassword):
             request.session['username'] = loginusername
             request.session['userLogged'] = True
