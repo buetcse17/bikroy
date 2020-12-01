@@ -101,7 +101,7 @@ end;
 
 -------------------------------------
 
----------------Submission of Prod Ad notification msg ------------
+---------------Submission of Prod Ad notification msg (before confirmation)------------
 CREATE OR REPLACE TRIGGER PRODUCT_AD_SUBMISSION_MSG
 AFTER INSERT
 ON PRODUCT
@@ -205,3 +205,43 @@ MAXVALUE 999999999999999
 NOCYCLE;
 
 
+
+
+---------------Submission of Job Ad notification msg (before confirmation) ------------
+CREATE OR REPLACE TRIGGER JOB_AD_SUBMISSION_MSG
+AFTER INSERT
+ON JOB
+FOR EACH ROW
+
+DECLARE
+	MSG_TO VARCHAR2(20);
+	AD_ID VARCHAR2(20);
+	J_ID VARCHAR2(20);
+	J_NAME VARCHAR2(300);
+	MSG_CONT VARCHAR2(1000);
+	
+BEGIN
+	
+	AD_ID := :NEW.ADVERTISEMENT_ID;
+	
+	J_ID := :NEW.JOB_ID;
+	
+	J_NAME := :NEW.JOB_TYPE ||' - '||:NEW.DESIGNATION||' of APPROX SALARY - '||:NEW.SALARY;
+	
+	MSG_TO := USERNAME_FROM_AD_ID(AD_ID);
+	
+	MSG_CONT := 'Dear '||MSG_TO||', We have received your advertisement. Your ADVERTISEMENT ID is '||AD_ID||'. Your posted JOB ID is '||J_ID||' and JOB is '||J_NAME||'. Please wait for admin approval for your advertisement before posting. You will be notified with this thread. Feel free to ask any kind of question about your advertisement. Enjoy buying and selling with us. Have a good day!';
+	
+	INSERT INTO chat 
+	VALUES(CHAT_SEQUENCE.NEXTVAL, MSG_CONT, SYSDATE,  'bikroy', MSG_TO);
+	dbms_output.put_line('USER HAS POSTED AD');
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+-------------------------------------------------------------------

@@ -95,7 +95,7 @@ def home(request):
         tempList.append(prod_loc_list[i])
         tempList.append(prod_type_list[i])
         all.append(tempList)
-    print(all)
+    # print(all)
     params = {'length_of_list':range(length_of_list), 'all':all}
     return render(request, 'home/home.html', params)
 
