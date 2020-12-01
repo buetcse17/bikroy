@@ -966,5 +966,18 @@ def myAds(request):
     params = {'length_of_list':range(length_of_list), 'allApproved':all,'length_of_list_pending':range(length_of_list_pending), 'allPending':all_pending}
     return render(request, 'home/postAd.html',params)
 
+def deleteAd(request,product_id):
+    #userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    sql="""delete from advertisement where advertisement_id=getAdv(:p)
+    """
+    c.execute(sql,{'p':product_id})
+    conn.commit()
+    conn.close()
+    return redirect("myAds")
+
+
 
        

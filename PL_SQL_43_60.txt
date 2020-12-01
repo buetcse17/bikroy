@@ -84,3 +84,19 @@ EXCEPTION
 END;
 /
 -------------------------------------------------------------
+
+------get advertisement id from product id------
+CREATE OR REPLACE FUNCTION getAdv(prod_id IN Varchar2) return varchar2 is
+adv varchar2(20);
+begin
+select ADVERTISEMENT_ID into adv from product p,ADVERTISEMENT ad where p.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and p.PRODUCT_ID=prod_id;
+return adv;
+exception
+when no_data_found then
+return 'no data found';
+when others then
+return 'unkonwn error';
+end;
+/
+
+-------------------------------------

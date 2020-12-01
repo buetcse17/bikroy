@@ -6,82 +6,159 @@ Post Job Ad
 
 {% block body %}
 <div class="container my-3">
-<h3>Provide Job Details Here</h3>
-<form action="/postJobAd/" method="post">
-{% csrf_token %}
-<div class="form-group">
-    <label for="organization_id">Organization ID</label>
-    <input type="text" class="form-control" id="organization_id" name="organization_id">
-  </div>
-  <div class="form-group">
-    <label for="organization_name">Organization Name</label>
-    <input type="text" class="form-control" id="organization_name" name="organization_name">
-  </div>
-  <div class="form-group">
-    <label for="job_type">Job Type</label></br>
-       <select id="job_type" name="job_type">
-      <option value="Full Time">Full Time</option>
-      <option value="Part Time">Part Time</option>
-    </select>
-  </div>
+  <h3>Provide Job Details Here</h3>
+  <form action="/postJobAd/" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="organization_id">Organization ID</label>
+      <input type="text" class="form-control" id="organization_id" name="organization_id">
+    </div>
+    <div class="form-group">
+      <label for="organization_name">Organization Name</label>
+      <input type="text" class="form-control" id="organization_name" name="organization_name">
+    </div>
+    <div class="form-group">
+      <label for="job_type">Job Type</label></br>
 
-  <div class="form-group">
-    <label for="designation">Designation</label>
-    <input type="text" class="form-control" id="designation" name="designation">
-  </div>
-  <div class="form-group">
-    <label for="business_function">Business Function</label>
-    <input type="text" class="form-control" id="business_function" name="business_function">
-  </div>
-  <div class="form-group">
-    <label for="approx_salary">Salary</label>
-    <input type="number" step="0.01" class="form-control" id="approx_salary" name="approx_salary">
-  </div>
-  <div class="form-group">
-    <label for="minimum_qualification">Minimum Qualification</label>
-    <input type="text" class="form-control" id="minimum_qualification" name="minimum_qualification">
-  </div>
-  <div class="form-group">
-    <label for="required_experience">Required Experience</label>
-    <input type="text" class="form-control" id="required_experience" name="required_experience">
-  </div>
-  <div class="form-group">
-    <label for="gender_preference">Gender Preference</label></br>
-    <input type="text" class="form-control" id="gender_preference" name="gender_preference">
-  </div>
-  <div class="form-group">
-    <label for="skill_summary">Skill Summary</label>
-    <input type="text" class="form-control" id="skill_summary" name="skill_summary" rows="5">
-  </div>
-  <div class="form-group">
-    <label for="description">Description (Including how to contact for this job)</label>
-    <textarea class="form-control" name="description" id="description" cols="30" rows="5"></textarea>
-  </div>
-<h3>Payment System</h3>
-        <div class="card" style="width: 30rem;">
-    <div class="card-body">
-    <ul>
-    <li class="list-group-item"><b>Bkash :</b>If you want to payment by bkash, send the money to "01919922921" with send money option</li>
-    <li class="list-group-item"><b>Rocket :</b>If you want to payment by rocket, send the money to "01919922921" with send money option</li>
-    </ul>
-    <p class="card-text">You have to pay 500tk with salary range less than 20k <br> You have to pay 1000tk with salary range greater than 20k  </p>
-   </div>
-   </div>
-        <div class="form-group">
-            <label for="payment_amount">Amount</label>
-            <input type="number" step="10" class="form-control" id="payment_amount" name="payment_amount">
+      <!-- Radio gender start -->
+      <fieldset class="form-group">
+        <div class="row">
+          <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="job_type" id="gridRadios1" value="Full Time" checked>
+              <label class="form-check-label" for="gridRadios1">
+                Full Time
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="job_type" id="gridRadios2" value="Part Time">
+              <label class="form-check-label" for="gridRadios2">
+                Part Time
+              </label>
+            </div>
+          </div>
         </div>
-               <div class="form-group">
-            <label for="payment_system">Payment system</label>
-            <input type="text" class="form-control" id="payment_system" name="payment_system">
-        </div> 
-        <div class="form-group">
-            <label for="transaction">Transaction ID</label>
-            <input type="text" class="form-control" id="transaction" name="transaction">
+      </fieldset>
+      <!-- Radio gender end -->
+    </div>
+
+    <div class="form-group">
+      <label for="designation">Designation</label>
+      <input type="text" class="form-control" id="designation" name="designation">
+    </div>
+    <div class="form-group">
+      <label for="business_function">Business Function</label>
+      <input type="text" class="form-control" id="business_function" name="business_function">
+    </div>
+    <div class="form-group">
+      <label for="approx_salary">Salary</label>
+      <input type="number" step="0.01" class="form-control" id="approx_salary" name="approx_salary">
+    </div>
+    <div class="form-group">
+      <label for="minimum_qualification">Minimum Qualification</label>
+      <input type="text" class="form-control" id="minimum_qualification" name="minimum_qualification">
+    </div>
+    <div class="form-group">
+      <label for="required_experience">Required Experience</label>
+      <input type="text" class="form-control" id="required_experience" name="required_experience">
+    </div>
+    <div class="form-group">
+      <label for="gender_preference">Gender Preference</label></br>
+
+
+      <!-- Radio gender start -->
+      <fieldset class="form-group">
+        <div class="row">
+          <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender_preference" id="gridRadios1" value="MALE">
+              <label class="form-check-label" for="gridRadios1">
+                Male Preferred
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender_preference" id="gridRadios2" value="FEMALE">
+              <label class="form-check-label" for="gridRadios2">
+                Female Preferred
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender_preference" id="gridRadios2" value="N/A"
+                checked>
+              <label class="form-check-label" for="gridRadios3">
+                Doesn't Matter
+              </label>
+            </div>
+          </div>
         </div>
+      </fieldset>
+      <!-- Radio gender end -->
 
-  <button type="submit" class="btn btn-primary">Post Ad</button>
-</form>
 
-  </div>
- {% endblock %}
+      <!-- <input type="text" class="form-control" id="gender_preference" name="gender_preference"> -->
+    </div>
+    <div class="form-group">
+      <label for="skill_summary">Skill Summary</label>
+      <input type="text" class="form-control" id="skill_summary" name="skill_summary" rows="5">
+    </div>
+    <div class="form-group">
+      <label for="description">Description (Including how to contact for this job)</label>
+      <textarea class="form-control" name="description" id="description" cols="30" rows="5"></textarea>
+    </div>
+    <h3>Payment System</h3>
+    <div class="card" style="width: 30rem;">
+      <div class="card-body">
+        <ul>
+          <li class="list-group-item"><b>Bkash :</b>If you want to payment by bkash, send the money to "01919922921"
+            with send money option</li>
+          <li class="list-group-item"><b>Rocket :</b>If you want to payment by rocket, send the money to "01919922921"
+            with send money option</li>
+        </ul>
+        <p class="card-text">You have to pay 300/- BDT. <br> After sending money, fillup the Transaction ID below
+          (Recommended).</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="payment_amount">Amount</label>
+      <input type="number" step="10" class="form-control" id="payment_amount" name="payment_amount">
+    </div>
+    <div class="form-group">
+      <label for="payment_system">Payment system</label>
+
+      <!-- Radio gender start -->
+      <fieldset class="form-group">
+        <div class="row">
+          <!-- <legend class="col-form-label col-sm-2 pt-0">Select Gender</legend> -->
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_system" id="gridRadios1" value="bkash" checked>
+              <label class="form-check-label" for="gridRadios1">
+                Bkash
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="payment_system" id="gridRadios2" value="rocket">
+              <label class="form-check-label" for="gridRadios2">
+                Rocket
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <!-- Radio gender end -->
+
+
+      <!-- <input type="text" class="form-control" id="payment_system" name="payment_system"> -->
+    </div>
+    <div class="form-group">
+      <label for="transaction">Transaction ID</label>
+      <input type="text" class="form-control" id="transaction" name="transaction">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Post Ad</button>
+  </form>
+
+</div>
+{% endblock %}
