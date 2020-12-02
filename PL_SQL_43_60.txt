@@ -71,7 +71,7 @@ DECLARE
 BEGIN
 	MSG_TO := :NEW.USERNAME; 
 	INSERT INTO chat 
-	VALUES(CHAT_SEQUENCE.NEXTVAL, 'Dear '||MSG_TO||', Welcome to BIKROY.COM, Thank you for your subsciption to our website. Enjoy buying and selling with us. You will get notified with this thread while necessary. Have a good day!', SYSDATE,  'bikroy', MSG_TO, '1');
+	VALUES(CHAT_SEQUENCE.NEXTVAL, 'Dear '||MSG_TO||', Welcome to BIKROY.COM, Thank you for your subsciption to our website. Enjoy buying and selling with us. You will get notified with this thread while necessary. Have a good day!', SYSDATE,  'bikroy', MSG_TO);
 	dbms_output.put_line('USER IS WELCOMED');
 
 EXCEPTION
