@@ -562,7 +562,7 @@ def profile(request):
     
     #test
     sql="""
-    select first_name||' '||last_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE,email 
+    select first_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE,email,last_name 
     from PROFILE p,ACCOUNT ac,LOCATION l 
     where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:user1
     """
@@ -577,6 +577,7 @@ def profile(request):
         phn=r[3]
         pro_pic=r[4]
         eml=r[5]
+        lname=r[6]
     sql="""select DIVISION,DISTRICT,THANA from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:u
     """
     c.execute(sql,{'u':username})
@@ -644,7 +645,7 @@ def profile(request):
         cpos=r[2]
         cwstrt=r[3]
         corg_id=r[4]
-    params={'full_name':fname,'phone_no':phn,'email':eml,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
+    params={'first_name':fname,'last_name':lname,'phone_no':phn,'email':eml,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
     conn.close()
     return render(request, 'home/profile.html', params)
 
@@ -779,7 +780,7 @@ def myAds(request):
     userName=request.session['username']
     c = conn.cursor()
 
-    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT,pd.description
                 FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
                 WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='paid' and ad.username=:u
                 ORDER BY AD_TIME DESC
@@ -792,12 +793,15 @@ def myAds(request):
     prod_name_list = []
     prod_price_list = []
     prod_loc_list = []
+    prod_des_list = []
 
     for row in result:
         prod_id_list.append(row[0])
         prod_name_list.append(row[1])
         prod_price_list.append(row[2])
         prod_loc_list.append(row[3])
+        prod_des_list.append(row[4])
+
     # print(prod_id_list)
     # print(prod_name_list)
     # print(prod_price_list)
@@ -857,9 +861,10 @@ def myAds(request):
         tempList.append(prod_price_list[i])
         tempList.append(prod_loc_list[i])
         tempList.append(prod_type_list[i])
+        tempList.append(prod_des_list[i])
         all.append(tempList)
 
-    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT,pd.description
                 FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
                 WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='pending' and ad.username=:u
                 ORDER BY AD_TIME DESC
@@ -872,12 +877,14 @@ def myAds(request):
     prod_name_list_pending = []
     prod_price_list_pending = []
     prod_loc_list_pending = []
+    prod_des_list_pending=[]
 
     for row in resultPending:
         prod_id_list_pending.append(row[0])
         prod_name_list_pending.append(row[1])
         prod_price_list_pending.append(row[2])
         prod_loc_list_pending.append(row[3])
+        prod_des_list_pending.append(row[4])
     #print(prod_id_list_pending)
     #print(prod_name_list_pending)
     #print(prod_price_list_pending)
@@ -937,6 +944,7 @@ def myAds(request):
         tempList_pending.append(prod_price_list_pending[i])
         tempList_pending.append(prod_loc_list_pending[i])
         tempList_pending.append(prod_type_list_pending[i])
+        tempList_pending.append(prod_des_list_pending[i])
         all_pending.append(tempList_pending)
     #print(all_pending)
     params = {'length_of_list':range(length_of_list), 'allApproved':all,'length_of_list_pending':range(length_of_list_pending), 'allPending':all_pending}
@@ -947,13 +955,90 @@ def deleteAd(request,product_id):
     dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
     conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
     c=conn.cursor()
-    sql="""delete from advertisement where advertisement_id=getAdv(:p)
+    sql="""select GETADV(PRODUCT_ID) from PRODUCT where PRODUCT_ID=:p"""
+    c.execute(sql,{'p':product_id})
+    result=[]
+    result=c.fetchall()
+    adv_id=str(result[0][0])
+    sql="""SELECT PRODUCT_id from DEVICES where PRODUCT_ID=:p
     """
     c.execute(sql,{'p':product_id})
+    result=[]
+    result=c.fetchall()
+    if len(str(result))!=0:
+        sql="""delete from devices where PRODUCT_ID=:p"""
+        c.execute(sql,{'p':product_id})
+    sql="""SELECT PRODUCT_id  from pet where PRODUCT_ID=:p
+    """
+    c.execute(sql,{'p':product_id})
+    result=[]
+    result=c.fetchall()
+    if len(str(result))!=0:
+        sql="""delete from pet where PRODUCT_ID=:p"""
+        c.execute(sql,{'p':product_id})
+    sql="""SELECT PRODUCT_id from book where PRODUCT_ID=:p
+    """
+    c.execute(sql,{'p':product_id})
+    result=[]
+    result=c.fetchall()
+    if len(str(result))!=0:
+        sql="""delete from book where PRODUCT_ID=:p"""
+        c.execute(sql,{'p':product_id})
+    sql="""SELECT PRODUCT_id  from course where PRODUCT_ID=:p
+    """
+    c.execute(sql,{'p':product_id})
+    result=[]
+    result=c.fetchall()
+    if len(str(result))!=0:
+        sql="""delete from course where PRODUCT_ID=:p"""
+        c.execute(sql,{'p':product_id})
+    sql="""SELECT PRODUCT_id  from tution where PRODUCT_ID=:p
+    """
+    c.execute(sql,{'p':product_id})
+    result=[]
+    result=c.fetchall()
+    if len(str(result))!=0:
+        sql="""delete from tution where PRODUCT_ID=:p"""
+        c.execute(sql,{'p':product_id})
+    sql="""DELETE from product WHERE PRODUCT_ID=:p"""
+    c.execute(sql,{'p':product_id})
+    sql="""delete from advertisement where advertisement_id=:ad
+    """
+    c.execute(sql,{'ad':adv_id})
     conn.commit()
     conn.close()
     return redirect("myAds")
-
-
+def editAd(request,product_id):
+    #userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if request.method=="POST":
+        prod_name=request.POST['editProdName']
+        price=request.POST['editPrice']
+        des=request.POST['editDescription']
+        sql="""update product set product_name=:pn,price=:pr, description=:d where product_id=:p
+        """
+        c.execute(sql,{'pn':prod_name,'pr':price,'d':des,'p':product_id})
+        conn.commit()
+        conn.close()
+    return redirect("myAds")
+def editProfile(request):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if request.method=="POST":
+        f_name=request.POST['editFirstName']
+        l_name=request.POST['editLastName']
+        phn=request.POST['editPhoneNo']
+        dob=request.POST['editDOB']
+        gender=request.POST['editGender']
+        sql="""update profile set first_name=:f,last_name=:l,gender=:g,date_of_birth=to_date(:dob,'yyyy-mm-dd'),phone_no=:phn where profile_no=getProfile(:u)
+        """
+        c.execute(sql,{'f':f_name,'l':l_name,'g':gender,'dob':dob,'phn':phn,'u':userName})
+        conn.commit()
+        conn.close()
+    return redirect("profile")
 
        

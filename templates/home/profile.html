@@ -3,14 +3,17 @@
 {% endblock title%}
 {% block body %}
 <h3><b>{{request.session.username}}</b></h3><br>
+<div class='row'>
 <div class='container'>
-<a class="btn btn-primary" href="/myAds/" role="button">My ADs</a>
+<a class="btn btn-success" href="/myAds/" role="button">My ADs</a>
+<button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editPass">Change Password</button>
+<button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#edit{{request.session.username}}">Edit Profile</button>
 </div>
 <h5>
 <div class='container'>
 <!--propic and button pore add kora lagbe-->
-<p><b>Name: </b>{{full_name}}<br>
-<p><b>Email: </b>{{email}}<br>
+<p><b>Name: </b>{{first_name}} {{last_name}}<br>
+<b>Email: </b>{{email}}<br>
 <b>Gender : </b>{{gender}}<br>
 <b>Date of Birth : </b>{{date_of_birth}}<br>
 <b>Contact no : </b>{{phone_no}}<br>
@@ -405,7 +408,79 @@ works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
   </div>
 </div>
 </div>
-<!--edit work modal ending -->
+<!--edit profile modal ending -->
+
+<div class="modal fade" id="edit{{request.session.username}}" tabindex="-1" aria-labelledby="edit{{request.session.username}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit{{request.session.username}}Title">Edit Education History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span{{request.session.username}}
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/editProfile/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticFirstName" class="sr-only">First Name</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticFirstName" value="First Name : {{first_name}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editFirstName" class="sr-only">Edit First Name</label>
+    <input type="text" class="form-control" name='editFirstName' id="editFirstName" placeholder="Edit First Name">
+  </div>
+
+
+        <div class="form-group mb-2">
+    <label for="staticLastName" class="sr-only">Last Name</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticLastName" value="Last Name : {{last_name}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editLastName" class="sr-only">Edit Last Name</label>
+    <input type="text" class="form-control" name='editLastName' id="editLastName" placeholder="Edit Last Name">
+  </div>
+
+        <div class="form-group mb-2">
+    <label for="staticPhoneNo" class="sr-only">Phone No</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticPhoneNo" value="Phone No : {{phone_no}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editPhoneNo" class="sr-only">Edit Phone No</label>
+    <input type="tel" class="form-control" name='editPhoneNo' id="editPhoneNo" placeholder="Edit Phone No">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="staticDOB" class="sr-only">Date Of Birth</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticDOB" value="Date Of Birth : {{date_of_birth}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editDOB" class="sr-only">Date Of Birth</label>
+    <input type="date" class="form-control" name='editDOB' id="editDOB" placeholder="Edit Date Of Birth">
+  </div>
+
+          <div class="form-group mb-2">
+    <label for="staticGender" class="sr-only">Gender</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticGender" value="Gender : {{gender}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editGender" class="sr-only">Edit Gender</label>
+    <input type="tel" class="form-control" name='editGender' id="editGender" placeholder="Edit Gender">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--edit profile modal ending -->
 <!--just for push-->
 
 <script>

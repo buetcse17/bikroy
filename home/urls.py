@@ -34,10 +34,11 @@ urlpatterns = [
     path('profile/deleteWork/<slug:organization_id>/', views.deleteWork, name='deleteWork'),
     path('profile/changeWork/<slug:organization_id>/', views.editWork, name='editWork'),
     path('myAds/', views.myAds, name='myAds'),
+    path('editProfile/', views.editProfile, name='editProfile'),
 
     #Myads
     path('deleteAd/<slug:product_id>/', views.deleteAd, name='deleteAd'),
-
+    path('changeAd/<slug:product_id>/', views.editAd, name='editAd'),
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
 
