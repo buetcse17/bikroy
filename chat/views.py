@@ -1,6 +1,6 @@
 import cx_Oracle
 
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 
 # Create your views here.
@@ -77,32 +77,24 @@ def chatbox(request, chatUser):
     conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
     c = conn.cursor()
 
-    if request.method == 'POST':
-        chatMessage = request.POST['chatMessage']
-        chat_id = -1
-        sql = """
-                SELECT COUNT(*)
-                FROM CHAT
-                """
-        c.execute(sql)
-        result = []
-        result = c.fetchall()
-        chat_id = int(result[0][0])+1
-        print("chat id is ", chat_id)
+    try:
+        if request.method == 'POST':
+            chatMessage = request.POST['chatMessage']
 
-        sql = """
-                INSERT INTO CHAT
-                VALUES(CHAT_SEQUENCE.nextval, :chatMessage, SYSDATE, :sender_username, :receiver_username)
-                """
-        c.execute(sql, {'chatMessage':chatMessage, 'sender_username':request.session['username'], 'receiver_username':chatUser})
-        conn.commit()
-
-
+            sql = """
+                    INSERT INTO CHAT
+                    VALUES(CHAT_SEQUENCE.nextval, :chatMessage, SYSDATE, :sender_username, :receiver_username)
+                    """
+            c.execute(sql, {'chatMessage':chatMessage, 'sender_username':request.session['username'], 'receiver_username':chatUser})
+            conn.commit()
+            messages.success(request, 'Your message has been sent')
+    except:
+        messages.warning(request, 'Please type a message')
     sql =   """
-                SELECT SENDER_USERNAME, MESSAGE_CONTENT, time
-                FROM CHAT
-                WHERE (SENDER_USERNAME=:other AND RECEIVER_USERNAME=:me) OR (RECEIVER_USERNAME=:other AND SENDER_USERNAME=:me)
-                ORDER BY time
+            SELECT SENDER_USERNAME, MESSAGE_CONTENT, time
+            FROM CHAT
+            WHERE (SENDER_USERNAME=:other AND RECEIVER_USERNAME=:me) OR (RECEIVER_USERNAME=:other AND SENDER_USERNAME=:me)
+            ORDER BY time
             """
     c.execute(sql, {'me':request.session['username'], 'other':chatUser})
     result = []
@@ -119,3 +111,7 @@ def chatbox(request, chatUser):
 
     params = {'sender_msg_time':sender_msg_time, 'chatUser':chatUser}
     return render(request, 'chat/chatbox.html', params)
+    
+
+    
+
