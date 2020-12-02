@@ -92,9 +92,9 @@ def chatbox(request, chatUser):
 
         sql = """
                 INSERT INTO CHAT
-                VALUES(:chat_id, :chatMessage, SYSDATE, :sender_username, :receiver_username, '1')
+                VALUES(CHAT_SEQUENCE.nextval, :chatMessage, SYSDATE, :sender_username, :receiver_username)
                 """
-        c.execute(sql, {'chat_id':chat_id, 'chatMessage':chatMessage, 'sender_username':request.session['username'], 'receiver_username':chatUser})
+        c.execute(sql, {'chatMessage':chatMessage, 'sender_username':request.session['username'], 'receiver_username':chatUser})
         conn.commit()
 
 
