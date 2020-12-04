@@ -4,236 +4,207 @@
 
 {% block body %}
 
-{% load static %}
-
 
 <div class="jumbotron">
   <h1 class="display-4">You can post your Advertisement from Here</h1>
-  <p class="lead">You can post Advertisement from this section. There are two two types of Advertisement. Product Ad and
-    Job Ad. Select yours....</p>
+  <p class="lead">You can post Advertisement from this section. There are two two types of Advertisement. Product Ad and Job Ad. Select yours....</p>
   <hr class="my-4">
   <p>Use the buttons below to go to your desired Advertisement generation.... </p>
   <a class="btn btn-primary btn-lg" href="/postProductAd" role="button">Post Product Ad</a>
   <a class="btn btn-primary btn-lg" href="/postJobAd" role="button"> Post Job Ad</a>
 </div>
 <div class='container'>
-  <div class="spinner-border spinner-border-sm" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-  <div class="spinner-grow spinner-grow-sm" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-
-  <!-- <div class="card mx-2 my-3 text-center"> -->
-  <center>
-    <h2>Your Aprroved Products</h2>
-  </center>
-  <!-- </div> -->
-
-  {% for item in allApproved %}
-
-  <a href="/productSection/{{item.4}}/product_id-{{item.0}}">
-    <div class="mx-2 my-4 card text-right text-dark"
-      style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-      {% load static %} <img src="/{{item.6}}" class="card-img-left" height="100" width="150"
-        alt="..." />
-      <div class="card-body">
-        <h4 class="card-title">{{item.1}}</h4>
-        <p class="card-text">
-          {{item.2}} BDT<br />{{item.3}}
-        </p>
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
-  </a>
-  <div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAd{{item.0}}">
-      &#128397;</button>
+      <div class="spinner-grow spinner-grow-sm" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <!-- <div class="card mx-2 my-3 text-center"> -->
+      <center>
+        <h2>Your Aprroved Products</h2>
+      </center>
+      <!-- </div> -->
+
+      {% for item in allApproved %}
+
+      <a href="/productSection/{{item.4}}/product_id-{{item.0}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="/{{item.6}}" class="card-img-left" height="100" width="150"
+            alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{item.1}}</h4>
+            <p class="card-text">
+              {{item.2}} BDT<br />{{item.3}}
+            </p>
+          </div>
+</a>
+          <div>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAd{{item.0}}"> &#128397;</button>
+          </div>
+          <!--edit modal start-->
+          <div class="modal fade" id="editAd{{item.0}}" tabindex="-1" aria-labelledby="editAd{{item.0}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAd{{item.0}}Title">Edit Your Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/changeAd/{{item.0}}/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticProdName" class="sr-only">ProdName</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticProdName" value="Product Name : {{item.1}}">
   </div>
-  <!--edit modal start-->
-  <div class="modal fade" id="editAd{{item.0}}" tabindex="-1" aria-labelledby="editAd{{item.0}}" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editAd{{item.0}}Title">Edit Your Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="/changeAd/{{item.0}}/" method="post">
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editProdName" class="sr-only">Edit Product Name</label>
+    <input type="text" class="form-control" name='editProdName' id="editProdName" placeholder="Edit Product Name">
+  </div>
 
-            <!--form shuru-->
-            <div class="form-group mb-2">
-              <label for="staticProdName" class="sr-only">ProdName</label>
-              <input type="text" readonly class="form-control-plaintext" id="staticProdName"
-                value="Product Name : {{item.1}}">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="editProdName" class="sr-only">Edit Product Name</label>
-              <input type="text" class="form-control" name='editProdName' id="editProdName"
-                placeholder="Edit Product Name">
-            </div>
+  <div class="form-group mb-2">
+    <label for="staticPrice" class="sr-only">Start Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticPrice" value="Price : {{item.2}} ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editPrice" class="sr-only">Edit PricDescription</label>
+    <input type="number" class="form-control" name='editPrice' id="editPrice" placeholder="Edit Price">
+  </div>
 
-            <div class="form-group mb-2">
-              <label for="staticPrice" class="sr-only">Start Date</label>
-              <input type="text" readonly class="form-control-plaintext" id="staticPrice" value="Price : {{item.2}} ">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="editPrice" class="sr-only">Edit PricDescription</label>
-              <input type="number" class="form-control" name='editPrice' id="editPrice" placeholder="Edit Price">
-            </div>
-
-            <div class="form-group mb-2">
-              <label for="staticDescription" class="sr-only">Description</label>
-              <input type="text" readonly class="form-control-plaintext" id="staticDescription"
-                value="Description : {{item.5}}">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="editDescription" class="sr-only">Edit Description</label>
-              <input type="text" class="form-control" name='editDescription' id="editDescription"
-                placeholder="Edit Description">
-            </div>
-            <!--form shesh-->
-            <div>
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Update</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-        </div>
+<div class="form-group mb-2">
+    <label for="staticDescription" class="sr-only">Description</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticDescription" value="Description : {{item.5}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editDescription" class="sr-only">Edit Description</label>
+    <input type="text" class="form-control" name='editDescription' id="editDescription" placeholder="Edit Description">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
       </div>
     </div>
   </div>
 </div>
-<!--edit modal ends-->
-<div>
-  <a class="btn btn-primary" href="/deleteAd/{{item.0}}/" role="button">&#128465;</a>
 </div>
-</div>
-{%endfor%}
-</div>
-<div class="card text-center mx-2 my-4">
-  <div class="card-header">
-    </p>
-  </div>
-  <a class="btn btn-success" href="/deleteAd/{{item.0}}/" role="button">Delete</a>
-</div>
-</a>
-{%endfor%}
-</div>
-<div class="card text-center mx-2 my-4">
-  <div class="card-header">
-    </p>
-  </div>
-</div>
+          <!--edit modal ends-->
+          <div>
+          <a class="btn btn-primary" href="/deleteAd/{{item.0}}/" role="button">&#128465;</a>
+          </div>
+        </div>
+      {%endfor%}
+    </div>
+    <div class="card text-center mx-2 my-4">
+      <div class="card-header">
+        </p>
+      </div>
+    </div>
 </div>
 
 </div>
 <div class='container'>
-  <div class="spinner-border spinner-border-sm" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-  <div class="spinner-grow spinner-grow-sm" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-
-  <!-- <div class="card mx-2 my-3 text-center"> -->
-  <center>
-    <h2>Your Pending Products</h2>
-  </center>
-  <!-- </div> -->
-
-  {% for item in allPending %}
-
-  <a href="/productSection/{{item.4}}/product_id-{{item.0}}">
-    <div class="mx-2 my-4 card text-right text-dark"
-      style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-      {% load static %} <img src="/{{item.6}}" class="card-img-left" height="100" width="150"
-        alt="..." />
-      <div class="card-body">
-        <h4 class="card-title">{{item.1}}</h4>
-        <p class="card-text">
-          {{item.2}} BDT<br />{{item.3}}
-        </p>
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
-  </a>
-  <div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAd{{item.0}}">
-      &#128397;</button>
+      <div class="spinner-grow spinner-grow-sm" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <!-- <div class="card mx-2 my-3 text-center"> -->
+      <center>
+        <h2>Your Pending Products</h2>
+      </center>
+      <!-- </div> -->
+
+      {% for item in allPending %}
+
+      <a href="/productSection/{{item.4}}/product_id-{{item.0}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          {% load static %} <img src="/{{item.6}}" class="card-img-left" height="100" width="150"
+            alt="..." />
+          <div class="card-body">
+            <h4 class="card-title">{{item.1}}</h4>
+            <p class="card-text">
+              {{item.2}} BDT<br />{{item.3}}
+            </p>
+          </div>
+          </a>
+          <div>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAd{{item.0}}"> &#128397;</button>
+          </div>
+          <!--edit modal start-->
+          <div class="modal fade" id="editAd{{item.0}}" tabindex="-1" aria-labelledby="editAd{{item.0}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAd{{item.0}}Title">Edit Your Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/changeAd/{{item.0}}/" method="post">
+
+<!--form shuru-->
+         <div class="form-group mb-2">
+    <label for="staticProdName" class="sr-only">ProdName</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticProdName" value="Product Name : {{item.1}}">
   </div>
-  <!--edit modal start-->
-  <div class="modal fade" id="editAd{{item.0}}" tabindex="-1" aria-labelledby="editAd{{item.0}}" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editAd{{item.0}}Title">Edit Your Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="/changeAd/{{item.0}}/" method="post">
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editProdName" class="sr-only">Edit Product Name</label>
+    <input type="text" class="form-control" name='editProdName' id="editProdName" placeholder="Edit Product Name">
+  </div>
 
-            <!--form shuru-->
-            <div class="form-group mb-2">
-              <label for="staticProdName" class="sr-only">ProdName</label>
-              <input type="text" readonly class="form-control-plaintext" id="staticProdName"
-                value="Product Name : {{item.1}}">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="editProdName" class="sr-only">Edit Product Name</label>
-              <input type="text" class="form-control" name='editProdName' id="editProdName"
-                placeholder="Edit Product Name">
-            </div>
+  <div class="form-group mb-2">
+    <label for="staticPrice" class="sr-only">Start Date</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticPrice" value="Price : {{item.2}} ">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editPrice" class="sr-only">Edit PricDescription</label>
+    <input type="number" class="form-control" name='editPrice' id="editPrice" placeholder="Edit Price">
+  </div>
 
-            <div class="form-group mb-2">
-              <label for="staticPrice" class="sr-only">Start Date</label>
-              <input type="text" readonly class="form-control-plaintext" id="staticPrice" value="Price : {{item.2}} ">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="editPrice" class="sr-only">Edit PricDescription</label>
-              <input type="number" class="form-control" name='editPrice' id="editPrice" placeholder="Edit Price">
-            </div>
-
-            <div class="form-group mb-2">
-              <label for="staticDescription" class="sr-only">Description</label>
-              <input type="text" readonly class="form-control-plaintext" id="staticDescription"
-                value="Description : {{item.5}}">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="editDescription" class="sr-only">Edit Description</label>
-              <input type="text" class="form-control" name='editDescription' id="editDescription"
-                placeholder="Edit Description">
-            </div>
-            <!--form shesh-->
-            <div>
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Update</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-        </div>
+<div class="form-group mb-2">
+    <label for="staticDescription" class="sr-only">Description</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticDescription" value="Description : {{item.5}}">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="editDescription" class="sr-only">Edit Description</label>
+    <input type="text" class="form-control" name='editDescription' id="editDescription" placeholder="Edit Description">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
       </div>
     </div>
   </div>
 </div>
-<!--edit modal ends-->
-<div>
-  <a class="btn btn-primary" href="/deleteAd/{{item.0}}/" role="button">&#128465;</a>
 </div>
-</div>
-{%endfor%}
-<div class="card text-center mx-2 my-4">
-  <div class="card-header">
-    </p>
-  </div>
-</div>
-</a>
-{%endfor%}
-<div class="card text-center mx-2 my-4">
-  <div class="card-header">
-    </p>
-  </div>
-</div>
+          <!--edit modal ends-->
+          <div>
+          <a class="btn btn-primary" href="/deleteAd/{{item.0}}/" role="button">&#128465;</a>
+          </div>
+        </div>
+      {%endfor%}
+    <div class="card text-center mx-2 my-4">
+      <div class="card-header">
+        </p>
+      </div>
+    </div>
 </div>
 
 
