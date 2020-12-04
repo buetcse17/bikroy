@@ -1,32 +1,4 @@
-------getLocation_from_username------
-CREATE OR REPLACE FUNCTION getloc(userN IN Varchar2) return varchar2 is
-l varchar2(20);
-begin
-select LOCATION_ID into l from account ac,profile p where username=userN and ac.profile_no=p.PROFILE_no;
-return l;
-exception
-when no_data_found then
-return 'no data found';
-when others then
-return 'unkonwn error';
-end;
-
-------getProfileNo_from_username------
-CREATE OR REPLACE FUNCTION getProfile(userN IN Varchar2) return varchar2 is
-p varchar2(20);
-begin
-select profile_NO into p from account where username=userN;
-return p;
-exception
-when no_data_found then
-return 'no data found';
-when others then
-return 'unkonwn error';
-end;
-
-
-
------password hashing------
+-----password hashing------------------------------------------------------------------------
 -----when inserting or updating password----
 CREATE OR REPLACE TRIGGER PASSWORD_HASH
 BEFORE INSERT OR UPDATE
@@ -52,15 +24,11 @@ EXCEPTION
 		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
 END;
 /
-----------------------------------------------------------
-
-
----------CHAT_ID creating----------
-CREATE SEQUENCE CHAT_SEQUENCE
+-------------------------------------------------------------------------------------------------------------
 
 
 
---------Welcome Message from bikroy admin to user after sign up-------
+--------Welcome Message from bikroy admin to user after sign up-----------------------------------------------------------
 CREATE OR REPLACE TRIGGER WELCOME_MSG
 AFTER INSERT
 ON ACCOUNT
@@ -83,25 +51,13 @@ EXCEPTION
 		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
 END;
 /
--------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
 
-------get advertisement id from product id------
-CREATE OR REPLACE FUNCTION getAdv(prod_id IN Varchar2) return varchar2 is
-adv varchar2(20);
-begin
-select ad.ADVERTISEMENT_ID into adv from product p,ADVERTISEMENT ad where p.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and p.PRODUCT_ID=prod_id;
-return adv;
-exception
-when no_data_found then
-return 'no data found';
-when others then
-return 'unkonwn error';
-end;
-/
 
--------------------------------------
 
----------------Submission of Prod Ad notification msg (before confirmation)------------
+
+
+---------------Submission of Prod Ad notification msg (before confirmation)---------------------------------------------------------------
 CREATE OR REPLACE TRIGGER PRODUCT_AD_SUBMISSION_MSG
 AFTER INSERT
 ON PRODUCT
@@ -137,86 +93,11 @@ EXCEPTION
 		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
 END;
 /
-
-
---------- USERNAME FROM AD ID -----
-CREATE OR REPLACE FUNCTION USERNAME_FROM_AD_ID(AD_ID IN VARCHAR2)
-RETURN VARCHAR2 IS
-	U_NAME VARCHAR2(20);
-
-BEGIN
-	SELECT USERNAME INTO U_NAME
-	FROM ADVERTISEMENT
-	WHERE ADVERTISEMENT_ID = AD_ID;
-	RETURN U_NAME;
-EXCEPTION
-	WHEN NO_DATA_FOUND THEN
-		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
-	WHEN TOO_MANY_ROWS THEN
-		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
-	WHEN OTHERS THEN
-		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
-END;
-/
---------------------------------------------------------------------
-
----------CHAT_ID creating----------
-CREATE SEQUENCE CHAT_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
-
----------AD_ID creating----------Done
-CREATE SEQUENCE AD_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
-
----------LOC_ID creating----------Done
-CREATE SEQUENCE LOCATION_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
-
----------PRODUCT_ID creating----------Done
-CREATE SEQUENCE PRODUCT_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
-
-
----------PROFILE_ID creating----------Done
-CREATE SEQUENCE PROFILE_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
-
-
----------JOB_ID creating----------Done
-CREATE SEQUENCE JOB_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
-
-
----------image id creating-----------
-CREATE SEQUENCE IMAGE_SEQUENCE
-INCREMENT BY 1
-START WITH 100000000000001
-MAXVALUE 999999999999999
-NOCYCLE;
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-
-
----------------Submission of Job Ad notification msg (before confirmation) ------------
+---------------Submission of Job Ad notification msg (before confirmation) -------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER JOB_AD_SUBMISSION_MSG
 AFTER INSERT
 ON JOB
@@ -253,12 +134,12 @@ EXCEPTION
 		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
 END;
 /
--------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
----------------JOB AD CONFIRMED BY ADMIN MSG ------------
+---------------JOB AD CONFIRMED BY ADMIN MSG ------------------------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER JOB_AD_CONFIRMATION_MSG
 AFTER UPDATE
 --OF ADVERTISEMENT_TYPE
@@ -297,9 +178,11 @@ EXCEPTION
 		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
 END;
 /
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 
----------------PRODUCT AD CONFIRMED BY ADMIN MSG ------------
+
+---------------PRODUCT AD CONFIRMED BY ADMIN MSG ----------------------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER PROD_AD_CONFIRMATION_MSG
 AFTER UPDATE
 --OF ADVERTISEMENT_TYPE
@@ -338,3 +221,4 @@ EXCEPTION
 		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
 END;
 /
+----------------------------------------------------------------------------------------------------------------------------------------------
