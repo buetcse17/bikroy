@@ -10,7 +10,7 @@ Category Wise Product Ad
 <div class="container my-3">
     <h3>Provide Product Details Here</h3>
     <!-- <form action="/postProductAd/" method="post"> -->
-    <form action="/productAdCategory/{{id}}/" method="post">
+    <form action="/productAdCategory/{{id}}/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- basic product-->
         <h3>Fillup form</h3>
