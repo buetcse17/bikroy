@@ -89,7 +89,7 @@ END;
 CREATE OR REPLACE FUNCTION getAdv(prod_id IN Varchar2) return varchar2 is
 adv varchar2(20);
 begin
-select ADVERTISEMENT_ID into adv from product p,ADVERTISEMENT ad where p.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and p.PRODUCT_ID=prod_id;
+select ad.ADVERTISEMENT_ID into adv from product p,ADVERTISEMENT ad where p.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and p.PRODUCT_ID=prod_id;
 return adv;
 exception
 when no_data_found then
@@ -205,6 +205,15 @@ MAXVALUE 999999999999999
 NOCYCLE;
 
 
+---------image id creating-----------
+CREATE SEQUENCE IMAGE_SEQUENCE
+INCREMENT BY 1
+START WITH 100000000000001
+MAXVALUE 999999999999999
+NOCYCLE;
+
+
+
 
 
 ---------------Submission of Job Ad notification msg (before confirmation) ------------
@@ -245,3 +254,4 @@ EXCEPTION
 END;
 /
 -------------------------------------------------------------------
+
