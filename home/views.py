@@ -2,7 +2,8 @@ import cx_Oracle #for oracle connection
 
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-
+from django.core.files.storage import FileSystemStorage
+import os
 
 # from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.models import User
@@ -16,9 +17,10 @@ def home(request):
 
     c = conn.cursor()
 
-    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT
-                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
-                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='paid'
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT, im.image_url
+                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf, image im
+                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND im.PRODUCT_ID=pd.PRODUCT_ID
+                AND LOWER(ad.ADVERTISEMENT_TYPE)='paid'
                 ORDER BY AD_TIME DESC
             """
     c.execute(sql)
@@ -29,16 +31,19 @@ def home(request):
     prod_name_list = []
     prod_price_list = []
     prod_loc_list = []
+    prod_image_list = []
 
     for row in result:
         prod_id_list.append(row[0])
         prod_name_list.append(row[1])
         prod_price_list.append(row[2])
         prod_loc_list.append(row[3])
+        prod_image_list.append(row[4])
     # print(prod_id_list)
     # print(prod_name_list)
     # print(prod_price_list)
     # print(prod_loc_list)
+    # print(prod_image_list)
 
     prod_type_list = []
     for i in prod_id_list:
@@ -94,6 +99,7 @@ def home(request):
         tempList.append(prod_price_list[i])
         tempList.append(prod_loc_list[i])
         tempList.append(prod_type_list[i])
+        tempList.append(prod_image_list[i])
         all.append(tempList)
     # print(all)
     params = {'length_of_list':range(length_of_list), 'all':all}
@@ -266,7 +272,12 @@ def productAdCategory(request,id):
             product_price = request.POST['product_price']
             product_description = request.POST['product_description']
             product_contact_no = request.POST['product_contact_no']
-            product_picture = request.POST['product_picture']
+
+            try:
+                product_picture = request.FILES['product_picture']
+            except:
+                #messages.warning(request, 'Product Image did not upload')
+                pass
             payment_amount = request.POST['payment_amount']
             payment_system = request.POST['payment_system']
             transaction = request.POST['transaction']
@@ -311,15 +322,6 @@ def productAdCategory(request,id):
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
 
-        # advertisement_id = -1
-        # sql = "SELECT COUNT(*) FROM advertisement"
-        # c = conn.cursor()
-        # c.execute(sql)
-
-        # for r in c:
-        #     advertisement_id = r[0] + 1
-        # print('ad id ', advertisement_id, type(advertisement_id))
-        # advertisement_id = str(advertisement_id)
 
         c = conn.cursor()
         sql = """SELECT AD_SEQUENCE.nextval FROM DUAL"""
@@ -335,15 +337,7 @@ def productAdCategory(request,id):
         c.execute(sql)
         conn.commit()
 
-        # product_id = -1
-        # sql = "SELECT COUNT(*) FROM product"
-        # c = conn.cursor()
-        # c.execute(sql)
-
-        # for r in c:
-        #     product_id = r[0] + 1
-        # print('product_id ', product_id, type(product_id))
-        # product_id = str(product_id)
+        
         sql = """SELECT PRODUCT_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
         result = []
@@ -355,6 +349,36 @@ def productAdCategory(request,id):
         print('product_sql ', sql)
         c.execute(sql)
         conn.commit()
+
+        #delete if product image previously exists
+        nam = 'static/productImage/'+str(product_id)+'.jpg'
+        if os.path.isfile(nam):
+            os.remove(nam)
+        
+        #add if product image doesn't exist
+        folder = 'static/productImage'
+        try:
+            extenstion = product_picture.name
+            extenstion = extenstion.split('.')
+            extenstion = extenstion[1]
+            filename = str(product_id) + '.' + 'jpg'
+            fs = FileSystemStorage(location=folder)
+            filesaved = fs.save(filename, product_picture)
+            file_url = fs.url(filesaved)
+            my_url = folder + '/' + filename
+            print('file_url is :', file_url)
+            print('my_url is :', my_url)
+            sql = """INSERT INTO IMAGE VALUES(IMAGE_SEQUENCE.nextval, :image_url, :product_id)"""
+            c.execute(sql, {'image_url':my_url, 'product_id':product_id})
+            conn.commit()
+        except:
+            my_url = folder + '/' + 'noImageAvailable.jpg'
+            sql = """INSERT INTO IMAGE VALUES(IMAGE_SEQUENCE.nextval, :image_url, :product_id)"""
+            c.execute(sql, {'image_url':my_url, 'product_id':product_id})
+            conn.commit()
+            messages.warning(request, 'You submitted without any product image')
+            pass
+
 
         if id == 1:
             sql = "INSERT INTO devices VALUES('"+product_id+"','"+ device_category+"','"+ device_brand+"','"+ device_model+"','"+ device_generation+"','"+ device_features+"','"+ device_condition+"','"+ device_authenticity+"')"
@@ -806,6 +830,7 @@ def myAds(request):
     # print(prod_name_list)
     # print(prod_price_list)
     # print(prod_loc_list)
+    # print(prod_image_list)
 
     prod_type_list = []
     for i in prod_id_list:
@@ -877,6 +902,7 @@ def myAds(request):
     prod_name_list_pending = []
     prod_price_list_pending = []
     prod_loc_list_pending = []
+    prod_image_list_pending = []
     prod_des_list_pending=[]
 
     for row in resultPending:
@@ -884,6 +910,7 @@ def myAds(request):
         prod_name_list_pending.append(row[1])
         prod_price_list_pending.append(row[2])
         prod_loc_list_pending.append(row[3])
+        prod_image_list_pending.append(row[4])
         prod_des_list_pending.append(row[4])
     #print(prod_id_list_pending)
     #print(prod_name_list_pending)
@@ -944,6 +971,7 @@ def myAds(request):
         tempList_pending.append(prod_price_list_pending[i])
         tempList_pending.append(prod_loc_list_pending[i])
         tempList_pending.append(prod_type_list_pending[i])
+        tempList_pending.append(prod_image_list_pending[i])
         tempList_pending.append(prod_des_list_pending[i])
         all_pending.append(tempList_pending)
     #print(all_pending)
