@@ -27,7 +27,7 @@
 
       <a href="/productSection/1/product_id-{{product.product_id}}">
         <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          {% load static %} <img src="/{{product.product_image}}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
             <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">
@@ -47,7 +47,7 @@
       {% for product in products %}
       <a href="/productSection/2/product_id-{{product.product_id}}">
         <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-          {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          {% load static %} <img src="/{{product.product_image}}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
             <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">{{product.pet_type}}<br />TK. {{product.price}}</p>
@@ -64,7 +64,7 @@
       {% for product in products %}
       <a href="/productSection/3/product_id-{{product.product_id}}">
         <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-          {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          {% load static %} <img src="/{{product.product_image}}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
             <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">
@@ -83,7 +83,7 @@
       {% for product in products %}
       <a href="/productSection/4/product_id-{{product.product_id}}">
         <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-          {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          {% load static %} <img src="/{{product.product_image}}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
             <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">{{product.course_title}}<br />TK. {{product.price}}</p>
@@ -100,7 +100,7 @@
       {% for product in products %}
       <a href="/productSection/5/product_id-{{product.product_id}}">
         <div class="mx-2 my-4 card text-right text-dark" style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
-          {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-left" height="200" width="300" alt="..." />
+          {% load static %} <img src="/{{product.product_image}}" class="card-img-left" height="200" width="300" alt="..." />
           <div class="card-body">
             <h4 class="card-title">{{product.product_name}}</h4>
             <p class="card-text">

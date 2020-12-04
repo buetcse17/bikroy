@@ -804,11 +804,12 @@ def myAds(request):
     userName=request.session['username']
     c = conn.cursor()
 
-    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT,pd.description
-                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
-                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='paid' and ad.username=:u
-                ORDER BY AD_TIME DESC
-            """
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT,pd.description, im.image_url
+                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf, image im
+                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID and im.product_id=pd.product_id
+                AND LOWER(ad.ADVERTISEMENT_TYPE)='paid' and ad.username=:u
+                ORDER BY AD_TIME DESC"""
+    
     c.execute(sql,{'u':userName})
     result = []
     result = c.fetchall()
@@ -818,6 +819,7 @@ def myAds(request):
     prod_price_list = []
     prod_loc_list = []
     prod_des_list = []
+    prod_image_list = []
 
     for row in result:
         prod_id_list.append(row[0])
@@ -826,6 +828,7 @@ def myAds(request):
         prod_loc_list.append(row[3])
         prod_des_list.append(row[4])
 
+        prod_image_list.append(row[5])
     # print(prod_id_list)
     # print(prod_name_list)
     # print(prod_price_list)
@@ -887,13 +890,16 @@ def myAds(request):
         tempList.append(prod_loc_list[i])
         tempList.append(prod_type_list[i])
         tempList.append(prod_des_list[i])
+        tempList.append(prod_image_list[i])
         all.append(tempList)
 
-    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT,pd.description
-                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
-                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID AND LOWER(ad.ADVERTISEMENT_TYPE)='pending' and ad.username=:u
-                ORDER BY AD_TIME DESC
-            """
+    sql = """   SELECT pd.PRODUCT_ID, pd.PRODUCT_NAME, pd.PRICE, loc.DISTRICT,pd.description, im.image_url
+                FROM PRODUCT pd, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf, image im
+                WHERE ad.ADVERTISEMENT_ID = pd.ADVERTISEMENT_ID AND ad.USERNAME=ac.USERNAME AND pf.PROFILE_NO=ac.PROFILE_NO AND pf.LOCATION_ID=loc.LOCATION_ID and im.product_id=pd.product_id
+                AND LOWER(ad.ADVERTISEMENT_TYPE)='pending' and ad.username=:u
+                ORDER BY AD_TIME DESC"""
+        
+
     c.execute(sql,{'u':userName})
     resultPending = []
     resultPending = c.fetchall()
@@ -910,8 +916,8 @@ def myAds(request):
         prod_name_list_pending.append(row[1])
         prod_price_list_pending.append(row[2])
         prod_loc_list_pending.append(row[3])
-        prod_image_list_pending.append(row[4])
         prod_des_list_pending.append(row[4])
+        prod_image_list_pending.append(row[5])
     #print(prod_id_list_pending)
     #print(prod_name_list_pending)
     #print(prod_price_list_pending)
@@ -971,8 +977,8 @@ def myAds(request):
         tempList_pending.append(prod_price_list_pending[i])
         tempList_pending.append(prod_loc_list_pending[i])
         tempList_pending.append(prod_type_list_pending[i])
-        tempList_pending.append(prod_image_list_pending[i])
         tempList_pending.append(prod_des_list_pending[i])
+        tempList_pending.append(prod_image_list_pending[i])
         all_pending.append(tempList_pending)
     #print(all_pending)
     params = {'length_of_list':range(length_of_list), 'allApproved':all,'length_of_list_pending':range(length_of_list_pending), 'allPending':all_pending}

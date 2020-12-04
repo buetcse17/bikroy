@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block title %} product view {% endblock title %}
 {%block body %}
+{% load static %} 
 <div class="row">
   <div class="container">
     <div class="center">
@@ -12,7 +13,7 @@
           <p class="card-text "><small class="text-white">Posted at {{ad_time}}</small></p>
         </div>
         <div class="center">
-          {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-bottom" alt="...">
+          <img src="/{{picture_of_product}}" class="card-img-bottom" alt="...">
         </div>
       </div>
 
@@ -142,7 +143,7 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">Seller Contact No :<h2><span
                 class="badge badge-info"> {{contact_no}} </span></h2>
           </li>
-          <li><a href="/chat/chatbox/{{user_of_product}}/" type="button" class="btn btn-success btn-lg"> Chat with {{fullname}} </a></li>
+          <li><a href="/chat/chatbox/{{user_of_product}}/" type="button" class="btn btn-success btn-lg"> Chat with {{fullname}} <span style='font-size:30px;'>&#128172;</span></a></li>
           <!-- <li class="list-group-item">Payment System : {{payment_system}}</li> -->
         </ul>
       </div>
@@ -170,7 +171,7 @@
 
             <div class="col mb-4">
               <div class="card h-100 text-white" style="max-width: 1000rem; background-color:#1F618D  ;">
-                {% load static %} <img src="{% static 'devices.jpg' %}" class="card-img-top" alt="...">
+                <img src="/{{product.sproduct_pic}}" class="card-img-top" height="200" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{product.sname}}</h5>
                   <p class="card-text">
@@ -196,7 +197,7 @@
 
             <div class="col mb-4">
               <div class="card h-100">
-                {% load static %} <img src="{% static 'pets.jpg' %}" class="card-img-top" alt="...">
+                 <img src="/{{product.sproduct_pic}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{product.sname}}</h5>
                   <p class="card-text">{{product.sp_type}}<br />TK. {{product.sprice}}</p>
@@ -219,7 +220,7 @@
 
             <div class="col mb-4">
               <div class="card h-100">
-                {% load static %} <img src="{% static 'books.jpg' %}" class="card-img-top" alt="...">
+                {% load static %}  <img src="/{{product.sproduct_pic}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{product.sname}}</h5>
                   <p class="card-text">
@@ -243,7 +244,7 @@
 
             <div class="col mb-4">
               <div class="card h-100">
-                {% load static %} <img src="{% static 'courses.jpg' %}" class="card-img-top" alt="...">
+                {% load static %}  <img src="/{{product.sproduct_pic}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{product.sname}}</h5>
                     <p class="card-text">{{product.s_title}}<br />TK. {{product.sprice}}</p>
@@ -266,7 +267,7 @@
 
             <div class="col mb-4">
               <div class="card h-100">
-                {% load static %} <img src="{% static 'tuitions.jpg' %}" class="card-img-top" alt="...">
+                {% load static %}  <img src="/{{product.sproduct_pic}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{product.sname}}</h5>
                     <p class="card-text">
