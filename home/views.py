@@ -2,6 +2,7 @@ import cx_Oracle #for oracle connection
 
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
 
 
 # from django.contrib.auth import authenticate, login, logout
@@ -266,7 +267,11 @@ def productAdCategory(request,id):
             product_price = request.POST['product_price']
             product_description = request.POST['product_description']
             product_contact_no = request.POST['product_contact_no']
-            product_picture = request.POST['product_picture']
+
+            try:
+                product_picture = request.FILES['product_picture']
+            except:
+                messages.warning(request, 'Product Image did not load')
             payment_amount = request.POST['payment_amount']
             payment_system = request.POST['payment_system']
             transaction = request.POST['transaction']
@@ -311,15 +316,6 @@ def productAdCategory(request,id):
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
 
-        # advertisement_id = -1
-        # sql = "SELECT COUNT(*) FROM advertisement"
-        # c = conn.cursor()
-        # c.execute(sql)
-
-        # for r in c:
-        #     advertisement_id = r[0] + 1
-        # print('ad id ', advertisement_id, type(advertisement_id))
-        # advertisement_id = str(advertisement_id)
 
         c = conn.cursor()
         sql = """SELECT AD_SEQUENCE.nextval FROM DUAL"""
@@ -335,15 +331,7 @@ def productAdCategory(request,id):
         c.execute(sql)
         conn.commit()
 
-        # product_id = -1
-        # sql = "SELECT COUNT(*) FROM product"
-        # c = conn.cursor()
-        # c.execute(sql)
-
-        # for r in c:
-        #     product_id = r[0] + 1
-        # print('product_id ', product_id, type(product_id))
-        # product_id = str(product_id)
+        
         sql = """SELECT PRODUCT_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
         result = []
@@ -351,10 +339,37 @@ def productAdCategory(request,id):
 
         product_id = str(result[0][0])
 
+
+        #delete if product image previously exists
+        nam = 'static/productImage/'+str(product_id)+'.jpg'
+        if os.path.isfile(nam):
+            os.remove(nam)
+        
+        #add if product image doesn't exist
+        folder = 'static/productImage'
+        try:
+            extenstion = product_picture.name
+            extenstion = extenstion.split('.')
+            extenstion = extenstion[1]
+            filename = str(product_id) + '.' + 'jpg'
+            fs = FileSystemStorage(location=folder)
+            filename = fs.save(filename, product_picture)
+            file_url = fs.url(filename)
+            my_url = folder + '/' + filename
+            print('file_url is :', file_url)
+            sql = """INSERT INTO IMAGE VALUES(IMAGE_SEQUENCE.nextval, :image_url, :product_id)"""
+            c.execute(sql, {'image_url':my_url, 'product_id':product_id})
+            conn.commit()
+        except:
+            messages.warning(request, 'Product Image did not upload')
+            pass
+
         sql = "INSERT INTO product VALUES('"+product_id+"','"+ product_name+"','"+ product_price+"','"+ product_description+"','"+ product_contact_no+"','"+ advertisement_id+"')"
         print('product_sql ', sql)
         c.execute(sql)
         conn.commit()
+
+        
 
         if id == 1:
             sql = "INSERT INTO devices VALUES('"+product_id+"','"+ device_category+"','"+ device_brand+"','"+ device_model+"','"+ device_generation+"','"+ device_features+"','"+ device_condition+"','"+ device_authenticity+"')"
