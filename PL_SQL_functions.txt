@@ -1,0 +1,123 @@
+
+--------------------------------------------------------------------------------------------------------------------
+SELECT * FROM ALL_OBJECTS WHERE OBJECT_TYPE IN ('FUNCTION','PROCEDURE','PACKAGE', 'TRIGGER') AND OWNER = 'BIKROY'
+--------------------------------------------------------------------------------------------------------------------
+
+
+
+--------- USERNAME FROM AD ID ----------------------------------------------------------kawshik
+CREATE OR REPLACE FUNCTION USERNAME_FROM_AD_ID(AD_ID IN VARCHAR2)
+RETURN VARCHAR2 IS
+	U_NAME VARCHAR2(20);
+
+BEGIN
+	SELECT USERNAME INTO U_NAME
+	FROM ADVERTISEMENT
+	WHERE ADVERTISEMENT_ID = AD_ID;
+	RETURN U_NAME;
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+----------------------------------------------------------------------------------------
+
+
+
+-------get product id from ad id--------------------------------------------------------kawshik
+CREATE OR REPLACE FUNCTION PROD_ID_FROM_AD_ID(AD_ID IN VARCHAR2)
+RETURN VARCHAR2 IS
+	PROD_ID VARCHAR2(20);
+
+BEGIN
+	SELECT PRODUCT_ID INTO PROD_ID 
+	FROM PRODUCT
+	WHERE ADVERTISEMENT_ID = AD_ID;
+	RETURN PROD_ID;
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+----------------------------------------------------------------------------------------
+
+
+
+
+-------get JOB id from ad id-----------------------------------------------------------kawshik
+CREATE OR REPLACE FUNCTION JOB_ID_FROM_AD_ID(AD_ID IN VARCHAR2)
+RETURN VARCHAR2 IS
+	J_ID VARCHAR2(20);
+
+BEGIN
+	SELECT JOB_ID INTO J_ID 
+	FROM JOB
+	WHERE ADVERTISEMENT_ID = AD_ID;
+	RETURN J_ID;
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+-----------------------------------------------------------------------------------------
+
+
+
+-------get product NAME from PROD id-----------------------------------------------------kawshik
+CREATE OR REPLACE FUNCTION PROD_NAME_FROM_PROD_ID(PROD_ID IN VARCHAR2)
+RETURN VARCHAR2 IS
+	PROD_NAME VARCHAR2(30);
+
+BEGIN
+	SELECT PRODUCT_NAME INTO PROD_NAME 
+	FROM PRODUCT
+	WHERE PRODUCT_ID = PROD_ID;
+	RETURN PROD_NAME;
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+-----------------------------------------------------------------------------------------
+
+
+
+-------get JOB NAME from JOB id----------------------------------------------------------kawshik
+CREATE OR REPLACE FUNCTION JOB_NAME_FROM_JOB_ID(J_ID IN VARCHAR2)
+RETURN VARCHAR2 IS
+	JOB_NAME VARCHAR2(200);
+
+BEGIN
+	SELECT JOB_TYPE ||' - '||DESIGNATION||' of APPROX SALARY - '||SALARY INTO JOB_NAME 
+	FROM JOB
+	WHERE JOB_ID = J_ID;
+	RETURN JOB_NAME;
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
+	WHEN TOO_MANY_ROWS THEN
+		DBMS_OUTPUT.PUT_LINE('MORE THAN ONE DATA FOUND') ;
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('UNKNOWN ERROR OCCURED') ;
+END;
+/
+------------------------------------------------------------------------------------------
+
+
+

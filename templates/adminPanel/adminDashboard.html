@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}
+Admin Dashboard
+{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <div class="jumbotron my-3">
+        <h1 class="display-3">Bikroy.com - Admin Panel</h1>
+        <hr class="my-4">
+        <div class="card-center">
+            <div class="row">
+                <a href="/adminPanel/userData/" target="_blank">
+                <div class="card text-white bg-primary mx-4" style="max-width: 18rem;">
+                    <div class="card-header">User Section</div>
+                    <div class="card-body">
+                        <h5 class="card-title">View User Data</h5>
+                        <p class="card-text">Click here to view the userdata of bikroy.com subscribers. You can see
+                            their name, email, contact no etc.</p>
+                    </div>
+                </div>
+            </a>
+                <div class="card text-white bg-info mx-4" style="max-width: 18rem;">
+                    <div class="card-header">Advertisement Section</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Approve Advertisements</h5>
+                        <p class="card-text">Click here to apporve the advertisement submitted by users. After you
+                            approve, advertisements will be visible to bikroy.com wall</p>
+                    </div>
+                </div>
+                <div class="card text-white bg-success mx-4" style="max-width: 18rem;">
+                    <div class="card-header">Statistics</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Statistics Summary</h5>
+                        <p class="card-text">Click here to see buy and sell summary.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
