@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'home',
     'product',
     'job',
-    'chat'
+    'chat',
+    'adminPanel'
 ]
 
 MIDDLEWARE = [
