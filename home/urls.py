@@ -21,11 +21,6 @@ urlpatterns = [
     path('productAdCategory/', views.productAdCategory, name='productAdCategory'),
     path('productAdCategory/<int:id>/', views.productAdCategory, name='productAdCategory'),
     path('postJobAd/', views.postJobAd, name='postJobAd'),
-
-    # admin
-    path('approve/',views.approval, name='approve'),
-    path('admin/approveProduct/<slug:update_status>/<int:id>/',views.Productapproval, name='approveProduct'),
-    path('admin/approveJob/<slug:update_status>/',views.Jobapproval, name='approveProduct'),
     #profile
     path('profile/addEdu/', views.addEdu, name='addEdu'),
     path('profile/addWork/', views.addWork, name='addWork'),
