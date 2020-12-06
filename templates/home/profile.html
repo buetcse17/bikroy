@@ -2,20 +2,34 @@
 {% block title %} Profile
 {% endblock title%}
 {% block body %}
-<h3><b>{{request.session.username}}</b></h3><br>
+{%load static%}
+
 <div class='row'>
+
   <div class='container'>
-    <a class="btn btn-success" href="/myAds/" role="button">My ADs</a>
+    <center>
+      <img class="rounded-circle mb-3 mt-4" src="/static/defaultProfilePic.jpg" width="200" height="200">
+      <h2>{{first_name}} {{last_name}}</h3>
+      <a class="btn btn-info btn-lg" href="/myAds/" role="button"><h3>My Advertisements</h3> <span style='font-size:50px;'>&#128722; &#128717; &#128242; &#128188; &#128007; &#128215; &#128180; </span></a>
+
+    </center>
+
+    
+    <!-- backup -->
+    <!-- <a class="btn btn-success" href="/myAds/" role="button">My ADs</a>
     <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editPass">Change
       Password</button>
     <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal"
-      data-target="#edit{{request.session.username}}">Edit Profile</button>
+      data-target="#edit{{request.session.username}}">Edit Profile</button> -->
+      <!-- backup -->
+
   </div>
 </div>
 <h5>
   <div class='container'>
     <!-- kkp account end-->
     <table class="table table-striped table-secondary my-3">
+      <br>
       <h3>Account Info</h3>
       <thead>
       </thead>
@@ -37,9 +51,13 @@
     </table>
     <!-- kkp account end-->
 
+
     <!-- kkp profile start -->
     <table class="table table-striped table-secondary my-3">
+      <br>
       <h3>Profile Info</h3>
+      <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal"
+        data-target="#edit{{request.session.username}}">Edit Profile</button>
       <thead>
       </thead>
       <tbody>
@@ -69,7 +87,11 @@
 
     <!-- kkp education start -->
     <table class="table table-striped table-secondary my-3">
+      <br>
       <h3>Education History</h3>
+      <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#addEdu">
+        Add Education
+      </button>
       <thead>
         <th>Institution Name</th>
         <th>Faculty</th>
@@ -116,7 +138,11 @@
 
     <!-- kkp work start -->
     <table class="table table-striped table-secondary my-3">
+      <br>
       <h3>Work History</h3>
+      <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#addWork">
+        Add Work
+      </button>
       <thead>
         <th>Organization Name</th>
         <th>Designation</th>
@@ -128,7 +154,7 @@
         {% if past_works %}
         {% for e in past_works %}
         <tr>
-          
+
           <td>{{e.organization_name}}</td>
           <td>{{e.position}}</td>
           <td>{{e.wstart_date}}</td>
@@ -150,7 +176,8 @@
           <td>{{curr_wstart_date}}</td>
           <td>-----</td>
           <td>
-            <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal" data-target="#editWork{{curr_org_id}}">
+            <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal"
+              data-target="#editWork{{curr_org_id}}">
               Edit
             </button>
           </td>
@@ -282,7 +309,7 @@
               <div class="modal-header">
                 <h5 class="modal-title" id="editWork{{e.organization_id}}Title">Edit Work History</h5> <button
                   type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                  <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
