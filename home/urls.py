@@ -35,6 +35,7 @@ urlpatterns = [
     #Myads
     path('deleteAd/<slug:product_id>/', views.deleteAd, name='deleteAd'),
     path('changeAd/<slug:product_id>/', views.editAd, name='editAd'),
+    path('deleteJobAd/<slug:job_id>/', views.deleteJobAd, name='deleteJobAd'),
     # dummy
     path('list', views.list_jobs, name='list_jobs'),
 

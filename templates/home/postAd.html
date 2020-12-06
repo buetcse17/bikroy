@@ -24,7 +24,7 @@
 
   <!-- <div class="card mx-2 my-3 text-center"> -->
   <center>
-    <h2>Your Aprroved Products</h2>
+    <h2>Your Aprroved Items</h2>
   </center>
   <!-- </div> -->
 
@@ -107,6 +107,30 @@
 </div>
 </div>
 {%endfor%}
+<!--jobs approved gula shuru-->
+ {% for job in allJobsApproved %}
+
+      <a href="/jobSection/job_id-{{job.job_id}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          <div class="card-body">
+            <h4 class="card-title">{{job.job_type}}</h4>
+            <p class="card-text">
+              {{job.designation}}<br /><b>TK.
+                {{job.salary}}</b><br>
+              <br>
+              {{job.district}}, Jobs
+            </p>
+          </div>
+        
+      </a>
+<div>
+  <a onclick="return confirmDelete()" class="btn btn-primary" href="/deleteJobAd/{{job.job_id}}/" role="button">&#128465;</a>
+</div>
+</div>
+
+{%endfor%}
+<!--approved jobs sesh-->
 </div>
 <div class="card text-center mx-2 my-4">
   <div class="card-header">
@@ -126,7 +150,7 @@
 
   <!-- <div class="card mx-2 my-3 text-center"> -->
   <center>
-    <h2>Your Pending Products</h2>
+    <h2>Your Pending Items</h2>
   </center>
   <!-- </div> -->
 
@@ -209,6 +233,29 @@
 </div>
 </div>
 {%endfor%}
+<!--jobs pending gula shuru-->
+ {% for job in allJobsPending %}
+
+      <a href="/jobSection/job_id-{{job.job_id}}">
+        <div class="mx-2 my-4 card text-right text-dark"
+          style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+          <div class="card-body">
+            <h4 class="card-title">{{job.job_type}}</h4>
+            <p class="card-text">
+              {{job.designation}}<br /><b>TK.
+                {{job.salary}}</b><br>
+              <br>
+              {{job.district}}, Jobs
+            </p>
+      </div>
+      </a>
+<div>
+  <a onclick="return confirmDelete()" class="btn btn-primary" href="/deleteJobAd/{{job.job_id}}/" role="button">&#128465;</a>
+
+</div>
+      </div>
+{%endfor%}
+<!--approved jobs sesh-->
 <div class="card text-center mx-2 my-4">
   <div class="card-header">
     </p>

@@ -7,7 +7,7 @@ def list(request):
     dsn_tns  = cx_Oracle.makedsn('localhost','1521',service_name='ORCL')
     conn = cx_Oracle.connect(user='bikroy',password='bikroy',dsn=dsn_tns)
     cursor = conn.cursor()
-    sql = "select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ac.PROFILE_NO= pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID order by PAYMENT_AMOUNT desc"
+    sql = "select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ac.PROFILE_NO= pf.PROFILE_NO and ad.ADVERTISEMENT_TYPE='paid' and pf.LOCATION_ID=l.LOCATION_ID order by PAYMENT_AMOUNT desc"
     cursor.execute(sql)
     result = cursor.fetchall()
     conn.close()
@@ -68,7 +68,7 @@ def displayJob(request,job_id):
         thana=r[10]
         district=r[11]
         division=r[12]
-    sql = ''"select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  where ( designation like '%"''+desg+''"%') and job_id<>:jb and j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ac.PROFILE_NO= pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID order by PAYMENT_AMOUNT desc"''
+    sql = ''"select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  where ( designation like '%"''+desg+''"%') and job_id<>:jb and j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ad.ADVERTISEMENT_TYPE='paid' and ac.PROFILE_NO= pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID order by PAYMENT_AMOUNT desc"''
     cursor.execute(sql,jb=job_id)
     result = cursor.fetchall()
     conn.close()

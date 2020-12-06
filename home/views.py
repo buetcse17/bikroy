@@ -896,8 +896,38 @@ def myAds(request):
         tempList_pending.append(prod_des_list_pending[i])
         tempList_pending.append(prod_image_list_pending[i])
         all_pending.append(tempList_pending)
-    #print(all_pending)
-    params = {'length_of_list':range(length_of_list), 'allApproved':all,'length_of_list_pending':range(length_of_list_pending), 'allPending':all_pending}
+    
+    jobs = []
+    sql = "select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ad.ADVERTISEMENT_TYPE='paid' and ac.PROFILE_NO= pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID and ac.username=:u order by PAYMENT_AMOUNT desc"
+    c.execute(sql,{'u':userName})
+    result=[]
+    result = c.fetchall()
+    #conn.close()
+    for r in result:
+        job_id=r[0]
+        job_type=r[1]
+        designation=r[2]
+        salary=r[3]
+        district=r[4]
+        row={'job_id':job_id,'job_type':job_type,'designation':designation,'salary':salary,'district':district}
+        jobs.append(row)
+
+    jobs_pending = []
+    sql = "select j.job_id, JOB_TYPE,DESIGNATION,SALARY,DISTRICT from job j, ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf,LOCATION l  where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ad.USERNAME=ac.USERNAME and ad.ADVERTISEMENT_TYPE='pending' and ac.PROFILE_NO= pf.PROFILE_NO and pf.LOCATION_ID=l.LOCATION_ID and ac.username=:u order by PAYMENT_AMOUNT desc"
+    c.execute(sql,{'u':userName})
+    result=[]
+    result = c.fetchall()
+    #conn.close()
+    for r in result:
+        job_id=r[0]
+        job_type=r[1]
+        designation=r[2]
+        salary=r[3]
+        district=r[4]
+        row={'job_id':job_id,'job_type':job_type,'designation':designation,'salary':salary,'district':district}
+        jobs_pending.append(row)
+    conn.close()
+    params = {'length_of_list':range(length_of_list), 'allApproved':all,'length_of_list_pending':range(length_of_list_pending), 'allPending':all_pending,'allJobsApproved':jobs,'allJobsPending':jobs_pending}
     return render(request, 'home/postAd.html',params)
 
 def deleteAd(request,product_id):
@@ -1029,7 +1059,17 @@ def changePassword(request):
             messages.warning(request, "You have entered wrong old password.Try again")
     return redirect('profile')
 
-
+def deleteJobAd(request,job_id):
+    #userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    
+    sql="""DELETE from job WHERE job_ID=:j"""
+    c.execute(sql,{'j':job_id})
+    conn.commit()
+    conn.close()
+    return redirect("myAds")
 
 
 
