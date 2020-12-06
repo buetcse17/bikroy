@@ -417,7 +417,7 @@ works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
       <div class="modal-header">
         <h5 class="modal-title" id="edit{{request.session.username}}Title">Edit Education History</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span{{request.session.username}}
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -482,7 +482,48 @@ works {{curr_org_name}} as {{curr_position}} from {{curr_wstart_date}}
 </div>
 </div>
 <!--edit profile modal ending -->
+<!--changepass modal-->
+<div class="modal fade" id="editPass" tabindex="-1" aria-labelledby="editPass" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPassTitle">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/changePassword/" method="post">
+
+<!--form shuru-->
+  <div class="form-group">
+    <label for="oldPass">Enter Your Old Password</label>
+    <input type="password" class="form-control" name='oldPass' id="oldPass" placeholder="">
+  </div>
+
+  <div class="form-group">
+    <label for="newPass">Enter Your New Password</label>
+    <input type="password" class="form-control" name='newPass' id="newPass" placeholder="">
+  </div>
+<div class="form-group">
+    <label for="confirmPass">Confirm New Password</label>
+    <input type="password" class="form-control" name='confirmPass' id="confirmPass" placeholder="">
+  </div>
+  <!--form shesh-->
+          <div>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Change</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--changepass modal ending -->
 <!--just for push-->
+
 
 <script>
 if ( window.history.replaceState ) {

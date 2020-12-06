@@ -1034,6 +1034,9 @@ def deleteAd(request,product_id):
     if len(str(result))!=0:
         sql="""delete from tution where PRODUCT_ID=:p"""
         c.execute(sql,{'p':product_id})
+    sql="""delete from image where product_id=:p
+    """
+    c.execute(sql,{'p':product_id})
     sql="""DELETE from product WHERE PRODUCT_ID=:p"""
     c.execute(sql,{'p':product_id})
     sql="""delete from advertisement where advertisement_id=:ad
@@ -1074,5 +1077,46 @@ def editProfile(request):
         conn.commit()
         conn.close()
     return redirect("profile")
+
+def changePassword(request):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if request.method=="POST":
+        old_pass=request.POST['oldPass']
+        new_pass=request.POST['newPass']
+        confirm_pass=request.POST['confirmPass']
+        sql = "SELECT password FROM ACCOUNT WHERE username ='"+userName+"'"
+        c.execute(sql)
+        result = []
+        result = c.fetchall()
+        real_pass = result[0][0]
+
+        sql="""select ora_hash(:p) from dual
+                """
+        c.execute(sql,{'p':str(old_pass)})
+        result=[]
+        result=c.fetchall()
+        given_pass=result[0][0]
+        if str(given_pass) == str(real_pass):
+            if str(new_pass)==str(confirm_pass):
+                sql="""update account set password=:p where username=:u
+                """
+                c.execute(sql,{'p':new_pass,'u':userName})
+                conn.commit()
+                conn.close()
+                messages.success(request, "Password changed Sucessfully")
+            else:
+                messages.warning(request, "You have confirmed Wrong Password")
+        else:
+            messages.warning(request, "You have entered wrong old password.Try again")
+    return redirect('profile')
+
+
+
+
+
+
 
        
