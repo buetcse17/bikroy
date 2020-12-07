@@ -166,9 +166,39 @@ def searchHome(request):
                 tempList.append(row[3])
                 tempList.append(row[4])
                 tution.append(tempList)
-        
             print(tution)
-            params = {'query':q, 'devices':devices, 'deviceCount':len(devices), 'pet':pet, 'petCount':len(pet), 'book':book, 'bookCount':len(book), 'course':course, 'courseCount':len(course), 'tution':tution, 'tutionCount':len(tution)}
+
+            sqlJob ="""
+                        SELECT j.JOB_ID, j.JOB_TYPE, j.DESIGNATION, j.SALARY, loc.DISTRICT
+                        FROM JOB j, ADVERTISEMENT ad, LOCATION loc, ACCOUNT ac, PROFILE pf
+                        WHERE ((LOWER(j.BUSINESS_FUNCTION) LIKE :query) OR
+                        (LOWER(j.DESIGNATION) LIKE :query) OR
+                        (LOWER(j.DESCRIPTION) LIKE :query) OR 
+						(LOWER(j.SKILLS_SUMMARY) LIKE :query))
+
+                        AND j.ADVERTISEMENT_ID = ad.ADVERTISEMENT_ID
+                        AND ad.ADVERTISEMENT_TYPE='paid'
+                        AND ad.USERNAME = ac.USERNAME
+                        AND ac.PROFILE_NO=pf.PROFILE_NO
+                        AND pf.LOCATION_ID= loc.LOCATION_ID
+                        ORDER BY AD_TIME DESC
+                    """
+            result = []
+            c.execute(sqlJob, {'query':query})
+            result = c.fetchall()
+            job = []
+            for row in result:
+                tempList = []
+                tempList.append(row[0])
+                tempList.append(row[1])
+                tempList.append(row[2])
+                tempList.append(row[3])
+                tempList.append(row[4])
+                job.append(tempList)
+            print(job)
+
+            totalCount = len(devices)+len(pet)+len(book)+len(course)+len(tution)+len(job)
+            params = {'query':q, 'devices':devices, 'deviceCount':len(devices), 'pet':pet, 'petCount':len(pet), 'book':book, 'bookCount':len(book), 'course':course, 'courseCount':len(course), 'tution':tution, 'tutionCount':len(tution), 'job':job, 'jobCount':len(job), 'totalCount':totalCount}
             return render(request,'search/searchHome.html', params)
         else:
             return redirect('home')

@@ -8,6 +8,8 @@ Search Item
     <div class="container">
         <div class="center">
 
+            {% if totalCount %}
+
             {%if deviceCount%}
             <center>
                 <h3>Devices from your search - "{{query}}"</h3>
@@ -114,6 +116,48 @@ Search Item
                 </div>
             </a>
             {%endfor%}
+            {% endif %}
+
+
+            {% if jobCount %}
+            <center>
+                <h3>Jobs from your search - "{{query}}"</h3>
+            </center>
+            {% for item in job %}
+
+            <a href="/jobSection/job_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+            {% else %}
+            <center>
+                <h3>Items from your search - "{{query}}"</h3>
+            </center>
+            <div class="card text-center mx-2 my-4">
+      <div class="card-header">
+        <h3>Sorry <p>&#128549; &#128549; &#128549;</h3>
+        </p>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">No More Items</h5>
+        <p class="card-text">No available items here. Wait for some sellers to give sell advertisements. Please visit
+          our website regularly. Stay tuned.</p>
+        <a href="/productSection" class="btn btn-primary">Go Product Section</a>
+      </div>
+      <div class="card-footer text-muted">
+        Thank You
+      </div>
+    </div>
             {% endif %}
         </div>
     </div>
