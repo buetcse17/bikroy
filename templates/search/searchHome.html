@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block title %}
+Search Item
+{% endblock title %}
+{% block body %}
+
+<div class="row">
+    <div class="container">
+        <div class="center">
+            <div class="container my-5">
+                <a href="/search/{{query}}/" type="button" class="btn btn-danger">Bangladesh</a>
+                <a href="/search/{{query}}/dhaka" type="button" class="btn btn-outline-primary">Dhaka</a>
+                <a href="/search/{{query}}/chittagong/" type="button" class="btn btn-outline-secondary">Chittagong</a>
+                <a href="/search/{{query}}/sylhet/" type="button" class="btn btn-outline-success">Sylhet</a>
+                <a href="/search/{{query}}/khulna/" type="button" class="btn btn-outline-danger">Khulna</a>
+                <a href="/search/{{query}}/rajshahi/" type="button" class="btn btn-outline-primary">Rajshahi</a>
+                <a href="/search/{{query}}/rangpur/" type="button" class="btn btn-outline-info">Rangpur</a>
+                <a href="/search/{{query}}/barishal/" type="button" class="btn btn-outline-secondary">Barishal</a>
+                <a href="/search/{{query}}/mymensingh/" type="button" class="btn btn-outline-dark">Mymensingh</a>
+                </div>
+
+
+            {% if totalCount %}
+
+            {%if deviceCount%}
+            <center>
+                <h3>Devices from your search - "{{query}}"</h3>
+            </center>
+
+            {% for item in devices %}
+
+            <a href="/productSection/1/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+            {% if petCount %}
+            <center>
+                <h3>Pet and Animals from your search - "{{query}}"</h3>
+            </center>
+            {% for item in pet %}
+
+            <a href="/productSection/2/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+
+            {% if bookCount %}
+            <center>
+                <h3>Books from your search - "{{query}}"</h3>
+            </center>
+            {% for item in book %}
+
+            <a href="/productSection/3/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+
+            {% if courseCount %}
+            <center>
+                <h3>Courses from your search - "{{query}}"</h3>
+            </center>
+            {% for item in course %}
+
+            <a href="/productSection/4/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+            {% if tutionCount %}
+            <center>
+                <h3>Tutions from your search - "{{query}}"</h3>
+            </center>
+            {% for item in tution %}
+
+            <a href="/productSection/5/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+
+            {% if jobCount %}
+            <center>
+                <h3>Jobs from your search - "{{query}}"</h3>
+            </center>
+            {% for item in job %}
+
+            <a href="/jobSection/job_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+            {% else %}
+            <center>
+                <h3>Items from your search - "{{query}}"</h3>
+            </center>
+            <div class="card text-center mx-2 my-4">
+                <div class="card-header">
+                    <h3>Sorry <p>&#128549; &#128549; &#128549;</h3>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">No Items</h5>
+                    <p class="card-text">No available item with your search. Wait for some sellers to give sell advertisements.
+                        Please visit
+                        our website regularly. Stay tuned.</p>
+                    <a href="/productSection" class="btn btn-primary">Go Product Section</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Thank You
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

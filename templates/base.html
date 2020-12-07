@@ -53,13 +53,11 @@
 
 
       </ul>
-      <form method="get" action="/search" class="form-inline my-2 my-lg-0 mx-3">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query"
-          id="query">
+      <form method="post" action="/search/" class="form-inline my-2 my-lg-0 mx-3">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="query"
+          id="query" required>
+          {% csrf_token %}
         <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Search</button>
-        {% ifequal request.user.username 'bikroy' %}
-        <a href="/admin" role="button" target="_blank" class="btn btn-outline-success m-2 my-sm-0"> Admin Panel </a>
-        {% endifequal %}
       </form>
 
       <!-- Button to  trigger SignUp modal -->

@@ -25,7 +25,8 @@ urlpatterns = [
     path('productSection/', include('product.urls')),
     path('jobSection/', include('job.urls')),
     path('chat/', include('chat.urls')),
-    path('adminPanel/', include('adminPanel.urls'))
+    path('adminPanel/', include('adminPanel.urls')),
+    path('search/', include('search.urls'))
 ]
 
 urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
