@@ -31,6 +31,7 @@ urlpatterns = [
     path('myAds/', views.myAds, name='myAds'),
     path('editProfile/', views.editProfile, name='editProfile'),
     path('changePassword/', views.changePassword, name='changePassword'),
+    path('editLoc/', views.editLoc, name='editLoc'),
 
     #Myads
     path('deleteAd/<slug:product_id>/', views.deleteAd, name='deleteAd'),

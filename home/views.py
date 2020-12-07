@@ -518,7 +518,7 @@ def profile(request):
         pro_pic=r[4]
         eml=r[5]
         lname=r[6]
-    sql="""select DIVISION,DISTRICT,THANA from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:u
+    sql="""select DIVISION,DISTRICT,THANA,zip_code from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:u
     """
     c.execute(sql,{'u':username})
     result=c.fetchall()
@@ -526,6 +526,7 @@ def profile(request):
         div=r[0]
         dist=r[1]
         thana=r[2]
+        zip=r[3]
     sql="""select INSTITUTION_NAME,INSTITUTION_TYPE,FACULTY,START_DATE,END_DATE,i.institution_id from INSTITUTION i, PROFILE p,EDUCATION_HISTORY edu,ACCOUNT ac where ac.PROFILE_NO=p.PROFILE_NO and edu.INSTITUTION_ID=i.INSTITUTION_ID and edu.PROFILE_NO=p.PROFILE_NO and END_DATE is not null and username=:u
     """
     c.execute(sql,{'u':username})
@@ -585,7 +586,7 @@ def profile(request):
         cpos=r[2]
         cwstrt=r[3]
         corg_id=r[4]
-    params={'first_name':fname,'last_name':lname,'phone_no':phn,'email':eml,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
+    params={'first_name':fname,'last_name':lname,'phone_no':phn,'email':eml,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'zipCode':zip,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
     conn.close()
     return render(request, 'home/profile.html', params)
 
@@ -1070,6 +1071,45 @@ def deleteJobAd(request,job_id):
     conn.commit()
     conn.close()
     return redirect("myAds")
+
+def editLoc(request):
+    userName=request.session['username']
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+    if request.method=="POST":
+        div=request.POST['editDivision']
+        dist=request.POST['editDistrict']
+        thana=request.POST['editThana']
+        zip_code=request.POST['editzipCode']
+        sql="""select location_id from location where lower(division)=lower(:d) and lower(thana)=lower(:t) and lower(district)=lower(:dt) and lower(zip_code)=lower(:z)"""
+        c.execute(sql,{'d':div,'dt':dist,'t':thana,'z':zip_code})
+        result1=[]
+        #print('location',result1)
+        result1=c.fetchall()
+        if len(result1)==0:
+            sql = """SELECT LOCATION_SEQUENCE.nextval FROM DUAL"""
+            c.execute(sql)
+            result = []
+            result = c.fetchall()
+            location_id = result[0][0]
+            sql="""insert into location values(:l,:d,:dt,:t,:z)"""
+            c.execute(sql,{'d':div,'dt':dist,'t':thana,'z':zip_code,'l':location_id})
+            sql="""update profile set location_id=:l where profile_no=getProfile(:u)"""
+            c.execute(sql,{'l':location_id,'u':userName})
+            conn.commit()
+        else:
+            sql="""update profile set location_id=:l where profile_no=getProfile(:u)"""
+            c.execute(sql,{'l':str(result1[0][0]),'u':userName})
+            conn.commit()
+    conn.close()
+    return redirect("profile")
+
+
+
+
+
+
 
 
 

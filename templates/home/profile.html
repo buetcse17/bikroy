@@ -318,7 +318,7 @@
     <br>
     <h3>Location Info</h3>
     <button type="button" class="btn btn-success mr-2 mx-10" data-toggle="modal"
-      data-target="#edit{{request.session.username}}">Edit Location</button>
+      data-target="#editLoc">Edit Location</button>
     <thead>
     </thead>
     <tbody>
@@ -657,6 +657,77 @@
 </div>
 </div>
 <!--edit profile modal ending -->
+
+<!--edit loc modal begin -->
+
+<div class="modal fade" id="editLoc" tabindex="-1"
+  aria-labelledby="editLoc" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editLocTitle">Edit Location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/editLoc/" method="post">
+
+          <!--form shuru-->
+          <div class="form-group mb-2">
+            <label for="staticDivision" class="sr-only">Division</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticDivision"
+              value="Division : {{division}}">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="editDivision" class="sr-only">Edit Division</label>
+            <input type="text" class="form-control" name='editDivision' id="editDivision"
+              placeholder="Edit Division">
+          </div>
+
+
+          <div class="form-group mb-2">
+            <label for="staticDistrict" class="sr-only">District</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticDistrict"
+              value="District : {{district}}">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="editDistrict" class="sr-only">Edit District</label>
+            <input type="text" class="form-control" name='editDistrict' id="editDistrict" placeholder="Edit District">
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="staticThana" class="sr-only">Thana</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticThana"
+              value="Thana : {{thana}}">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="editThana" class="sr-only">Edit Thana</label>
+            <input type="text" class="form-control" name='editThana' id="editThana" placeholder="Edit Thana">
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="staticzipCode" class="sr-only">Zip Code</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticzipCode"
+              value="Zip Code : {{zipCode}}">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="editzipCode" class="sr-only">Zip Code</label>
+            <input type="number" class="form-control" name='editzipCode' id="editzipCode" placeholder="Edit zipCode">
+          </div>
+          <!--form shesh-->
+          <div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--edit loc modal ending -->
 
 <!--changepass modal-->
 <div class="modal fade" id="editPass" tabindex="-1" aria-labelledby="editPass" aria-hidden="true">
