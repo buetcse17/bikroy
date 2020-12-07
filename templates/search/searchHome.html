@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}
+Search Item
+{% endblock title %}
+{% block body %}
+
+<div class="row">
+    <div class="container">
+        <div class="center">
+
+            {%if deviceCount%}
+            <center>
+                <h3>Devices from your search - "{{query}}"</h3>
+            </center>
+            
+            {% for item in devices %}
+
+            <a href="/productSection/1/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+            {% if petCount %}
+            <center>
+                <h3>Pet and Animals from your search - "{{query}}"</h3>
+            </center>
+            {% for item in pet %}
+
+            <a href="/productSection/2/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+
+            {% if bookCount %}
+            <center>
+                <h3>Books from your search - "{{query}}"</h3>
+            </center>
+            {% for item in book %}
+
+            <a href="/productSection/3/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+
+            {% if courseCount %}
+            <center>
+                <h3>Courses from your search - "{{query}}"</h3>
+            </center>
+            {% for item in course %}
+
+            <a href="/productSection/4/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+
+            {% if tutionCount %}
+            <center>
+                <h3>Tutions from your search - "{{query}}"</h3>
+            </center>
+            {% for item in tution %}
+
+            <a href="/productSection/5/product_id-{{item.0}}">
+                <div class="mx-2 my-4 card text-right text-dark"
+                    style="max-width: 1000rem; background-color: #D1F2EB;  border-color: indigo;;">
+                    {% load static %} <img src="/{{item.4}}" class="card-img-left" height="100" width="150" alt="..." />
+                    <div class="card-body">
+                        <h4 class="card-title">{{item.1}}</h4>
+                        <p class="card-text">
+                            {{item.2}} BDT<br />{{item.3}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {%endfor%}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}
