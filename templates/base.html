@@ -54,9 +54,9 @@
 
       </ul>
       <form method="post" action="/search/" class="form-inline my-2 my-lg-0 mx-3">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="query"
-          id="query" required>
-          {% csrf_token %}
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="query" id="query"
+          required>
+        {% csrf_token %}
         <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Search</button>
       </form>
 
@@ -124,28 +124,31 @@
             <div class="form-group">
               <label for="username">Username</label>
               <input type="text" class="form-control" id="username" name="username"
-                placeholder="Choose a unique username">
+                placeholder="Choose a unique username" minlength="6"  maxlength="20" required>
             </div>
             <div class="form-group">
               <label for="fname">First Name</label>
-              <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Your First Name">
+              <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Your First Name" maxlength="100"
+                required>
             </div>
             <div class="form-group">
               <label for="lname">Last Name</label>
-              <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name">
+              <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name" maxlength="100"
+                required>
             </div>
             <div class="form-group">
               <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+              <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
             </div>
             <div class="form-group">
               <label for="pass1">Choose a password</label>
-              <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Choose Your Password">
+              <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Choose Your Password"
+                minlength="6" maxlength="30" required>
             </div>
             <div class="form-group">
               <label for="pass2">Confirm Password</label>
               <input type="password" class="form-control" id="pass2" name="pass2"
-                placeholder="Enter your password again">
+                placeholder="Enter your password again" minlength="6" maxlength="20" required>
             </div>
             <div class="form-group">
               <label for="gender">Gender</label>
@@ -180,15 +183,15 @@
             </div>
             <div class="form-group">
               <label for="dateOfBirth">Date of Birth</label>
-              <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="">
+              <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="" required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="profilePicture">Profile Picture</label>
               <input type="file" class="form-control" id="profilePicture" name="profilePicture" placeholder="">
-            </div>
+            </div> -->
             <div class="form-group">
               <label for="phoneNo">Phone No</label>
-              <input type="tel" class="form-control" id="phoneNo" name="phoneNo" placeholder="">
+              <input type="tel" class="form-control" id="phoneNo" name="phoneNo" placeholder="" maxlength="11" required>
             </div>
             <div>
               <h3>Your Location Details</h3>
@@ -262,15 +265,15 @@
             </div>
             <div class="form-group">
               <label for="userDistrict">District</label>
-              <input type="text" class="form-control" id="userDistrict" name="userDistrict" placeholder="">
+              <input type="text" class="form-control" id="userDistrict" name="userDistrict" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="userThana">Thana</label>
-              <input type="text" class="form-control" id="userThana" name="userThana" placeholder="">
+              <input type="text" class="form-control" id="userThana" name="userThana" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="userZip">Zip Code</label>
-              <input type="number" class="form-control" id="userZip" name="userZip" placeholder="">
+              <input type="number" class="form-control" id="userZip" name="userZip" placeholder="" required>
             </div>
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -306,12 +309,12 @@
             <div class="form-group">
               <label for="username">Username</label>
               <input type="text" class="form-control" id="loginusername" name="loginusername"
-                placeholder="Enter your username">
+                placeholder="Enter your username" maxlength="20" required>
             </div>
             <div class="form-group">
               <label for="pass">Enter your password </label>
               <input type="password" class="form-control" id="loginpassword" name="loginpassword"
-                placeholder="Enter your password ">
+                placeholder="Enter your password " required>
             </div>
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -326,8 +329,26 @@
             window.history.replaceState(null, null, window.location.href);
           }
         </script>
-
         <!-- for page reload stop -->
+
+
+        <!-- confirm password -->
+        <script>
+          var password = document.getElementById("pass1")
+            , confirm_password = document.getElementById("pass2");
+
+          function validatePassword() {
+            if (password.value != confirm_password.value) {
+              confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+              confirm_password.setCustomValidity('');
+            }
+          }
+
+          password.onchange = validatePassword;
+          confirm_password.onkeyup = validatePassword;
+        </script>
+        <!-- confirm password -->
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
