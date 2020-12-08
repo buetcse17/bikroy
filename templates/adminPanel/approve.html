@@ -3,63 +3,81 @@
 {% endblock title%}
 
 {% block body %}
-<div class='container'>
-<h3>Products </h3>
-<div class="card-columns mt-100">
-  <div class="container">
-    <div class="card text-center" style="width: 18rem">
-     {% load static %}
-        <img src= "{% static "home/device.jpg" %}" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/adminPanel/approveProduct/first/1/" target="_blank" class="btn btn-primary">Approve</a>
-        <p class="card-text">
-       <h5><b>Devices</b></h5>
-        </p>
-      </div>
-    </div>
-    <div class="card text-center" style="width: 18rem">
-    
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/adminPanel/approveProduct/first/2/" target="_blank" class="btn btn-primary">Approve</a>
-        <p class="card-text">
-         <h5><b>Pet And Animals</b></h5>
-        </p>
-      </div>
-    </div>
-    <div class="card text-center" style="width: 18rem">
+{% load static %}
 
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/adminPanel/approveProduct/first/3/" target="_blank" class="btn btn-primary">Approve</a>
-        <p class="card-text"> <h5><b>Book</b></h5></p>
+<div class='container'>
+  <center>
+    <h3>Approve Products </h3>
+  </center>
+  <div class="card-columns mt-100">
+    <div class="container">
+      <div class="card text-center" style="width: 18rem">
+        {% load static %}
+        <img src="/static/devices.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/adminPanel/approveProduct/first/1/" target="_blank" class="btn btn-primary">Approve</a>
+          <p class="card-text">
+          <h5><b>Devices</b></h5>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="card text-center" style="width: 18rem">
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/adminPanel/approveProduct/first/4/" class="btn btn-primary">Approve</a>
-        <p class="card-text"> <h5><b>Course</b></h5></p>
+      <div class="card text-center" style="width: 18rem">
+
+        <img src="/static/pets.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/adminPanel/approveProduct/first/2/" target="_blank" class="btn btn-primary">Approve</a>
+          <p class="card-text">
+          <h5><b>Pet And Animals</b></h5>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="card text-center" style="width: 18rem">
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/adminPanel/approveProduct/first/5/" target="_blank" class="btn btn-primary">Approve</a>
-        <p class="card-text"> <h5><b>Tution</b></h5></p>
+      <div class="card text-center" style="width: 18rem">
+
+        <img src="/static/books.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/adminPanel/approveProduct/first/3/" target="_blank" class="btn btn-primary">Approve</a>
+          <p class="card-text">
+          <h5><b>Book</b></h5>
+          </p>
+        </div>
+      </div>
+      <div class="card text-center" style="width: 18rem">
+        <img src="/static/courses.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/adminPanel/approveProduct/first/4/" class="btn btn-primary">Approve</a>
+          <p class="card-text">
+          <h5><b>Course</b></h5>
+          </p>
+        </div>
+      </div>
+      <div class="card text-center" style="width: 18rem">
+        <img src="/static/tuitions.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/adminPanel/approveProduct/first/5/" target="_blank" class="btn btn-primary">Approve</a>
+          <p class="card-text">
+          <h5><b>Tution</b></h5>
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
 <div class='container'>
-<h3>Job</h3>
-<div class="card text-center" style="width: 18rem">
-      <img src="{% static 'home/device.jpg' %}" class="card-img-top" alt="..." />
-      <div class="card-body">
-        <a href="/adminPanel/approveJob/first/" target="_blank" class="btn btn-primary">Approve</a>
-        <p class="card-text"> <h5><b>Job</b></h5></p>
+  <center>
+    <h3>Approve Jobs</h3>
+  </center>
+  <div class="card-columns mt-100">
+    <div class="container">
+      <div class="card text-center" style="width: 18rem">
+        <img src="/static/jobs.jpg" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <a href="/adminPanel/approveJob/first/" target="_blank" class="btn btn-primary">Approve</a>
+          <p class="card-text">
+          <h5><b>Job</b></h5>
+          </p>
+        </div>
       </div>
     </div>
-    </div>
+  </div>
+</div>
 {% endblock body %}

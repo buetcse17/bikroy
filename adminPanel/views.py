@@ -77,27 +77,27 @@ def Productapproval(request,id,update_status):
     dict_result=[]
     result=[]
     if id==1:
-        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,DEVICES d where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=d.PRODUCT_ID"''
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION, pr.PRODUCT_ID from PRODUCT pr,ADVERTISEMENT ad,DEVICES d where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=d.PRODUCT_ID"''
         c.execute(sql)
         result=c.fetchall()   
     elif id==2:
-        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,PET p where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=p.PRODUCT_ID"''
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION, pr.PRODUCT_ID from PRODUCT pr,ADVERTISEMENT ad,PET p where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=p.PRODUCT_ID"''
         c.execute(sql)
         result=c.fetchall() 
     elif id==3:
-        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,book b where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=b.PRODUCT_ID"''
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION, pr.PRODUCT_ID from PRODUCT pr,ADVERTISEMENT ad,book b where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=b.PRODUCT_ID"''
         c.execute(sql)
         result=c.fetchall()
     elif id==4:
-        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,course c where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=c.PRODUCT_ID"''
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION, pr.PRODUCT_ID from PRODUCT pr,ADVERTISEMENT ad,course c where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=c.PRODUCT_ID"''
         c.execute(sql)
         result=c.fetchall() 
     elif id==5:
-        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,tution t where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=t.PRODUCT_ID"''
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION, pr.PRODUCT_ID from PRODUCT pr,ADVERTISEMENT ad,tution t where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID=t.PRODUCT_ID"''
         c.execute(sql)
         result=c.fetchall() 
     else:
-        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION from PRODUCT pr,ADVERTISEMENT ad,DEVICES d,pet p,book b, course c,tution t where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID<>d.PRODUCT_ID and pr.PRODUCT_ID<>p.PRODUCT_ID and pr.PRODUCT_ID<>b.PRODUCT_ID and pr.PRODUCT_ID<>c.PRODUCT_ID and pr.PRODUCT_ID<>t.PRODUCT_ID"''
+        sql=''"select ad.ADVERTISEMENT_ID,USERNAME,CONTACT_NO,PRODUCT_NAME,price,PAYMENT_AMOUNT, PAYMENT_SYSTEM,TRANSACTION, pr.PRODUCT_ID from PRODUCT pr,ADVERTISEMENT ad,DEVICES d,pet p,book b, course c,tution t where pr.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending' and pr.PRODUCT_ID<>d.PRODUCT_ID and pr.PRODUCT_ID<>p.PRODUCT_ID and pr.PRODUCT_ID<>b.PRODUCT_ID and pr.PRODUCT_ID<>c.PRODUCT_ID and pr.PRODUCT_ID<>t.PRODUCT_ID"''
         c.execute(sql)
         result=c.fetchall()        
     for r in result:
@@ -109,7 +109,8 @@ def Productapproval(request,id,update_status):
             payment=r[5]
             payment_system=r[6]
             trans=r[7]
-            row={'advertisement_id':ad_id,'username':name,'contact_no':contact_no,'product_name':prod_name,'price':price,'payment_amount':payment,'payment_system':payment_system,'transaction':trans}
+            prod_id=r[8]
+            row={'advertisement_id':ad_id,'username':name,'contact_no':contact_no,'product_name':prod_name,'price':price,'payment_amount':payment,'payment_system':payment_system,'transaction':trans, 'prod_id':prod_id}
             dict_result.append(row)
     params={'products':dict_result,'id':id}
     conn.close()
@@ -127,7 +128,7 @@ def Jobapproval(request,update_status):
                 conn.commit()
     dict_result=[]
     result=[]
-    sql="""SELECT ad.ADVERTISEMENT_ID,USERNAME,DESIGNATION,SALARY,PAYMENT_AMOUNT,PAYMENT_SYSTEM,TRANSACTION from ADVERTISEMENT ad, job j where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending'""" 
+    sql="""SELECT ad.ADVERTISEMENT_ID,USERNAME,DESIGNATION,SALARY,PAYMENT_AMOUNT,PAYMENT_SYSTEM,TRANSACTION, j.JOB_ID from ADVERTISEMENT ad, job j where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and ADVERTISEMENT_TYPE='pending'""" 
     c.execute(sql)
     result=c.fetchall()        
     for r in result:
@@ -138,7 +139,8 @@ def Jobapproval(request,update_status):
             payment=r[4]
             payment_system=r[5]
             trans=r[6]
-            row={'advertisement_id':ad_id,'username':name,'designation':desig,'salary':sal,'payment_amount':payment,'payment_system':payment_system,'transaction':trans}
+            job_id = r[7]
+            row={'advertisement_id':ad_id,'username':name,'designation':desig,'salary':sal,'payment_amount':payment,'payment_system':payment_system,'transaction':trans, 'job_id':job_id}
             dict_result.append(row)
     params={'jobs':dict_result}
     conn.close()
