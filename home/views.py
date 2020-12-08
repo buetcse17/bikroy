@@ -156,7 +156,7 @@ def signup(request):
         last_name = request.POST['lname']
         gender = request.POST['gender']
         date_of_birth = request.POST['dateOfBirth']
-        profile_picture = request.POST['profilePicture']
+        # profile_picture = request.POST['profilePicture']
         phone_no = request.POST['phoneNo']
 
 
@@ -548,7 +548,7 @@ def profile(request):
     
     #test
     sql="""
-    select first_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE,email,last_name 
+    select first_name,GENDER,date_of_birth,PHONE_NO,PROFILE_PICTURE,email,last_name, p.profile_picture 
     from PROFILE p,ACCOUNT ac,LOCATION l 
     where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:user1
     """
@@ -564,6 +564,7 @@ def profile(request):
         pro_pic=r[4]
         eml=r[5]
         lname=r[6]
+        profile_picture=r[7]
     sql="""select DIVISION,DISTRICT,THANA,zip_code from PROFILE p,ACCOUNT ac,LOCATION l where ac.PROFILE_NO=p.PROFILE_NO and p.LOCATION_ID=l.LOCATION_ID and USERNAME=:u
     """
     c.execute(sql,{'u':username})
@@ -632,7 +633,7 @@ def profile(request):
         cpos=r[2]
         cwstrt=r[3]
         corg_id=r[4]
-    params={'first_name':fname,'last_name':lname,'phone_no':phn,'email':eml,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'zipCode':zip,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
+    params={'first_name':fname,'last_name':lname,'phone_no':phn,'email':eml,'profile_picture':profile_picture,'gender':gender,'date_of_birth':dob,'division':div,'district':dist,'thana':thana,'zipCode':zip,'past_edus':dict_result,'curr_inst_name':cinst,'curr_inst_id':cinst_id,'curr_inst_type':cinst_typ,'curr_faculty':cfac,'curr_start_date':cstrt,'past_works':past_works,'curr_org_name':corg,'curr_org_id':corg_id,'curr_org_type':corg_typ,'curr_position':cpos,'curr_wstart_date':cwstrt}
     conn.close()
     return render(request, 'home/profile.html', params)
 
@@ -726,11 +727,26 @@ def editEdu(request,institution_id):
         faculty=request.POST['editFaculty']
         start_date=request.POST['editStartDate']
         end_date=request.POST['editEndDate']
-        sql="""update EDUCATION_HISTORY set faculty=:f,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd'),END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and INSTITUTION_ID=:inst_id
-        """
-        c.execute(sql,{'f':faculty,'st_date':start_date,'end_date':end_date,'u':userName,'inst_id':institution_id})
-        conn.commit()
-        conn.close()
+        if len(start_date) !=0 and len(end_date) !=0:
+            sql="""update EDUCATION_HISTORY set faculty=:f,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd'),END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and INSTITUTION_ID=:inst_id
+            """
+            c.execute(sql,{'f':faculty,'st_date':start_date,'end_date':end_date,'u':userName,'inst_id':institution_id})
+            conn.commit()
+        elif len(start_date) !=0 and len(end_date)==0:
+            sql="""update EDUCATION_HISTORY set faculty=:f,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and INSTITUTION_ID=:inst_id
+            """
+            c.execute(sql,{'f':faculty,'st_date':start_date,'u':userName,'inst_id':institution_id})
+            conn.commit()
+        elif len(start_date) ==0 and len(end_date)!=0:
+            sql="""update EDUCATION_HISTORY set faculty=:f,END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and INSTITUTION_ID=:inst_id
+            """
+            c.execute(sql,{'f':faculty,'end_date':end_date,'u':userName,'inst_id':institution_id})
+            conn.commit()
+        else:
+            sql="""update EDUCATION_HISTORY set faculty=:f where PROFILE_NO=GETPROFILE(:u) and INSTITUTION_ID=:inst_id
+            """
+            c.execute(sql,{'f':faculty,'u':userName,'inst_id':institution_id})
+            conn.commit()
     return redirect("profile")
 
 def deleteWork(request,organization_id):
@@ -754,10 +770,26 @@ def editWork(request,organization_id):
         position=request.POST['editPosition']
         wstart_date=request.POST['editWorkStartDate']
         wend_date=request.POST['editWorkEndDate']
-        sql="""update work_HISTORY set position=:p,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd'),END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and organization_ID=:org_id
-        """
-        c.execute(sql,{'p':position,'st_date':wstart_date,'end_date':wend_date,'u':userName,'org_id':organization_id})
-        conn.commit()
+        if len(wstart_date)!=0 and len(wend_date)!=0:
+            sql="""update work_HISTORY set position=:p,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd'),END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and organization_ID=:org_id
+            """
+            c.execute(sql,{'p':position,'st_date':wstart_date,'end_date':wend_date,'u':userName,'org_id':organization_id})
+            conn.commit()
+        elif len(wstart_date)!=0 and len(wend_date)==0:
+            sql="""update work_HISTORY set position=:p,START_DATE=TO_DATE(:st_date,'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and organization_ID=:org_id
+            """
+            c.execute(sql,{'p':position,'st_date':wstart_date,'u':userName,'org_id':organization_id})
+            conn.commit()
+        elif len(wstart_date)==0 and len(wend_date)!=0:
+            sql="""update work_HISTORY set position=:p, END_DATE=TO_DATE(:end_date, 'yyyy-mm-dd') where PROFILE_NO=GETPROFILE(:u) and organization_ID=:org_id
+            """
+            c.execute(sql,{'p':position,'end_date':wend_date,'u':userName,'org_id':organization_id})
+            conn.commit()
+        else:
+            sql="""update work_HISTORY set position=:p where PROFILE_NO=GETPROFILE(:u) and organization_ID=:org_id
+            """
+            c.execute(sql,{'p':position,'u':userName,'org_id':organization_id})
+            conn.commit()
         conn.close()
     return redirect("profile")
 
@@ -1064,11 +1096,47 @@ def editProfile(request):
         phn=request.POST['editPhoneNo']
         dob=request.POST['editDOB']
         gender=request.POST['editGender']
-        sql="""update profile set first_name=:f,last_name=:l,gender=:g,date_of_birth=to_date(:dob,'yyyy-mm-dd'),phone_no=:phn where profile_no=getProfile(:u)
-        """
-        c.execute(sql,{'f':f_name,'l':l_name,'g':gender,'dob':dob,'phn':phn,'u':userName})
+        try:
+            profile_picture = request.FILES['profile_picture_edit']
+        except:
+            pass
+        
+        if len(dob) != 0:
+            sql="""update profile set first_name=:f,last_name=:l,gender=:g,date_of_birth=to_date(:dob,'yyyy-mm-dd'),phone_no=:phn where profile_no=getProfile(:u)
+            """
+            c.execute(sql,{'f':f_name,'l':l_name,'g':gender,'dob':dob,'phn':phn,'u':userName})
+            conn.commit()
+        else:
+            sql="""update profile set first_name=:f,last_name=:l,gender=:g,phone_no=:phn where profile_no=getProfile(:u)
+            """
+            c.execute(sql,{'f':f_name,'l':l_name,'g':gender,'phn':phn,'u':userName})
+            conn.commit()
+        #add if profile picture doesn't exist
+        folder = 'static/profilePicture'
+        try:
+            #delete if profile picture previously exists
+            extenstion = profile_picture.name
+            if extenstion is not None:
+                nam = 'static/profilePicture/'+str(request.session['username'])+'.jpg'
+                if os.path.isfile(nam):
+                    os.remove(nam)
+            extenstion = extenstion.split('.')
+            extenstion = extenstion[1]
+            filename = str(request.session['username']) + '.' + 'jpg'
+            fs = FileSystemStorage(location=folder)
+            filesaved = fs.save(filename, profile_picture)
+            file_url = fs.url(filesaved)
+            my_url = folder + '/' + filename
+            print('file_url is :', file_url)
+            print('my_url is :', my_url)
+            sql = """update profile set profile_picture = :p where profile_no=getProfile(:u)"""
+            c.execute(sql, {'p':my_url, 'u':userName})
+            conn.commit()
+        except:
+            pass
         conn.commit()
         conn.close()
+        messages.success(request, 'Updated your changes')
     return redirect("profile")
 
 def changePassword(request):

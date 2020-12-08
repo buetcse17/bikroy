@@ -2,3 +2,4 @@ myprojectenv/
 db.sqlite3
 *.pyc
 static/productImage/
+static/profilePicture/
