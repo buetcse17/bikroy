@@ -3,8 +3,8 @@ CREATE OR REPLACE PROCEDURE cv(u IN VARCHAR2, jid in varchar2, msg in VARCHAR2) 
 reicvr varchar2(20);	
 BEGIN
 select USERNAME into reicvr from job j, ADVERTISEMENT ad where j.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and j.JOB_ID=jid;
-insert into chat values(CHAT_SEQUENCE.NEXTVAL,msg,sysdate,u,'bikroy');
-insert into chat values(CHAT_SEQUENCE.NEXTVAL,msg,sysdate,'bikroy',reicvr);
+insert into chat values(CHAT_SEQUENCE.NEXTVAL,'You have applied for JOB ID '||' '||jid||' Your CV is ->'||msg,sysdate,'bikroy',u);
+insert into chat values(CHAT_SEQUENCE.NEXTVAL,'Application for JOB ID'||' '||jid||' '||msg,sysdate,'bikroy',reicvr);
 EXCEPTION
 	WHEN NO_DATA_FOUND THEN
 		DBMS_OUTPUT.PUT_LINE('NO DATA FOUND') ;
