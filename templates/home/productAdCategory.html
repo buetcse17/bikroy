@@ -16,19 +16,19 @@ Category Wise Product Ad
         <h3>Fillup form</h3>
         <div class="form-group">
             <label for="product_name">Product Name</label>
-            <input type="text" class="form-control" id="product_name" name="product_name">
+            <input type="text" class="form-control" id="product_name" name="product_name" required>
         </div>
         <div class="form-group">
             <label for="product_price">Product Price</label>
-            <input type="number" step="0.01" class="form-control" id="product_price" name="product_price">
+            <input type="number" step="0.01" class="form-control" id="product_price" name="product_price" required>
         </div>
         <div class="form-group">
             <label for="product_description">Product Description</label>
-            <input type="text" class="form-control" id="product_description" name="product_description">
+            <input type="text" class="form-control" id="product_description" name="product_description" required>
         </div>
         <div class="form-group">
             <label for="product_contact_no">Product Contact_no</label>
-            <input type="tel" class="form-control" id="product_contact_no" name="product_contact_no">
+            <input type="tel" class="form-control" id="product_contact_no" name="product_contact_no" required>
         </div>
         <div class="form-group">
             <label for="product_picture">Product Picture</label>
@@ -43,13 +43,35 @@ Category Wise Product Ad
                     <li class="list-group-item"><b>Rocket :</b>If you want to payment by rocket, send the money to
                         "01919922921" with send money option</li>
                 </ul>
+                <h4>
+                {%ifequal id 1%}
                 <p class="card-text">You have to pay 300/- BDT. <br> After sending money, fillup the Transaction ID
                     below (Recommended).</p>
+                {%endifequal%}
+                {%ifequal id 2%}
+                <p class="card-text">You have to pay 200/- BDT. <br> After sending money, fillup the Transaction ID
+                    below (Recommended).</p>
+                {%endifequal%}
+                {%ifequal id 3%}
+                <p class="card-text">You have to pay 50/- BDT. <br> After sending money, fillup the Transaction ID
+                    below (Recommended).</p>
+                {%endifequal%}
+
+                {%ifequal id 4%}
+                <p class="card-text">You have to pay 100/- BDT. <br> After sending money, fillup the Transaction ID
+                    below (Recommended).</p>
+                {%endifequal%}
+
+                {%ifequal id 5%}
+                <p class="card-text">You have to pay 200/- BDT. <br> After sending money, fillup the Transaction ID
+                    below (Recommended).</p>
+                {%endifequal%}
+                </h4>
             </div>
         </div>
         <div class="form-group">
             <label for="payment_amount">Amount</label>
-            <input type="number" class="form-control" id="payment_amount" name="payment_amount">
+            <input type="number" class="form-control" id="payment_amount" name="payment_amount"  required>
         </div>
         <div class="form-group">
             <label for="payment_system">Payment system</label>
@@ -84,7 +106,7 @@ Category Wise Product Ad
         </div>
         <div class="form-group">
             <label for="transaction">Transaction ID</label>
-            <input type="text" class="form-control" id="transaction" name="transaction">
+            <input type="text" class="form-control" id="transaction" name="transaction"  required>
         </div>
 
 
@@ -263,15 +285,15 @@ Category Wise Product Ad
         </div>
         <div class="form-group">
             <label for="device_model">Device Model</label>
-            <input type="text" class="form-control" id="device_model" name="device_model">
+            <input type="text" class="form-control" id="device_model" name="device_model"  required>
         </div>
         <div class="form-group">
             <label for="device_generation">Device Generation</label>
-            <input type="text" class="form-control" id="device_generation" name="device_generation">
+            <input type="text" class="form-control" id="device_generation" name="device_generation"  required>
         </div>
         <div class="form-group">
             <label for="device_features">Device Features</label>
-            <input type="text" class="form-control" id="device_features" name="device_features">
+            <input type="text" class="form-control" id="device_features" name="device_features"  required>
         </div>
         <div class="form-group">
             <label for="device_condition">Device Condition</label>
@@ -341,15 +363,15 @@ Category Wise Product Ad
         <h3>Pet</h3>
         <div class="form-group">
             <label for="pet_type">Pet Type</label>
-            <input type="text" class="form-control" id="pet_type" name="pet_type">
+            <input type="text" class="form-control" id="pet_type" name="pet_type"  required>
         </div>
         <div class="form-group">
             <label for="pet_color">Pet Color</label>
-            <input type="text" class="form-control" id="pet_color" name="pet_color">
+            <input type="text" class="form-control" id="pet_color" name="pet_color"  required>
         </div>
         <div class="form-group">
             <label for="pet_age">Pet Age</label>
-            <input type="text" class="form-control" id="pet_age" name="pet_age">
+            <input type="number" class="form-control" id="pet_age" name="pet_age"  required>
         </div>
         <div class="form-group">
             <label for="pet_gender">Pet Gender</label>
@@ -385,7 +407,7 @@ Category Wise Product Ad
         </div>
         <div class="form-group">
             <label for="pet_food_habit">Pet Food Habbit</label>
-            <input type="text" class="form-control" id="pet_food_habit" name="pet_food_habit">
+            <input type="text" class="form-control" id="pet_food_habit" name="pet_food_habit"  required>
         </div>
         {% endifequal %}
 
@@ -395,11 +417,11 @@ Category Wise Product Ad
         <h3>book</h3>
         <div class="form-group">
             <label for="book_writer">Book Writer</label>
-            <input type="text" class="form-control" id="book_writer" name="book_writer">
+            <input type="text" class="form-control" id="book_writer" name="book_writer"  required>
         </div>
         <div class="form-group">
             <label for="book_genre">Book Genre</label>
-            <input type="text" class="form-control" id="book_genre" name="book_genre">
+            <input type="text" class="form-control" id="book_genre" name="book_genre"  required>
         </div>
         <div class="form-group">
             <label for="book_condition">Book Condition</label>
@@ -439,11 +461,11 @@ Category Wise Product Ad
         <h3>course</h3>
         <div class="form-group">
             <label for="course_title">Course Title</label>
-            <input type="text" class="form-control" id="course_title" name="course_title">
+            <input type="text" class="form-control" id="course_title" name="course_title"  required>
         </div>
         <div class="form-group">
             <label for="course_organization">Course Organization</label>
-            <input type="text" class="form-control" id="course_organization" name="course_organization">
+            <input type="text" class="form-control" id="course_organization" name="course_organization"  required>
         </div>
         {% endifequal %}
 
@@ -453,11 +475,11 @@ Category Wise Product Ad
         <h3>tuition</h3>
         <div class="form-group">
             <label for="tuition_subject">Tuition Subject</label>
-            <input type="text" class="form-control" id="tuition_subject" name="tuition_subject">
+            <input type="text" class="form-control" id="tuition_subject" name="tuition_subject"  required>
         </div>
         <div class="form-group">
             <label for="time_duration">Time Duration</label>
-            <input type="text" class="form-control" id="time_duration" name="time_duration">
+            <input type="text" class="form-control" id="time_duration" name="time_duration"  required>
         </div>
         <div class="form-group">
             <label for="tutor_gender">Tutor Gender</label>
@@ -493,16 +515,30 @@ Category Wise Product Ad
         </div>
         <div class="form-group">
             <label for="tutor_education_level">tutor_education_level</label>
-            <input type="text" class="form-control" id="tutor_education_level" name="tutor_education_level">
+            <input type="text" class="form-control" id="tutor_education_level" name="tutor_education_level"  required>
         </div>
 
 
         {% endifequal %}
 
 
-        <button type="submit" class="btn btn-primary">Post Ad</button>
+        <button type="submit" onclick="return confirmPost()" class="btn btn-primary">Post Ad</button>
     </form>
 </div>
+
+<script>
+  function confirmPost() {
+    var r = confirm("Press OK to post your Advertisement. Else press Cancel");
+    if (r == true) {
+      console.log("posted ad")
+      return true;
+    }
+    else {
+      console.log("posting ad cancelled")
+      return false;
+    }
+  }
+</script>
 
 
 <script>

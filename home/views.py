@@ -126,14 +126,32 @@ def signup(request):
         # insert to oracle
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+        c = conn.cursor()
 
         # account
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['pass1']
 
+        #username already taken or not
+        sql = """SELECT username FROM ACCOUNT WHERE username=:u"""
+        c.execute(sql, {'u':username})
+        result = []
+        result = c.fetchall()
+        if len(result) > 0:
+            messages.warning(request, "Username "+str(username)+" has been taken. Try another username.")
+            return redirect('home')
+
+        #email already taken or not
+        sql = """SELECT email FROM ACCOUNT WHERE email=:e"""
+        c.execute(sql, {'e':email})
+        result = []
+        result = c.fetchall()
+        if len(result) > 0:
+            messages.warning(request, "Email "+str(email)+" has been taken. Try another email.")
+            return redirect('home')
+
         # profile
-        # make a profile id
         first_name = request.POST['fname']
         last_name = request.POST['lname']
         gender = request.POST['gender']
@@ -141,15 +159,6 @@ def signup(request):
         profile_picture = request.POST['profilePicture']
         phone_no = request.POST['phoneNo']
 
-
-        # education history
-
-        #work history
-        #organization_name = request.POST['organizationName']
-        #position = request.POST['organizationPosition']
-        #start_work = request.POST['organizationStart']
-        #end_work = request.POST['organizationEnd']
-        #salary = request.POST['organizationSalary']
 
         #location
         userDivision = request.POST['userDivision']
@@ -160,23 +169,32 @@ def signup(request):
         c = conn.cursor()
         
         location_id = -1
-        sql = "SELECT location_id FROM location WHERE division = '"+ userDivision +"' AND district = '" + userDistrict+"' AND thana = '" + userThana+"' AND  zip_code = " + userZip+" "
-        c.execute(sql)
-        for r in c:
-            location_id = r[0]
+        sql = """   SELECT location_id 
+                    FROM location 
+                    WHERE division = :userDivision 
+                    AND district =:userDistrict 
+                    AND thana =:userThana 
+                    AND zip_code =:userZip
+                """
+        
+        c.execute(sql, {'userDivision':userDivision,'userDistrict':userDistrict, 'userThana':userThana, 'userZip':userZip})
+        result = []
+        result = c.fetchall()
 
-        if location_id == -1:
+        if len(result)==0:
             sql = """SELECT LOCATION_SEQUENCE.nextval FROM DUAL"""
             c.execute(sql)
             result = []
             result = c.fetchall()
-
             location_id = result[0][0]
             print('location id seq = ', location_id)
             sql = """INSERT INTO location VALUES(:location_id, :userDivision, :userDistrict, :userThana, :userZip)"""
             c.execute(sql, {'location_id':location_id, 'userDivision':userDivision, 'userDistrict':userDistrict, 'userThana':userThana, 'userZip':userZip})
             conn.commit()
-
+        else:
+            for row in result:
+                location_id = row[0]
+        
         sql = """SELECT PROFILE_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
         result = []
@@ -184,7 +202,7 @@ def signup(request):
 
         profile_no = str(result[0][0])        
         print('profile no seq = ', profile_no)
-        profile_picture = "profile_picture_url"
+        profile_picture = "static/defaultProfilePic.jpg"
         sql = """INSERT INTO profile VALUES(:profile_no, :first_name, :last_name, :gender, TO_DATE(:date_of_birth, 'yyyy-mm-dd') , :profile_picture, :phone_no, :location_id)"""
         print('profileSQL : ' + sql)
         c.execute(sql, {'profile_no':profile_no, 'first_name':first_name, 'last_name':last_name, 'gender':gender, 'date_of_birth':date_of_birth, 'profile_picture':profile_picture, 'phone_no':phone_no, 'location_id':location_id})
@@ -212,8 +230,8 @@ def handleLogin(request):
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
 
         c = conn.cursor()
-        sql = "SELECT password FROM ACCOUNT WHERE username ='"+loginusername+"'"
-        c.execute(sql)
+        sql = """SELECT password FROM ACCOUNT WHERE username =:loginusername"""
+        c.execute(sql,{'loginusername':loginusername})
         result = []
         result = c.fetchall()
 
@@ -234,27 +252,29 @@ def handleLogin(request):
         if str(loginpassword) == str(realpassword):
             request.session['username'] = loginusername
             request.session['userLogged'] = True
-            print("kaj hoise maybe")
             
             messages.success(request, "Successfully Logged In")
             return redirect('home')
         else:
-            messages.error(request, "Invalid Credentials, Please try again")
+            messages.warning(request, "Invalid Credentials, Please try again")
             return redirect('home')
-
+    else:
+        return redirect('home')
 
 def handleLogout(request):
-    if request.session['userLogged']==True:
-        del request.session['userLogged']
-        del request.session['username']
-        messages.success(request, "You have successfully logged out")
-    return redirect("home")
+    try:
+        if request.session['userLogged']==True:
+            del request.session['userLogged']
+            del request.session['username']
+            messages.success(request, "You have successfully logged out")
+            return redirect("home")
+    except:
+        return redirect("home")
 
 
 def postAd(request):
     try:
         if request.session['userLogged'] == True:
-            #print('For posting Advertisement, Login is required. Please Log In')
             return redirect("myAds")
     except:
         messages.success(request,'For posting Advertisement, Login is required. Please Log In')
@@ -317,24 +337,25 @@ def productAdCategory(request,id):
         #print(tuition_subject,time_duration,tutor_gender,tutor_education_level)
         print("------Printing Ended-------")
 
-        messages.success(request, 'Your advertisement has been received')
+        
 
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
-
-
         c = conn.cursor()
+
         sql = """SELECT AD_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
         result = []
         result = c.fetchall()
 
         advertisement_id = str(result[0][0])
-
         advertisement_type = 'pending'
-        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"','"+ payment_amount+"','"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
 
-        c.execute(sql)
+        # sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"','"+ payment_amount+"','"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
+        sql = """   INSERT INTO advertisement 
+                    VALUES(:advertisement_id, :advertisement_type, :payment_amount, :payment_system, SYSDATE, :userName, :transaction)"""
+
+        c.execute(sql, {'advertisement_id':advertisement_id, 'advertisement_type':advertisement_type, 'payment_amount':payment_amount, 'payment_system':payment_system, 'userName':request.session['username'], 'transaction':transaction})
         conn.commit()
 
         
@@ -345,9 +366,12 @@ def productAdCategory(request,id):
 
         product_id = str(result[0][0])
 
-        sql = "INSERT INTO product VALUES('"+product_id+"','"+ product_name+"','"+ product_price+"','"+ product_description+"','"+ product_contact_no+"','"+ advertisement_id+"')"
+        # sql = "INSERT INTO product VALUES('"+product_id+"','"+ product_name+"','"+ product_price+"','"+ product_description+"','"+ product_contact_no+"','"+ advertisement_id+"')"
+        sql = """   INSERT INTO product 
+                    VALUES(:product_id, :product_name, :product_price, :product_description, :product_contact_no, :advertisement_id)"""
+        
         print('product_sql ', sql)
-        c.execute(sql)
+        c.execute(sql, {'product_id':product_id, 'product_name':product_name, 'product_price':product_price, 'product_description':product_description,'product_contact_no':product_contact_no, 'advertisement_id':advertisement_id})
         conn.commit()
 
         #delete if product image previously exists
@@ -381,36 +405,53 @@ def productAdCategory(request,id):
 
 
         if id == 1:
-            sql = "INSERT INTO devices VALUES('"+product_id+"','"+ device_category+"','"+ device_brand+"','"+ device_model+"','"+ device_generation+"','"+ device_features+"','"+ device_condition+"','"+ device_authenticity+"')"
+            # sql = "INSERT INTO devices VALUES('"+product_id+"','"+ device_category+"','"+ device_brand+"','"+ device_model+"','"+ device_generation+"','"+ device_features+"','"+ device_condition+"','"+ device_authenticity+"')"
+            sql = """   INSERT INTO devices 
+                        VALUES(:product_id, :device_category, :device_brand, :device_model, :device_generation, :device_features, :device_condition, :device_authenticity)"""
+            
             print('product_sql ', sql)
-            c.execute(sql)
+            c.execute(sql, {'product_id':product_id, 'device_category':device_category, 'device_brand':device_brand, 'device_model':device_model, 'device_generation':device_generation, 'device_features':device_features, 'device_condition':device_condition, 'device_authenticity':device_authenticity})
             conn.commit()
+            messages.success(request, 'Your advertisement has been received. Check your inbox.')
         
         if id == 2:
-            sql = "INSERT INTO pet VALUES('"+product_id+"','"+ pet_type+"','"+ pet_color+"','"+ pet_age+"','"+ pet_gender+"','"+ pet_food_habit+"')"
+            sql = """   INSERT INTO pet 
+                        VALUES(:product_id, :pet_type, :pet_color, :pet_age, :pet_gender, :pet_food_habit)"""
             print('product_sql ', sql)
-            c.execute(sql)
+            c.execute(sql, {'product_id':product_id, 'pet_type':pet_type, 'pet_color':pet_color, 'pet_age':pet_age, 'pet_gender':pet_gender, 'pet_food_habit':pet_food_habit})
             conn.commit()
+            messages.success(request, 'Your advertisement has been received. Check your inbox.')
         
         if id ==3:
-            sql = "INSERT INTO book VALUES('"+product_id+"','"+ book_writer+"','"+ book_genre+"','"+ book_condition+"')"
+            # sql = "INSERT INTO book VALUES('"+product_id+"','"+ book_writer+"','"+ book_genre+"','"+ book_condition+"')"
+            sql = """   INSERT INTO book 
+                        VALUES(:product_id, :book_writer, :book_genre, :book_condition)"""
+            
             print('product_sql ', sql)
-            c.execute(sql)
+            c.execute(sql, {'product_id':product_id, 'book_writer':book_writer, 'book_genre':book_genre, 'book_condition':book_condition})
             conn.commit()
+            messages.success(request, 'Your advertisement has been received. Check your inbox.')
 
         if id == 4:
-            sql = "INSERT INTO course VALUES('"+product_id+"','"+ course_title+"','"+ course_organization+"')"
+            # sql = "INSERT INTO course VALUES('"+product_id+"','"+ course_title+"','"+ course_organization+"')"
+            sql = """   INSERT INTO course 
+                        VALUES(:product_id, :course_title, :course_organization)"""
+            
             print('product_sql ', sql)
-            c.execute(sql)
+            c.execute(sql, {'product_id':product_id, 'course_title':course_title, 'course_organization':course_organization})
             conn.commit()
+            messages.success(request, 'Your advertisement has been received. Check your inbox.')
         
         if id == 5:
-            sql = "INSERT INTO tution VALUES('"+product_id+"','"+ tuition_subject+"','"+ time_duration+"','"+ tutor_gender+"','"+ tutor_education_level+"')"
+            # sql = "INSERT INTO tution VALUES('"+product_id+"','"+ tuition_subject+"','"+ time_duration+"','"+ tutor_gender+"','"+ tutor_education_level+"')"
+            sql = """   INSERT INTO tution 
+                        VALUES(:product_id, :tuition_subject, :time_duration, :tutor_gender, :tutor_education_level)"""
+            
             print('product_sql ', sql)
-            c.execute(sql)
+            c.execute(sql, {'product_id':product_id, 'tuition_subject':tuition_subject, 'time_duration':time_duration, 'tutor_gender':tutor_gender, 'tutor_education_level':tutor_education_level})
             conn.commit()
+            messages.success(request, 'Your advertisement has been received. Check your inbox.')
         
-
     return render(request, 'home/productAdCategory.html',{'id':id})
 
 
@@ -437,8 +478,8 @@ def postJobAd(request):
 
         dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
         conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
-
         c = conn.cursor()
+
         sql = """SELECT AD_SEQUENCE.nextval FROM DUAL"""
         c.execute(sql)
         result = []
@@ -447,9 +488,10 @@ def postJobAd(request):
         advertisement_id = str(result[0][0])
 
         advertisement_type = 'pending'
-        sql = "INSERT INTO advertisement VALUES('"+advertisement_id+"','"+ advertisement_type+"',"+ payment_amount+",'"+ payment_system+"', SYSDATE ,'"+ request.session['username']+"','"+transaction+"')"
+        sql = """   INSERT INTO advertisement 
+                    VALUES(:advertisement_id, :advertisement_type, :payment_amount, :payment_system, SYSDATE, :userName, :transaction)"""
 
-        c.execute(sql)
+        c.execute(sql, {'advertisement_id':advertisement_id, 'advertisement_type':advertisement_type, 'payment_amount':payment_amount, 'payment_system':payment_system, 'userName':request.session['username'], 'transaction':transaction})
         conn.commit()
 
         sql = """SELECT JOB_SEQUENCE.nextval FROM DUAL"""
@@ -460,14 +502,18 @@ def postJobAd(request):
         job_id = str(result[0][0])
 
 
-        sql = "INSERT INTO job VALUES('"+job_id+"','"+ job_type+"','"+ approx_salary+"','"+ designation+"','"+ business_function+"','"+ description+"','"+ required_experience+"','"+ gender_preference +"','"+ minimum_qualification+"','"+ skill_summary+"','" + advertisement_id+"')"
+        # sql = "INSERT INTO job VALUES('"+job_id+"','"+ job_type+"','"+ approx_salary+"','"+ designation+"','"+ business_function+"','"+ description+"','"+ required_experience+"','"+ gender_preference +"','"+ minimum_qualification+"','"+ skill_summary+"','" + advertisement_id+"')"
+        sql = """   INSERT INTO job 
+                    VALUES(:job_id, :job_type, :approx_salary, :designation, :business_function, :description, :required_experience, :gender_preference, :minimum_qualification, :skill_summary, :advertisement_id)"""
+        
+        
         print('job_sql ', sql)
-        c.execute(sql)
+        c.execute(sql, {'job_id':job_id, 'job_type':job_type, 'approx_salary':approx_salary, 'designation':designation, 'business_function':business_function, 'description':description, 'required_experience':required_experience, 'gender_preference':gender_preference, 'minimum_qualification':minimum_qualification, 'skill_summary':skill_summary, 'advertisement_id':advertisement_id})
         conn.commit()
 
         conn.close()
 
-        messages.success(request, 'Your Ad request has been recieved')
+        messages.success(request, 'Your Ad request has been recieved. Check your inbox')
         return redirect('postJobAd')
 
     return render(request,'home/postJobAd.html')

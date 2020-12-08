@@ -11,11 +11,11 @@ Post Job Ad
     {% csrf_token %}
     <div class="form-group">
       <label for="organization_id">Organization ID</label>
-      <input type="text" class="form-control" id="organization_id" name="organization_id">
+      <input type="text" class="form-control" id="organization_id" name="organization_id" required>
     </div>
     <div class="form-group">
       <label for="organization_name">Organization Name</label>
-      <input type="text" class="form-control" id="organization_name" name="organization_name">
+      <input type="text" class="form-control" id="organization_name" name="organization_name" required>
     </div>
     <div class="form-group">
       <label for="job_type">Job Type</label></br>
@@ -45,23 +45,23 @@ Post Job Ad
 
     <div class="form-group">
       <label for="designation">Designation</label>
-      <input type="text" class="form-control" id="designation" name="designation">
+      <input type="text" class="form-control" id="designation" name="designation" required>
     </div>
     <div class="form-group">
       <label for="business_function">Business Function</label>
-      <input type="text" class="form-control" id="business_function" name="business_function">
+      <input type="text" class="form-control" id="business_function" name="business_function" required>
     </div>
     <div class="form-group">
       <label for="approx_salary">Salary</label>
-      <input type="number" step="0.01" class="form-control" id="approx_salary" name="approx_salary">
+      <input type="number" step="0.01" class="form-control" id="approx_salary" name="approx_salary" required>
     </div>
     <div class="form-group">
       <label for="minimum_qualification">Minimum Qualification</label>
-      <input type="text" class="form-control" id="minimum_qualification" name="minimum_qualification">
+      <input type="text" class="form-control" id="minimum_qualification" name="minimum_qualification" required>
     </div>
     <div class="form-group">
       <label for="required_experience">Required Experience</label>
-      <input type="text" class="form-control" id="required_experience" name="required_experience">
+      <input type="text" class="form-control" id="required_experience" name="required_experience" required>
     </div>
     <div class="form-group">
       <label for="gender_preference">Gender Preference</label></br>
@@ -101,11 +101,11 @@ Post Job Ad
     </div>
     <div class="form-group">
       <label for="skill_summary">Skill Summary</label>
-      <input type="text" class="form-control" id="skill_summary" name="skill_summary" rows="5">
+      <input type="text" class="form-control" id="skill_summary" name="skill_summary" rows="5" required>
     </div>
     <div class="form-group">
       <label for="description">Description (Including how to contact for this job)</label>
-      <textarea class="form-control" name="description" id="description" cols="30" rows="5"></textarea>
+      <textarea class="form-control" name="description" id="description" cols="30" rows="5" required></textarea>
     </div>
     <h3>Payment System</h3>
     <div class="card" style="width: 30rem;">
@@ -116,13 +116,14 @@ Post Job Ad
           <li class="list-group-item"><b>Rocket :</b>If you want to payment by rocket, send the money to "01919922921"
             with send money option</li>
         </ul>
+        <h4>
         <p class="card-text">You have to pay 300/- BDT. <br> After sending money, fillup the Transaction ID below
-          (Recommended).</p>
+          (Recommended).</p></h4>
       </div>
     </div>
     <div class="form-group">
       <label for="payment_amount">Amount</label>
-      <input type="number" class="form-control" id="payment_amount" name="payment_amount">
+      <input type="number" class="form-control" id="payment_amount" name="payment_amount" required>
     </div>
     <div class="form-group">
       <label for="payment_system">Payment system</label>
@@ -154,13 +155,28 @@ Post Job Ad
     </div>
     <div class="form-group">
       <label for="transaction">Transaction ID</label>
-      <input type="text" class="form-control" id="transaction" name="transaction">
+      <input type="text" class="form-control" id="transaction" name="transaction" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Post Ad</button>
+    <button type="submit" onclick="return confirmPost()" class="btn btn-primary">Post Ad</button>
   </form>
 
 </div>
+
+
+<script>
+  function confirmPost() {
+    var r = confirm("Press OK to post your Advertisement. Else press Cancel");
+    if (r == true) {
+      console.log("posted ad")
+      return true;
+    }
+    else {
+      console.log("posting ad cancelled")
+      return false;
+    }
+  }
+</script>
 
 
 <script>
