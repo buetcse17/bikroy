@@ -359,7 +359,7 @@ def displayProduct(request,id,product_id):
             sgenre= r[1]
             scondition=r[2]
             sproduct_pic = r[5]
-            row = {'sname': product_name,
+            row = {'sname': sproduct_name,
                 'sgenre': sgenre, 'sprice': sprice,'scondition': scondition,'sprid':sproduct_id, 'sproduct_pic':sproduct_pic}
             dict_result.append(row)
         params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'writer':writer,'condition':condition,'genre':genre,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result, 'user_of_product':user_of_product, 'picture_of_product':picture_of_product}
