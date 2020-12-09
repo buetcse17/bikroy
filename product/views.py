@@ -18,7 +18,7 @@ def list(request, id):
         sql = """   SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION, p.product_id, im.IMAGE_URL 
                     FROM product p,DEVICES d,ADVERTISEMENT ad, image im 
                     WHERE d.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and im.PRODUCT_ID=p.PRODUCT_ID
-                    order by PAYMENT_AMOUNT, ad.ad_time desc"""
+                    order by ad.ad_time desc"""
         cursor.execute(sql)
         result = cursor.fetchall()
         #.close()
@@ -37,7 +37,7 @@ def list(request, id):
         sql = """   SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id, im.image_url 
                     FROM product pr,pet p,ADVERTISEMENT ad, image im 
                     WHERE pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and im.PRODUCT_ID=pr.PRODUCT_ID 
-                    order by PAYMENT_AMOUNT, ad.ad_time desc
+                    order by ad.ad_time desc
                 """
         cursor.execute(sql)
         result = cursor.fetchall()
@@ -56,7 +56,7 @@ def list(request, id):
         sql = """   SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id , im.image_url 
                     FROM product pr,book b,ADVERTISEMENT ad , image im 
                     WHERE pr.PRODUCT_ID=b.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and im.PRODUCT_ID=pr.PRODUCT_ID 
-                    order by PAYMENT_AMOUNT, ad.ad_time desc
+                    order by ad.ad_time desc
                 """
         cursor.execute(sql)
         result = cursor.fetchall()
@@ -76,7 +76,7 @@ def list(request, id):
         sql = """   SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id, im.image_url  
                     FROM product pr,course c,ADVERTISEMENT ad , image im
                     WHERE pr.PRODUCT_ID=c.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and im.PRODUCT_ID=pr.PRODUCT_ID 
-                    order by PAYMENT_AMOUNT, ad.ad_time desc
+                    order by ad.ad_time desc
                 """
         cursor.execute(sql)
         result = cursor.fetchall()
@@ -95,7 +95,7 @@ def list(request, id):
         sql = """   SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id, im.image_url 
                     FROM product pr,tution t,ADVERTISEMENT ad  , image im
                     WHERE pr.PRODUCT_ID=t.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and im.PRODUCT_ID=pr.PRODUCT_ID 
-                    order by PAYMENT_AMOUNT, ad.ad_time desc"""
+                    order by ad.ad_time desc"""
         cursor.execute(sql)
         result = cursor.fetchall()
         #cursor.close()
@@ -275,7 +275,7 @@ def displayProduct(request,id,product_id):
             thana=r[14]
             district=r[15]
             division=r[16]
-        sql = ''"SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION,p.product_id, im.image_url FROM product p,DEVICES d,ADVERTISEMENT ad, image im WHERE d.PRODUCT_ID=p.PRODUCT_ID and im.product_id=p.product_id and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and p.PRODUCT_ID<>:pid and (product_name like '%"''+product_name+''"%' or DEVICE_CATAGORY like '%"''+device_catagory+''"%' or brand like '%"''+brand+''"%' or model like '%"''+model+''"%')order by PAYMENT_AMOUNT, ad.ad_time desc"''
+        sql = ''"SELECT p.PRODUCT_NAME,d.DEVICE_CATAGORY,price,CONDITION,p.product_id, im.image_url FROM product p,DEVICES d,ADVERTISEMENT ad, image im WHERE d.PRODUCT_ID=p.PRODUCT_ID and im.product_id=p.product_id and ad.ADVERTISEMENT_ID=p.ADVERTISEMENT_ID and ad.ADVERTISEMENT_TYPE='paid' and p.PRODUCT_ID<>:pid and (product_name like '%"''+product_name+''"%' or DEVICE_CATAGORY like '%"''+device_catagory+''"%' or brand like '%"''+brand+''"%' or model like '%"''+model+''"%')order by ad.ad_time desc"''
         cursor.execute(sql,pid=product_id)
         result = cursor.fetchall()
         #.close()
@@ -287,7 +287,7 @@ def displayProduct(request,id,product_id):
             scondition = r[3]
             sproduct_pic = r[5]
             row = {'sname': sproduct_name, 'scat': sdevice_catagory,
-                'sprice': sprice, 'scond': scondition,'spr_id':sproduct_id, 'sproduct_pic':sproduct_pic}
+                'sprice': sprice, 'scond': scondition,'sprid':sproduct_id, 'sproduct_pic':sproduct_pic}
             dict_result.append(row)    
         params={'product_id':product_id,'product_name':product_name,'price':price,'description':description,'contact_no':contact_no,'device_catagory':device_catagory,'brand': brand,'model':model,'generation':generation,'features':features,'condition':condition,'authenticity':authenticity,'fullname':fullname,'payment_system':payment_system,'ad_time':ad_time,'thana':thana,'district':district,'division':division,'id':id,'similar':dict_result, 'user_of_product':user_of_product, 'picture_of_product':picture_of_product}
     elif id==2:
@@ -313,7 +313,7 @@ def displayProduct(request,id,product_id):
             thana=r[12]
             district=r[13]
             division=r[14]
-        sql = ''"SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id, im.image_url FROM product pr,pet p,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or pet_type like '%"''+pet_type+''"%') and pr.product_id<>:pid and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT, ad_time desc"''
+        sql = ''"SELECT pr.PRODUCT_NAME,p.PET_TYPE,price,pr.product_id, im.image_url FROM product pr,pet p,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or pet_type like '%"''+pet_type+''"%') and pr.product_id<>:pid and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and pr.PRODUCT_ID=p.PRODUCT_ID and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by ad_time desc"''
         cursor.execute(sql,pid=product_id)
         result = cursor.fetchall()
         #cursor.close()
@@ -348,7 +348,7 @@ def displayProduct(request,id,product_id):
             thana=r[10]
             district=r[11]
             division=r[12]
-        sql = ''"SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id, im.image_url FROM product pr,book b,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or genre like '%"''+genre+''"%') and pr.product_id <>:prid and pr.PRODUCT_ID=b.PRODUCT_ID and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT, ad_time desc"''
+        sql = ''"SELECT pr.PRODUCT_NAME,b.genre,condition, price,pr.product_id, im.image_url FROM product pr,book b,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or genre like '%"''+genre+''"%') and pr.product_id <>:prid and pr.PRODUCT_ID=b.PRODUCT_ID and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by ad_time desc"''
         cursor.execute(sql,prid=product_id)
         result = cursor.fetchall()
         #cursor.close()
@@ -383,7 +383,7 @@ def displayProduct(request,id,product_id):
             thana=r[9]
             district=r[10]
             division=r[11]
-        sql = ''"SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id, im.image_url FROM product pr,course c,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or course_title like '%"''+course_title+''"%') and pr.product_id<>:pid and pr.PRODUCT_ID=c.PRODUCT_ID and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and  ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT, ad_time desc"''
+        sql = ''"SELECT pr.PRODUCT_NAME,COURSE_TITLE,price,pr.product_id, im.image_url FROM product pr,course c,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or course_title like '%"''+course_title+''"%') and pr.product_id<>:pid and pr.PRODUCT_ID=c.PRODUCT_ID and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and  ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by ad_time desc"''
         cursor.execute(sql,pid=product_id)
         result = cursor.fetchall()
         #cursor.close()
@@ -419,7 +419,7 @@ def displayProduct(request,id,product_id):
             thana=r[11]
             district=r[12]
             division=r[13]
-        sql= ''"SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id, im.image_url FROM product pr,tution t,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or education_level like '%"''+edu_level+''"%') and pr.product_id<>:pid and pr.PRODUCT_ID=t.PRODUCT_ID and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by PAYMENT_AMOUNT, ad_time desc"''
+        sql= ''"SELECT pr.PRODUCT_NAME,TUTOR_GENDER,EDUCATION_LEVEL,price,pr.product_id, im.image_url FROM product pr,tution t,ADVERTISEMENT ad, image im WHERE (product_name like '%"''+product_name+''"%' or education_level like '%"''+edu_level+''"%') and pr.product_id<>:pid and pr.PRODUCT_ID=t.PRODUCT_ID and im.product_id=pr.product_id and ad.ADVERTISEMENT_TYPE='paid' and ad.ADVERTISEMENT_ID=pr.ADVERTISEMENT_ID order by ad_time desc"''
         cursor.execute(sql,pid=product_id)
         result = cursor.fetchall()
         #cursor.close()
