@@ -396,7 +396,7 @@ def productAdCategory(request,id):
             c.execute(sql, {'image_url':my_url, 'product_id':product_id})
             conn.commit()
         except:
-            my_url = folder + '/' + 'noImageAvailable.jpg'
+            my_url = 'static' + '/' + 'noImageAvailable.jpg'
             sql = """INSERT INTO IMAGE VALUES(IMAGE_SEQUENCE.nextval, :image_url, :product_id)"""
             c.execute(sql, {'image_url':my_url, 'product_id':product_id})
             conn.commit()
