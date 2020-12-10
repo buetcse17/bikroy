@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
-
+import os
 import cx_Oracle
-
+from django.contrib import messages
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import figure
 import numpy as np
@@ -10,7 +10,15 @@ import numpy as np
 # Create your views here.
 
 def adminDashboard(request):
-    return render(request, 'adminPanel/adminDashboard.html')
+    try:
+        if request.session['username']=='bikroy':
+            return render(request, 'adminPanel/adminDashboard.html')
+        elif request.session['userLogged']==True:
+            messages.warning(request, 'You are not BIKROY-ADMIN. Please log in as admin.')
+            return redirect('home')
+    except:
+        messages.warning(request, 'You are not logged in. Please log in as admin.')
+        return redirect('home')
 
 def userData(request):
 
