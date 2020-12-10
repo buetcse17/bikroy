@@ -1,0 +1,49 @@
+-----geleting data without bikroy----
+delete from chat where CHAT_ID is not null;
+delete from WORK_HISTORY where PROFILE_NO is not null;
+delete from EDUCATION_HISTORY where PROFILE_NO is not null;
+delete from IMAGE where IMAGE_ID is not null;
+delete from DEVICES where PRODUCT_ID is not null;
+delete from PET where PRODUCT_ID is not null;
+delete from BOOK where PRODUCT_ID is not null;
+delete from COURSE where PRODUCT_ID is not null;
+delete from TUTION where PRODUCT_ID is not null;
+delete from PRODUCT where PRODUCT_ID is not null;
+delete from JOB where job_ID is not null;
+DELETE from ADVERTISEMENT where ADVERTISEMENT_ID is not null;
+delete from ORGANIZATION where ORGANIZATION_ID is not null;
+delete from INSTITUTION where INSTITUTION_ID is not null;
+delete from account where USERNAME <>'bikroy';
+delete from PROFILE where PROFILE_NO <>GETPROFILE('bikroy');
+delete from LOCATION where LOCATION_ID <>getloc('bikroy');
+
+
+-------dhaka division-----
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Dhaka','Dhaka','Mohammadpur','1234');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Dhaka','Dhaka','Dhanmondi','5677');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Dhaka','Dhaka','Uttara','7876');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Dhaka','Madaripur','Mohammadpur','8709');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Dhaka','Faridpur','Mohammadpur','6574');
+--------Barishal----------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Barishal','Barguna','Barguna Sadar','8700');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Barishal','Barishal','Barishal Sadar','8734');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Barishal','Patuakhali','Patuakhali Sadar','8446');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Barishal','Bakergonj','Bakergonj Sadar','8767');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Barishal','Barguna','Parirkhal','8734');
+-------Rajshahi-------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Rajshahi','Rajshahi','Rajshahi Sadar','8654');
+--------mymensingh-------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Mymensingh','Mymensingh','Mymensingh Sadar','8654');
+--------Chittagong-------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Chittagong','Chittagong','Chittagong Sadar','8454');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Chittagong','Bandarban','Ruma','8554');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Chittagong','Khagrachori','Sajek','8544');
+--------Rangpur--------------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Rangpur','Rangpur','Rangpur Sadar','8154');
+------khulna------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Khulna','Khulna','Khulna Sadar','8454');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Khulna','Bagerhat','Bagerhat Sadar','8754');
+----------sylhet------
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Sylhet','Sylhet','Sylhet Sadar','3454');
+insert into LOCATION values(LOCATION_SEQUENCE.nextval,'Sylhet','Moulovibazar','Moulovibazar Sadar','8750');
+
