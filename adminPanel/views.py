@@ -2,6 +2,10 @@ from django.shortcuts import render, HttpResponse, redirect
 
 import cx_Oracle
 
+from matplotlib import pyplot as plt
+from matplotlib.pyplot import figure
+import numpy as np
+
 
 # Create your views here.
 
@@ -146,3 +150,154 @@ def Jobapproval(request,update_status):
     conn.close()
     return render(request,'adminPanel/JobApproval.html',params)
 
+
+def statistics(request):
+    dsn_tns = cx_Oracle.makedsn('localhost', '1521', service_name='ORCL')
+    conn = cx_Oracle.connect(user='bikroy', password='bikroy', dsn=dsn_tns)
+    c=conn.cursor()
+
+    #area wise advertisement count
+    sql =   """
+                select INITCAP(loc.division) as area, count(loc.division) as cnt , sum(ad.PAYMENT_AMOUNT) amt
+                from ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf, LOCATION loc
+                where ad.USERNAME=ac.USERNAME and ac.PROFILE_NO=pf.PROFILE_NO and pf.LOCATION_ID=loc.LOCATION_ID and ad.ADVERTISEMENT_TYPE='paid'
+                GROUP BY loc.DIVISION
+                ORDER BY cnt desc
+
+            """
+    c.execute(sql)
+    result = []
+    result = c.fetchall()
+    area = []
+    how_many_ad = []
+    how_many_money = []
+    for row in result:
+        area.append(row[0])
+        how_many_ad.append(row[1])
+        how_many_money.append(row[2])
+    
+    area_cnt_ad = []
+    x_axis_labels = []
+    y_axis_values = []
+    for i in range(len(area)):
+        tempList = []
+        tempList.append(area[i])
+        x_axis_labels.append(area[i])
+        tempList.append(how_many_ad[i])
+        y_axis_values.append(int(how_many_ad[i]))
+        tempList.append(how_many_money[i])
+        area_cnt_ad.append(tempList)
+    
+    
+    chart_areawisecnt = get_plot(x_axis_labels, y_axis_values, 'Area Wise Ad Quantity', 'Area Names', 'How Many Ad Posted')
+    x_axis_labels.clear()
+    y_axis_values.clear()
+    how_many_ad.clear()
+    how_many_money.clear()
+
+    #username wise advertisement count
+    sql =   """
+                select ad.USERNAME, count(ad.USERNAME) as cnt, sum(ad.PAYMENT_AMOUNT) amt
+                from ADVERTISEMENT ad, ACCOUNT ac, PROFILE pf, LOCATION loc 
+                where ad.USERNAME=ac.USERNAME and ac.PROFILE_NO=pf.PROFILE_NO and pf.LOCATION_ID=loc.LOCATION_ID and ad.ADVERTISEMENT_TYPE='paid'
+                GROUP BY ad.USERNAME
+                ORDER BY cnt desc
+            """
+    c.execute(sql)
+    result = []
+    result = c.fetchall()
+    userName = []
+    how_many_ad = []
+    how_many_money = []
+    for row in result:
+        userName.append(row[0])
+        how_many_ad.append(row[1])
+        how_many_money.append(row[2])
+    
+    
+
+    userName_cnt_ad = []
+    for i in range(len(userName)):
+        tempList = []
+        tempList.append(userName[i])
+        x_axis_labels.append(userName[i])
+        tempList.append(how_many_ad[i])
+        y_axis_values.append(int(how_many_ad[i]))
+        tempList.append(how_many_money[i])
+        userName_cnt_ad.append(tempList)
+
+    chart_userwisecnt = get_plot(x_axis_labels, y_axis_values, 'User Wise Ad Quantity', 'Username', 'How Many Ad Posted')
+
+    #total ad, total income of bikroy
+    sql =   """
+                select count(*), sum(PAYMENT_AMOUNT)
+                from ADVERTISEMENT
+                WHERE ADVERTISEMENT_TYPE='paid'
+            """
+    c.execute(sql)
+    result = []
+    result = c.fetchall()
+    
+    total_ad = result[0][0]
+    total_income = result[0][1]
+
+
+    #total pending ad
+    sql =   """
+                select count(*)
+                from ADVERTISEMENT
+                WHERE ADVERTISEMENT_TYPE<>'paid'
+            """
+    c.execute(sql)
+    result = []
+    result = c.fetchall()
+    
+    total_pending = result[0][0]
+
+    params = {'area_cnt_ad':area_cnt_ad, 'userName_cnt_ad':userName_cnt_ad, 'total_ad':total_ad, 'total_income':total_income, 'chart_areawisecnt':chart_areawisecnt, 'chart_userwisecnt':chart_userwisecnt, 'total_pending':total_pending}
+
+    
+    return render(request, 'adminPanel/statistics.html', params)
+    
+
+
+import base64
+from io import BytesIO
+
+def get_graph():
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
+def get_plot(x, y, graph_name, x_label, y_label):
+    plt.switch_backend('AGG')
+
+    plt.figure(figsize=(8, 5))
+    
+    # Creating n-dimensional array with evenly spaced values
+    y_pos=np.arange(len(x))
+
+    # Input bar values
+    # Define the bar styles with width, color, and legend labels
+    plt.bar(y_pos + 0, y, width=0.3, color = 'y', label=graph_name)
+
+    # Define X-axis labels
+    plt.xticks(y_pos, x)
+
+    # Defines best position of the legend in the figure
+    plt.legend(loc='best')
+
+    # Defines X and Y axis labels
+    plt.ylabel(y_label)
+    plt.xlabel(x_label)
+
+    # Defines plot title
+    plt.title(graph_name)
+    plt.tight_layout()
+    graph = get_graph()
+    return graph

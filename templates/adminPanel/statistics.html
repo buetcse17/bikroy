@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}
+Statistics
+{% endblock title %}
+
+{% block body %}
+
+
+
+<div class="row">
+    <div class="container my-3">
+        <div class="card-deck">
+
+            <div class="card border-success mb-3 mx-4" style="max-width: 18rem;">
+                <div class="card-header bg-transparent border-success">
+                    <h4>Ads Posted</h4>
+                </div>
+                <div class="card-body text-success">
+                    <h1 class="card-title">{{total_ad}}</h1>
+                    <p class="card-text">{{total_ad}} advertisements has already been posted...</p>
+                </div>
+            </div>
+            <div class="card border-success mb-3 mx-4" style="max-width: 18rem;">
+                <div class="card-header bg-transparent border-success">
+                    <h4>Total Profit</h4>
+                </div>
+                <div class="card-body text-success">
+                    <h1 class="card-title">{{total_income}}/- BDT</h1>
+                    <p class="card-text">Total profit due to post advertisement is now {{total_income}}/- BDT...</p>
+                </div>
+            </div>
+            <div class="card border-success mb-3 mx-4" style="max-width: 18rem;">
+                <div class="card-header bg-transparent border-success">
+                    <h4> Ads Pending</h4>
+                </div>
+                <div class="card-body text-success">
+                    <h1 class="card-title">{{total_pending}}</h1>
+                    <p class="card-text">{{total_pending}} advertisements are in pending status....</p>
+                </div>
+            </div>
+        </div>
+
+        <center><b><u>
+                    <h2>Area Wise Report</h2>
+                </u></b></center>
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Area</th>
+                    <th scope="col">How Many Ad Posted</th>
+                    <th scope="col">Profit for Us</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for item in area_cnt_ad%}
+                <tr>
+                    <td>{{item.0}}</td>
+                    <td>{{item.1}}</td>
+                    <td>{{item.2}}</td>
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td>
+                        <h5>Total </h5>
+                    </td>
+                    <td>
+                        <h5>= {{total_ad}}</h5>
+                    </td>
+                    <td>
+                        <h5>= {{total_income}}/- BDT</h5>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <center>
+            {%if chart_areawisecnt%}
+            <img src="data:image/png;base64, {{chart_areawisecnt|safe}}" alt="Chart thakar kotha">
+            {%endif%}
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <center><b><u>
+                        <h2>User Wise Report</h2>
+                    </u></b></center>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">UserName</th>
+                        <th scope="col">How Many Ad Posted</th>
+                        <th scope="col">Profit for Us</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for item in userName_cnt_ad%}
+                    <tr>
+                        <td>{{item.0}}</td>
+                        <td>{{item.1}}</td>
+                        <td>{{item.2}}</td>
+                    </tr>
+                    {%endfor%}
+                    <tr>
+                        <td>
+                            <h5>Total </h5>
+                        </td>
+                        <td>
+                            <h5>= {{total_ad}}</h5>
+                        </td>
+                        <td>
+                            <h5>= {{total_income}}/- BDT</h5>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {%if chart_userwisecnt%}
+            <img src="data:image/png;base64, {{chart_userwisecnt|safe}}" alt="Chart thakar kotha">
+            {%endif%}
+        </center>
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock body %}
