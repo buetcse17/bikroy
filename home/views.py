@@ -215,7 +215,7 @@ def signup(request):
         conn.close()
         messages.success(request, "Signup Completed")
 
-        
+        return redirect('home')
     return render(request, 'home/home.html')
 
 def handleLogin(request):
