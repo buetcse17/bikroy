@@ -259,3 +259,86 @@ CONSTRAINT PK_chat PRIMARY KEY(chat_id),
 CONSTRAINT FK_chat_sender_username FOREIGN KEY(sender_username) REFERENCES account(username),
 CONSTRAINT FK_chat_receiver_username FOREIGN KEY(receiver_username) REFERENCES account(username)
 );
+
+
+
+
+
+
+
+--------LOCATION------
+ALTER TABLE location MODIFY (district VARCHAR2(100));
+ALTER TABLE location MODIFY (thana VARCHAR2(100));
+
+
+----------PROFILE---------
+ALTER TABLE profile MODIFY (first_name VARCHAR2(100));
+ALTER TABLE profile MODIFY (first_name VARCHAR2(100));
+
+
+------ORGANIZATION----------
+ALTER TABLE organization MODIFY (organization_name VARCHAR2(500));
+ALTER TABLE organization MODIFY (organization_type VARCHAR2(200));
+
+
+---------INSTITUTION----------
+ALTER TABLE institution MODIFY (institution_name VARCHAR2(500));
+ALTER TABLE institution MODIFY (institution_type VARCHAR2(200));
+
+
+-------INSTITION_PROFILE_RELATION--------
+ALTER TABLE education_history MODIFY (result VARCHAR2(100));
+ALTER TABLE education_history MODIFY (faculty VARCHAR2(100));
+
+
+----------ORGANIZATION_PROFILE_RELATION-------
+ALTER TABLE work_history MODIFY (position VARCHAR2(100));
+
+
+----------ACCOUNT-----------
+ALTER TABLE ACCOUNT MODIFY (EMAIL VARCHAR2(100));
+
+
+-------PRODUCT---------
+ALTER TABLE PRODUCT MODIFY (PRODUCT_NAME VARCHAR2(200));
+ALTER TABLE PRODUCT MODIFY (DESCRIPTION VARCHAR2(1000));
+
+
+---------PROCDUCT_DEVICES--------
+ALTER TABLE DEVICES MODIFY (MODEL VARCHAR2(200));
+ALTER TABLE DEVICES MODIFY (FEATURES VARCHAR2(1000));
+
+
+---------PROCDUCT_PET--------
+ALTER TABLE PET MODIFY (FOOD_HABIT VARCHAR2(500));
+
+
+---------PROCDUCT_BOOK--------
+ALTER TABLE BOOK MODIFY (WRITER VARCHAR2(500));
+ALTER TABLE BOOK MODIFY (GENRE VARCHAR2(200));
+
+
+
+---------PROCDUCT_COURSE--------
+ALTER TABLE COURSE MODIFY (course_title VARCHAR2(500));
+ALTER TABLE COURSE MODIFY (organization VARCHAR2(500));
+
+
+---------PROCDUCT_TUTION--------
+ALTER TABLE tution MODIFY (tution_subject VARCHAR2(500));
+ALTER TABLE tution MODIFY (education_level VARCHAR2(500));
+ALTER TABLE tution MODIFY (time_duration VARCHAR2(500));
+
+
+----------JOB--------------
+ALTER TABLE job MODIFY (designation VARCHAR2(200));
+ALTER TABLE job MODIFY (DESCRIPTION VARCHAR2(1000));
+ALTER TABLE job MODIFY (required_experience VARCHAR2(100));
+ALTER TABLE job MODIFY (minimum_qualification VARCHAR2(200));
+
+
+
+-----------CHAT--------------------------------------
+ALTER TABLE chat MODIFY (message_content VARCHAR2(2000));
+
+

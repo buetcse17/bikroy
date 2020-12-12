@@ -120,4 +120,50 @@ END;
 ------------------------------------------------------------------------------------------
 
 
+------getLocation_from_username------
+CREATE OR REPLACE FUNCTION getloc(userN IN Varchar2) return varchar2 is
+l varchar2(20);
+begin
+select LOCATION_ID into l from account ac,profile p where username=userN and ac.profile_no=p.PROFILE_no;
+return l;
+exception
+when no_data_found then
+return 'no data found';
+when others then
+return 'unkonwn error';
+end;
+---------------------------------------------------------
+
+
+------getProfileNo_from_username------
+CREATE OR REPLACE FUNCTION getProfile(userN IN Varchar2) return varchar2 is
+p varchar2(20);
+begin
+select profile_NO into p from account where username=userN;
+return p;
+exception
+when no_data_found then
+return 'no data found';
+when others then
+return 'unkonwn error';
+end;
+--------------------------------------------
+
+
+------get advertisement id from product id------
+CREATE OR REPLACE FUNCTION getAdv(prod_id IN Varchar2) return varchar2 is
+adv varchar2(20);
+begin
+select ad.ADVERTISEMENT_ID into adv from product p,ADVERTISEMENT ad where p.ADVERTISEMENT_ID=ad.ADVERTISEMENT_ID and p.PRODUCT_ID=prod_id;
+return adv;
+exception
+when no_data_found then
+return 'no data found';
+when others then
+return 'unkonwn error';
+end;
+/
+
+-------------------------------------
+
 
